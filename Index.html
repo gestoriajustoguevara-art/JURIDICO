@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestor Documental Jurídico — Gestoría Justo Guevara</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --surface2: #f8f9fb;
+  --surface3: #eef0f4;
+  --border: #dde1e8;
+  --text: #1a1d27;
+  --text-dim: #5c6178;
+  --text-muted: #8b90a5;
+  --accent: #8B0000;
+  --accent-light: rgba(139,0,0,0.08);
+  --accent-glow: rgba(139,0,0,0.15);
+  --red: #dc3545;
+  --red-dim: rgba(220,53,69,0.1);
+  --orange: #e8943d;
+  --orange-dim: rgba(232,148,61,0.1);
+  --green: #28a745;
+  --green-dim: rgba(40,167,69,0.1);
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,0.1);
+  --purple: #7c3aed;
+  --purple-dim: rgba(124,58,237,0.1);
+  --gold: #c9a44c;
+  --gold-dim: rgba(201,164,76,0.1);
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--accent);
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(139,0,0,0.2);
+}
+
+.header-left { display: flex; align-items: center; gap: 16px; }
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: rgba(255,255,255,0.7);
+  font-weight: 700;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  margin-left: 12px;
+}
+
+.header-right { display: flex; align-items: center; gap: 10px; }
+
+.sync-status {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.15);
+}
+
+.header-btn {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+}
+
+.header-btn:hover { background: rgba(255,255,255,0.25); }
+
+/* NAV TABS */
+.nav {
+  display: flex;
+  gap: 2px;
+  padding: 0 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.nav-tab {
+  padding: 14px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dim);
+  transition: all 0.2s;
+  border: none;
+  background: none;
+  font-family: 'DM Sans', sans-serif;
+  border-bottom: 3px solid transparent;
+}
+
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+/* MAIN */
+.main { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* CARDS */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+}
+
+/* STATS */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ALERTS */
+.alerts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.alert-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  border-left: 4px solid var(--accent);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+
+.alert-card:hover { transform: translateY(-2px); }
+.alert-card.urgent { border-left-color: var(--red); background: var(--red-dim); }
+.alert-card.warning { border-left-color: var(--orange); }
+.alert-card.ok { border-left-color: var(--green); }
+
+.alert-card .exp-num { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+.alert-card .alert-title { font-weight: 600; font-size: 14px; margin-bottom: 8px; }
+.alert-card .alert-deadline { font-size: 13px; display: flex; align-items: center; gap: 6px; }
+
+.alert-card .days-left {
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.alert-card.urgent .days-left { background: var(--red-dim); color: var(--red); }
+.alert-card.warning .days-left { background: var(--orange-dim); color: var(--orange); }
+.alert-card.ok .days-left { background: var(--green-dim); color: var(--green); }
+
+/* FORMS */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full-width { grid-column: 1 / -1; }
+
+.form-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.form-group textarea { resize: vertical; min-height: 70px; }
+
+/* SECTION HEADER IN FORMS */
+.form-section {
+  grid-column: 1 / -1;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 0 4px 0;
+  border-bottom: 2px solid var(--accent-light);
+  margin-top: 8px;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #a00000; box-shadow: 0 2px 12px var(--accent-glow); }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger { background: var(--red-dim); color: var(--red); }
+.btn-danger:hover { background: rgba(220,53,69,0.2); }
+.btn-small { padding: 6px 14px; font-size: 12px; }
+.btn-row { display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end; }
+
+/* TABLES */
+.table-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; }
+
+thead th {
+  background: var(--surface2);
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 11px 14px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+tbody tr { transition: background 0.15s; cursor: pointer; }
+tbody tr:hover { background: var(--accent-light); }
+
+/* BADGES */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-active { background: var(--green-dim); color: var(--green); }
+.badge-pending { background: var(--orange-dim); color: var(--orange); }
+.badge-closed { background: var(--surface3); color: var(--text-muted); }
+.badge-urgent { background: var(--red-dim); color: var(--red); }
+.badge-sent { background: var(--blue-dim); color: var(--blue); }
+.badge-received { background: var(--purple-dim); color: var(--purple); }
+.badge-client { background: var(--gold-dim); color: #8a6d1b; }
+.badge-contrary { background: var(--orange-dim); color: var(--orange); }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before { content: ''; position: absolute; left: 12px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+
+.timeline-item { position: relative; padding-bottom: 20px; }
+.timeline-item::before { content: ''; position: absolute; left: -26px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface3); border: 2px solid var(--border); }
+.timeline-item.sent::before { background: var(--blue); border-color: var(--blue); }
+.timeline-item.lexnet::before { background: var(--purple); border-color: var(--purple); }
+.timeline-item.contrary::before { background: var(--orange); border-color: var(--orange); }
+.timeline-item.client::before { background: var(--gold); border-color: var(--gold); }
+
+.timeline-date { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+
+.timeline-content {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.timeline-content .doc-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.timeline-content .doc-desc { font-size: 13px; color: var(--text-dim); }
+
+.timeline-content .deadline-info {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: var(--red-dim);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--red);
+  font-weight: 500;
+}
+
+.timeline-content .deadline-info.ok { background: var(--green-dim); color: var(--green); }
+
+/* SEARCH BAR */
+.search-bar { display: flex; gap: 12px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
+
+.search-bar input {
+  flex: 1;
+  min-width: 200px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.search-bar input:focus { outline: none; border-color: var(--accent); }
+
+.search-bar select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  width: 92%;
+  max-width: 750px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 32px;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--accent);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 28px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.modal-close:hover { color: var(--text); }
+
+/* DETAIL VIEW */
+.detail-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.detail-exp-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 800; color: var(--accent); }
+.detail-client { font-size: 16px; color: var(--text-dim); margin-top: 4px; }
+
+.detail-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+.detail-info-item label { display: block; font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+.detail-info-item span { font-size: 14px; font-weight: 500; }
+
+.section-divider { height: 1px; background: var(--border); margin: 24px 0; }
+.section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 16px; }
+
+/* PLAZO TOGGLE */
+.plazo-toggle { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.plazo-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
+.plazo-toggle label { font-size: 13px; cursor: pointer; color: var(--text); text-transform: none; letter-spacing: 0; font-weight: 500; }
+.plazo-fields { display: none; margin-top: 12px; padding: 16px; background: var(--red-dim); border-radius: 8px; gap: 12px; }
+.plazo-fields.visible { display: grid; grid-template-columns: 1fr 1fr; }
+
+/* EMPTY STATE */
+.empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); }
+.empty-state .icon { font-size: 44px; margin-bottom: 12px; }
+.empty-state p { font-size: 15px; margin-bottom: 16px; }
+
+/* CONFIG */
+.config-field { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.config-field label { font-size: 13px; font-weight: 500; min-width: 160px; }
+.config-field input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; }
+
+/* FOLDER PATH */
+.folder-path { font-family: monospace; font-size: 12px; color: var(--accent); background: var(--accent-light); padding: 4px 10px; border-radius: 4px; }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--green);
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 300;
+  box-shadow: var(--shadow-lg);
+}
+
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.error { background: var(--red); }
+.toast.info { background: var(--blue); }
+
+/* CONTACT CARD */
+.contact-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+
+.contact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+
+.contact-card:hover { transform: translateY(-2px); }
+.contact-card .contact-name { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+.contact-card .contact-role { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+.contact-card .contact-info { font-size: 13px; color: var(--text-dim); line-height: 1.8; }
+.contact-card .contact-actions { margin-top: 12px; display: flex; gap: 8px; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .header { padding: 12px 16px; }
+  .nav { padding: 0 16px; overflow-x: auto; }
+  .main { padding: 16px; }
+  .form-grid, .form-grid.three-col { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .detail-info-grid { grid-template-columns: 1fr 1fr; }
+  .alerts-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo">Jurídico <span>Gestoría Justo Guevara</span></div>
+  </div>
+  <div class="header-right">
+    <span class="sync-status" id="sync-status">⏳ Sin conectar</span>
+    <button class="header-btn" onclick="syncToSheets()" title="Forzar subida a Google Sheets">⬆️ Subir</button>
+    <button class="header-btn" onclick="syncFromSheets()" title="Forzar descarga de Google Sheets">⬇️ Descargar</button>
+    <button class="header-btn" onclick="testConnection()" title="Probar conexión con Sheets">🔍</button>
+    <button class="header-btn" onclick="openConfig()">⚙️</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-tab active" onclick="showPanel('dashboard',this)">📊 Panel</button>
+  <button class="nav-tab" onclick="showPanel('expedientes',this)">📁 Expedientes</button>
+  <button class="nav-tab" onclick="showPanel('documentos',this)">📄 Documentos</button>
+  <button class="nav-tab" onclick="showPanel('plazos',this)">⏰ Plazos</button>
+  <button class="nav-tab" onclick="showPanel('clientes',this)">👤 Clientes</button>
+  <button class="nav-tab" onclick="showPanel('contactos',this)">📇 Contactos</button>
+</div>
+
+<div class="main">
+
+  <!-- ============ DASHBOARD ============ -->
+  <div class="panel active" id="panel-dashboard">
+    <div class="stats-row" id="stats-row"></div>
+    <div class="card">
+      <div class="card-title">⚠️ Plazos próximos a vencer</div>
+      <div class="alerts-grid" id="alerts-grid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">🕐 Actividad reciente</div>
+      <div id="recent-activity"></div>
+    </div>
+  </div>
+
+  <!-- ============ EXPEDIENTES ============ -->
+  <div class="panel" id="panel-expedientes">
+    <div class="search-bar">
+      <input type="text" id="exp-search" placeholder="Buscar por nº, cliente, asunto, juzgado..." oninput="renderExpedientes()">
+      <select id="exp-filter-estado" onchange="renderExpedientes()">
+        <option value="">Todos</option>
+        <option value="Activo">Activo</option>
+        <option value="En trámite">En trámite</option>
+        <option value="Vista señalada">Vista señalada</option>
+        <option value="Pendiente sentencia">Pte. sentencia</option>
+        <option value="Recurso">Recurso</option>
+        <option value="Archivado">Archivado</option>
+      </select>
+      <button class="btn btn-primary" onclick="openNewExpediente()">+ Nuevo expediente</button>
+    </div>
+    <div class="card"><div class="table-wrap"><table>
+      <thead><tr>
+        <th>Nº Exp.</th><th>Nº Proced.</th><th>Cliente</th><th>Asunto</th><th>Juzgado</th><th>Abogado</th><th>Estado</th><th>Docs</th><th>Último mov.</th>
+      </tr></thead>
+      <tbody id="exp-table-body"></tbody>
+    </table></div></div>
+  </div>
+
+  <!-- ============ DOCUMENTOS ============ -->
+  <div class="panel" id="panel-documentos">
+    <div class="search-bar">
+      <input type="text" id="doc-search" placeholder="Buscar documento..." oninput="renderDocumentos()">
+      <select id="doc-filter-tipo" onchange="renderDocumentos()">
+        <option value="">Todos</option>
+        <option value="Escrito presentado">Escritos nuestros</option>
+        <option value="Notificación LexNET">Notificaciones LexNET</option>
+        <option value="Escrito parte contraria">Parte contraria</option>
+        <option value="Documentación cliente">Doc. cliente</option>
+      </select>
+      <select id="doc-filter-exp" onchange="renderDocumentos()"></select>
+      <button class="btn btn-primary" onclick="openNewDocumento()">+ Registrar documento</button>
+    </div>
+    <div class="card"><div class="table-wrap"><table>
+      <thead><tr>
+        <th>Fecha</th><th>Tipo</th><th>Expediente</th><th>Descripción</th><th>Vía</th><th>Plazo</th><th>Acciones</th>
+      </tr></thead>
+      <tbody id="doc-table-body"></tbody>
+    </table></div></div>
+  </div>
+
+  <!-- ============ PLAZOS ============ -->
+  <div class="panel" id="panel-plazos">
+    <div class="search-bar">
+      <select id="plazo-filter" onchange="renderPlazos()">
+        <option value="pendiente">Pendientes</option>
+        <option value="cumplido">Cumplidos</option>
+        <option value="">Todos</option>
+      </select>
+    </div>
+    <div class="card"><div class="table-wrap"><table>
+      <thead><tr>
+        <th>Expediente</th><th>Origen</th><th>Descripción del plazo</th><th>Fecha límite</th><th>Días</th><th>Estado</th><th>Acción</th>
+      </tr></thead>
+      <tbody id="plazo-table-body"></tbody>
+    </table></div></div>
+  </div>
+
+  <!-- ============ CLIENTES ============ -->
+  <div class="panel" id="panel-clientes">
+    <div class="search-bar">
+      <input type="text" id="cli-search" placeholder="Buscar cliente..." oninput="renderClientes()">
+      <button class="btn btn-primary" onclick="openNewCliente()">+ Nuevo cliente</button>
+    </div>
+    <div class="card"><div class="table-wrap"><table>
+      <thead><tr>
+        <th>Cliente</th><th>DNI/NIE/CIF</th><th>Teléfono</th><th>Email</th><th>Dirección</th><th>Expedientes</th><th>Acciones</th>
+      </tr></thead>
+      <tbody id="cli-table-body"></tbody>
+    </table></div></div>
+  </div>
+
+  <!-- ============ CONTACTOS ============ -->
+  <div class="panel" id="panel-contactos">
+    <div class="search-bar">
+      <input type="text" id="cont-search" placeholder="Buscar contacto..." oninput="renderContactos()">
+      <select id="cont-filter-tipo" onchange="renderContactos()">
+        <option value="">Todos</option>
+        <option value="Abogado">Abogados</option>
+        <option value="Procurador">Procuradores</option>
+        <option value="Letrado Admón. Justicia">Letrados Admón. Justicia</option>
+        <option value="Juzgado">Juzgados</option>
+        <option value="Perito">Peritos</option>
+        <option value="Notario">Notarios</option>
+        <option value="Otro">Otros</option>
+      </select>
+      <button class="btn btn-primary" onclick="openNewContacto()">+ Nuevo contacto</button>
+    </div>
+    <div class="contact-cards" id="contactos-grid"></div>
+  </div>
+</div>
+
+<!-- ============ MODALS ============ -->
+
+<!-- MODAL: EXPEDIENTE -->
+<div class="modal-overlay" id="modal-expediente">
+<div class="modal" style="max-width:800px">
+  <div class="modal-title"><span id="modal-exp-title">Nuevo expediente</span><button class="modal-close" onclick="closeModal('modal-expediente')">&times;</button></div>
+  <form id="form-expediente" onsubmit="saveExpediente(event)">
+    <input type="hidden" id="exp-edit-id">
+    <div class="form-grid three-col">
+      <div class="form-section">Datos del expediente</div>
+      <div class="form-group"><label>Nº Expediente interno *</label><input type="text" id="exp-numero" placeholder="JUZ25/1" required></div>
+      <div class="form-group"><label>Nº Procedimiento judicial</label><input type="text" id="exp-procedimiento" placeholder="123/2025"></div>
+      <div class="form-group"><label>Tipo procedimiento</label>
+        <select id="exp-tipo"><option value="">Seleccionar...</option><option>Civil</option><option>Penal</option><option>Laboral</option><option>Contencioso-Administrativo</option><option>Mercantil</option><option>Familia</option><option>Diligencias preliminares</option><option>Monitorio</option><option>Verbal</option><option>Ordinario</option><option>Ejecución</option><option>Concurso</option><option>Otro</option></select>
+      </div>
+      <div class="form-group full-width"><label>Asunto / Descripción *</label><textarea id="exp-asunto" required placeholder="Descripción del asunto..."></textarea></div>
+
+      <div class="form-section">Cliente</div>
+      <div class="form-group"><label>Cliente *</label><input type="text" id="exp-cliente" required list="clientes-list"></div>
+      <div class="form-group"><label>DNI/NIE/CIF</label><input type="text" id="exp-dni"></div>
+      <div class="form-group"><label>Teléfono</label><input type="text" id="exp-telefono"></div>
+      <div class="form-group"><label>Posición procesal</label>
+        <select id="exp-posicion"><option value="">Seleccionar...</option><option>Demandante</option><option>Demandado</option><option>Denunciante</option><option>Denunciado</option><option>Acusado</option><option>Acusación particular</option><option>Solicitante</option><option>Requerido</option><option>Ejecutante</option><option>Ejecutado</option><option>Recurrente</option><option>Recurrido</option></select>
+      </div>
+      <div class="form-group"><label>Parte contraria</label><input type="text" id="exp-contraria" placeholder="Nombre de la otra parte"></div>
+      <div class="form-group"><label>Abogado contrario</label><input type="text" id="exp-abogado-contrario"></div>
+
+      <div class="form-section">Juzgado y representación</div>
+      <div class="form-group"><label>Juzgado *</label><input type="text" id="exp-juzgado" placeholder="Juzgado de 1ª Instancia nº 1"></div>
+      <div class="form-group"><label>Localidad juzgado</label><input type="text" id="exp-localidad"></div>
+      <div class="form-group"><label>Letrado Admón. Justicia</label><input type="text" id="exp-laj"></div>
+      <div class="form-group"><label>Abogado (nuestro)</label><input type="text" id="exp-abogado"></div>
+      <div class="form-group"><label>Procurador (nuestro)</label><input type="text" id="exp-procurador"></div>
+      <div class="form-group"><label>Procurador contrario</label><input type="text" id="exp-procurador-contrario"></div>
+
+      <div class="form-section">Estado y fechas</div>
+      <div class="form-group"><label>Estado</label>
+        <select id="exp-estado"><option>Activo</option><option>En trámite</option><option>Vista señalada</option><option>Pendiente sentencia</option><option>Recurso</option><option>Archivado</option></select>
+      </div>
+      <div class="form-group"><label>Fase procesal</label>
+        <select id="exp-fase"><option value="">Seleccionar...</option><option>Admisión</option><option>Alegaciones</option><option>Prueba</option><option>Conclusiones</option><option>Vista oral</option><option>Pendiente resolución</option><option>Ejecución</option><option>Recurso apelación</option><option>Recurso casación</option><option>Archivado</option></select>
+      </div>
+      <div class="form-group"><label>Fecha apertura</label><input type="date" id="exp-fecha-apertura"></div>
+      <div class="form-group"><label>Fecha vista/juicio</label><input type="date" id="exp-fecha-vista"></div>
+      <div class="form-group"><label>Hora vista</label><input type="time" id="exp-hora-vista"></div>
+      <div class="form-group"><label>Cuantía</label><input type="text" id="exp-cuantia" placeholder="€"></div>
+
+      <div class="form-section">Observaciones</div>
+      <div class="form-group full-width"><label>Observaciones</label><textarea id="exp-observaciones"></textarea></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-expediente')">Cancelar</button>
+      <button type="submit" class="btn btn-primary">💾 Guardar</button>
+    </div>
+  </form>
+</div></div>
+
+<!-- MODAL: DOCUMENTO -->
+<div class="modal-overlay" id="modal-documento">
+<div class="modal">
+  <div class="modal-title"><span>Registrar documento</span><button class="modal-close" onclick="closeModal('modal-documento')">&times;</button></div>
+  <form id="form-documento" onsubmit="saveDocumento(event)">
+    <input type="hidden" id="doc-edit-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Expediente *</label><select id="doc-expediente" required></select></div>
+      <div class="form-group"><label>Fecha *</label><input type="date" id="doc-fecha" required></div>
+      <div class="form-group"><label>Tipo de documento *</label>
+        <select id="doc-tipo" required><option value="">Seleccionar...</option>
+          <option value="Escrito presentado">📤 Escrito presentado por nosotros</option>
+          <option value="Notificación LexNET">📩 Notificación del juzgado (LexNET)</option>
+          <option value="Escrito parte contraria">⚔️ Escrito de la parte contraria</option>
+          <option value="Documentación cliente">👤 Documentación del cliente</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Vía</label>
+        <select id="doc-via"><option value="">Seleccionar...</option><option>LexNET</option><option>Email</option><option>Correo postal</option><option>En mano</option><option>Sede electrónica</option><option>Fax</option></select>
+      </div>
+      <div class="form-group full-width"><label>Descripción *</label><input type="text" id="doc-descripcion" required placeholder="Ej: Providencia admitiendo la demanda"></div>
+      <div class="form-group full-width"><label>Detalle / Observaciones</label><textarea id="doc-detalle"></textarea></div>
+      <div class="form-group full-width">
+        <div class="plazo-toggle">
+          <input type="checkbox" id="doc-genera-plazo" onchange="togglePlazo()">
+          <label for="doc-genera-plazo">⏰ Este documento genera un plazo</label>
+        </div>
+        <div class="plazo-fields" id="plazo-fields">
+          <div class="form-group"><label>Descripción del plazo</label><input type="text" id="doc-plazo-desc" placeholder="Ej: Contestar a la demanda"></div>
+          <div class="form-group"><label>Fecha límite</label><input type="date" id="doc-plazo-fecha"></div>
+        </div>
+      </div>
+      <div class="form-group full-width"><label>Nombre del archivo</label><input type="text" id="doc-archivo" placeholder="notificacion_vista.pdf"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-documento')">Cancelar</button>
+      <button type="submit" class="btn btn-primary">💾 Registrar</button>
+    </div>
+  </form>
+</div></div>
+
+<!-- MODAL: CLIENTE -->
+<div class="modal-overlay" id="modal-cliente">
+<div class="modal">
+  <div class="modal-title"><span id="modal-cli-title">Nuevo cliente</span><button class="modal-close" onclick="closeModal('modal-cliente')">&times;</button></div>
+  <form id="form-cliente" onsubmit="saveCliente(event)">
+    <input type="hidden" id="cli-edit-id">
+    <div class="form-grid">
+      <div class="form-section">Datos personales</div>
+      <div class="form-group"><label>Nombre completo *</label><input type="text" id="cli-nombre" required></div>
+      <div class="form-group"><label>DNI / NIE / CIF *</label><input type="text" id="cli-dni" required></div>
+      <div class="form-group"><label>Teléfono</label><input type="text" id="cli-telefono"></div>
+      <div class="form-group"><label>Teléfono 2</label><input type="text" id="cli-telefono2"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="cli-email"></div>
+      <div class="form-group"><label>Fecha nacimiento</label><input type="date" id="cli-nacimiento"></div>
+      <div class="form-group"><label>Nacionalidad</label><input type="text" id="cli-nacionalidad"></div>
+      <div class="form-group"><label>Estado civil</label>
+        <select id="cli-estado-civil"><option value="">Seleccionar...</option><option>Soltero/a</option><option>Casado/a</option><option>Divorciado/a</option><option>Viudo/a</option><option>Pareja de hecho</option><option>Separado/a</option></select>
+      </div>
+
+      <div class="form-section">Domicilio</div>
+      <div class="form-group full-width"><label>Dirección</label><input type="text" id="cli-direccion" placeholder="Calle, nº, piso..."></div>
+      <div class="form-group"><label>Código postal</label><input type="text" id="cli-cp"></div>
+      <div class="form-group"><label>Localidad</label><input type="text" id="cli-localidad"></div>
+      <div class="form-group"><label>Provincia</label><input type="text" id="cli-provincia"></div>
+
+      <div class="form-section">Datos de facturación</div>
+      <div class="form-group"><label>Razón social (si empresa)</label><input type="text" id="cli-razon-social"></div>
+      <div class="form-group"><label>CIF facturación</label><input type="text" id="cli-cif-fact"></div>
+      <div class="form-group full-width"><label>Dirección facturación (si distinta)</label><input type="text" id="cli-dir-fact"></div>
+      <div class="form-group"><label>Cuenta bancaria (IBAN)</label><input type="text" id="cli-iban"></div>
+      <div class="form-group"><label>Forma de pago preferida</label>
+        <select id="cli-forma-pago"><option value="">Seleccionar...</option><option>Transferencia</option><option>Efectivo</option><option>Bizum</option><option>Domiciliación</option><option>Tarjeta</option></select>
+      </div>
+
+      <div class="form-section">Notas</div>
+      <div class="form-group full-width"><label>Observaciones</label><textarea id="cli-observaciones"></textarea></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-cliente')">Cancelar</button>
+      <button type="submit" class="btn btn-primary">💾 Guardar</button>
+    </div>
+  </form>
+</div></div>
+
+<!-- MODAL: CONTACTO -->
+<div class="modal-overlay" id="modal-contacto">
+<div class="modal" style="max-width:600px">
+  <div class="modal-title"><span id="modal-cont-title">Nuevo contacto</span><button class="modal-close" onclick="closeModal('modal-contacto')">&times;</button></div>
+  <form id="form-contacto" onsubmit="saveContacto(event)">
+    <input type="hidden" id="cont-edit-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Nombre *</label><input type="text" id="cont-nombre" required></div>
+      <div class="form-group"><label>Tipo *</label>
+        <select id="cont-tipo" required><option value="">Seleccionar...</option><option>Abogado</option><option>Procurador</option><option>Letrado Admón. Justicia</option><option>Juzgado</option><option>Perito</option><option>Notario</option><option>Registrador</option><option>Mediador</option><option>Otro</option></select>
+      </div>
+      <div class="form-group"><label>Teléfono</label><input type="text" id="cont-telefono"></div>
+      <div class="form-group"><label>Teléfono 2</label><input type="text" id="cont-telefono2"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="cont-email"></div>
+      <div class="form-group"><label>Nº colegiado</label><input type="text" id="cont-colegiado"></div>
+      <div class="form-group full-width"><label>Despacho / Entidad</label><input type="text" id="cont-despacho"></div>
+      <div class="form-group full-width"><label>Dirección</label><input type="text" id="cont-direccion"></div>
+      <div class="form-group full-width"><label>Notas</label><textarea id="cont-notas"></textarea></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-contacto')">Cancelar</button>
+      <button type="submit" class="btn btn-primary">💾 Guardar</button>
+    </div>
+  </form>
+</div></div>
+
+<!-- MODAL: DETALLE EXPEDIENTE -->
+<div class="modal-overlay" id="modal-detalle">
+<div class="modal" style="max-width:900px">
+  <div class="modal-title"><span>Detalle del expediente</span><button class="modal-close" onclick="closeModal('modal-detalle')">&times;</button></div>
+  <div id="detalle-content"></div>
+</div></div>
+
+<!-- MODAL: DETALLE CLIENTE -->
+<div class="modal-overlay" id="modal-detalle-cli">
+<div class="modal" style="max-width:800px">
+  <div class="modal-title"><span>Ficha del cliente</span><button class="modal-close" onclick="closeModal('modal-detalle-cli')">&times;</button></div>
+  <div id="detalle-cli-content"></div>
+</div></div>
+
+<!-- MODAL: NUEVO PAGO -->
+<div class="modal-overlay" id="modal-pago">
+<div class="modal" style="max-width:550px">
+  <div class="modal-title"><span id="modal-pago-title">Registrar pago</span><button class="modal-close" onclick="closeModal('modal-pago')">&times;</button></div>
+  <form id="form-pago" onsubmit="savePago(event)">
+    <input type="hidden" id="pago-edit-id">
+    <input type="hidden" id="pago-cliente-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Expediente *</label><select id="pago-expediente" required></select></div>
+      <div class="form-group"><label>Fecha *</label><input type="date" id="pago-fecha" required></div>
+      <div class="form-group"><label>Tipo *</label>
+        <select id="pago-tipo" required><option value="">Seleccionar...</option>
+          <option value="Provisión de fondos">Provisión de fondos</option>
+          <option value="Pago a cuenta">Pago a cuenta</option>
+          <option value="Pago parcial">Pago parcial</option>
+          <option value="Liquidación final">Liquidación final</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Importe (€) *</label><input type="number" step="0.01" id="pago-importe" required placeholder="0.00"></div>
+      <div class="form-group"><label>Forma de pago</label>
+        <select id="pago-forma"><option value="">Seleccionar...</option><option>Transferencia</option><option>Efectivo</option><option>Bizum</option><option>Domiciliación</option><option>Tarjeta</option></select>
+      </div>
+      <div class="form-group"><label>Nº recibo / referencia</label><input type="text" id="pago-referencia"></div>
+      <div class="form-group full-width"><label>Concepto / Notas</label><input type="text" id="pago-concepto" placeholder="Ej: Provisión inicial firma encargo"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-pago')">Cancelar</button>
+      <button type="submit" class="btn btn-primary">💾 Guardar pago</button>
+    </div>
+  </form>
+</div></div>
+
+<!-- MODAL: GENERAR ENCARGO -->
+<div class="modal-overlay" id="modal-encargo">
+<div class="modal" style="max-width:700px">
+  <div class="modal-title"><span>📄 Hoja de Encargo Profesional</span><button class="modal-close" onclick="closeModal('modal-encargo')">&times;</button></div>
+  <form id="form-encargo" onsubmit="generateEncargo(event)">
+    <input type="hidden" id="encargo-cliente-id">
+    <div class="form-grid">
+      <div class="form-section">Datos del cliente (se rellenan automáticamente)</div>
+      <div class="form-group"><label>Nombre completo</label><input type="text" id="encargo-cliente-nombre" readonly style="background:var(--surface3)"></div>
+      <div class="form-group"><label>DNI</label><input type="text" id="encargo-cliente-dni" readonly style="background:var(--surface3)"></div>
+      <div class="form-group full-width"><label>Domicilio</label><input type="text" id="encargo-cliente-domicilio" readonly style="background:var(--surface3)"></div>
+
+      <div class="form-section">Datos del letrado</div>
+      <div class="form-group"><label>Nombre letrado</label><input type="text" id="encargo-letrado" value="FCO. JOSE JUSTO GUEVARA"></div>
+      <div class="form-group"><label>Nº colegiado</label><input type="text" id="encargo-colegiado" value="1760"></div>
+      <div class="form-group full-width"><label>Domicilio profesional</label><input type="text" id="encargo-domicilio-letrado" value="Avd. Almanzora, 6 Local 2 BJO, Olula del Rio, Almería"></div>
+
+      <div class="form-section">Objeto del encargo</div>
+      <div class="form-group"><label>Expediente vinculado</label><select id="encargo-expediente"><option value="">Sin vincular (rellenar a mano)</option></select></div>
+      <div class="form-group"><label>Jurisdicción</label><input type="text" id="encargo-jurisdiccion" placeholder="Ej: Almería"></div>
+      <div class="form-group full-width"><label>Descripción del encargo *</label><textarea id="encargo-objeto" required placeholder="Descripción detallada del servicio jurídico a prestar..."></textarea></div>
+      <div class="form-group full-width"><label>Servicios incluidos (uno por línea)</label><textarea id="encargo-servicios" placeholder="Análisis de la situación&#10;Preparación y presentación de escritos&#10;Asistencia a vistas&#10;Seguimiento del procedimiento"></textarea></div>
+
+      <div class="form-section">Honorarios</div>
+      <div class="form-group"><label>Honorarios totales (€, sin IVA)</label><input type="number" step="0.01" id="encargo-honorarios" placeholder="0.00"></div>
+      <div class="form-group"><label>Provisión inicial (€)</label><input type="number" step="0.01" id="encargo-provision" placeholder="0.00"></div>
+      <div class="form-group full-width"><label>Forma de pago del resto</label><input type="text" id="encargo-forma-pago" placeholder="Ej: En plazos mensuales de 500€ cada uno"></div>
+
+      <div class="form-section">Fecha y lugar</div>
+      <div class="form-group"><label>Lugar de firma</label><input type="text" id="encargo-lugar" value="Olula del Río"></div>
+      <div class="form-group"><label>Fecha de firma</label><input type="date" id="encargo-fecha-firma"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-encargo')">Cancelar</button>
+      <button type="submit" class="btn btn-primary">📄 Generar documento Word</button>
+    </div>
+  </form>
+</div></div>
+
+<!-- MODAL: CONFIG -->
+<div class="modal-overlay" id="modal-config">
+<div class="modal" style="max-width:650px">
+  <div class="modal-title"><span>⚙️ Configuración</span><button class="modal-close" onclick="closeModal('modal-config')">&times;</button></div>
+  <p style="color:var(--text-dim);font-size:13px;margin-bottom:20px">Configura la conexión con Google Sheets y la ruta de carpetas locales.</p>
+  <div class="config-field"><label>URL Apps Script:</label><input type="text" id="config-sheets-url" placeholder="https://script.google.com/macros/s/.../exec"></div>
+  <div class="config-field"><label>Ruta base carpetas:</label><input type="text" id="config-ruta" placeholder="C:\Expedientes_Juridicos"></div>
+  <div class="config-field"><label>Abogado por defecto:</label><input type="text" id="config-abogado"></div>
+  <p style="color:var(--text-muted);font-size:11px;margin-top:12px">Pestañas necesarias en Google Sheets: <strong>ExpedientesJ</strong>, <strong>DocumentosJ</strong>, <strong>ClientesJ</strong>, <strong>ContactosJ</strong>, <strong>PagosJ</strong></p>
+  <div class="btn-row"><button class="btn btn-primary" onclick="saveConfig()">💾 Guardar</button></div>
+</div></div>
+
+<datalist id="clientes-list"></datalist>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ======================== DATA ========================
+let D = { expedientes:[], documentos:[], clientes:[], contactos:[], pagos:[], config:{ sheetsUrl:'', rutaBase:'', abogadoDefecto:'' } };
+const LS_KEY = 'gestor_juridico_v2';
+
+let _syncEnabled = true;
+function save() {
+  localStorage.setItem(LS_KEY, JSON.stringify(D));
+  if(_syncEnabled && D.config.sheetsUrl) syncToSheets(true);
+}
+function load() {
+  try { const s = localStorage.getItem(LS_KEY); if(s) D = {...D, ...JSON.parse(s)}; } catch(e){}
+  if(!D.clientes) D.clientes=[];
+  if(!D.contactos) D.contactos=[];
+  if(!D.pagos) D.pagos=[];
+}
+
+// ======================== INIT ========================
+function init() {
+  load();
+  renderAll();
+  // Auto-descargar de Sheets al abrir
+  if(D.config.sheetsUrl) {
+    syncFromSheets(true);
+  }
+}
+
+// ======================== NAV ========================
+function showPanel(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(btn) btn.classList.add('active');
+  renderAll();
+}
+
+// ======================== MODALS ========================
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+function togglePlazo() { document.getElementById('plazo-fields').classList.toggle('visible', document.getElementById('doc-genera-plazo').checked); }
+
+function today() { return new Date().toISOString().split('T')[0]; }
+
+function openNewExpediente() {
+  document.getElementById('form-expediente').reset();
+  document.getElementById('exp-edit-id').value = '';
+  document.getElementById('modal-exp-title').textContent = 'Nuevo expediente';
+  document.getElementById('exp-fecha-apertura').value = today();
+  if(D.config.abogadoDefecto) document.getElementById('exp-abogado').value = D.config.abogadoDefecto;
+  updateClienteDatalist();
+  openModal('modal-expediente');
+}
+
+function openNewDocumento(expId) {
+  document.getElementById('form-documento').reset();
+  document.getElementById('doc-edit-id').value = '';
+  document.getElementById('plazo-fields').classList.remove('visible');
+  document.getElementById('doc-fecha').value = today();
+  populateExpSelect('doc-expediente');
+  if(expId) document.getElementById('doc-expediente').value = expId;
+  openModal('modal-documento');
+}
+
+function openNewCliente() {
+  document.getElementById('form-cliente').reset();
+  document.getElementById('cli-edit-id').value = '';
+  document.getElementById('modal-cli-title').textContent = 'Nuevo cliente';
+  openModal('modal-cliente');
+}
+
+function openNewContacto() {
+  document.getElementById('form-contacto').reset();
+  document.getElementById('cont-edit-id').value = '';
+  document.getElementById('modal-cont-title').textContent = 'Nuevo contacto';
+  openModal('modal-contacto');
+}
+
+function openConfig() {
+  document.getElementById('config-sheets-url').value = D.config.sheetsUrl || '';
+  document.getElementById('config-ruta').value = D.config.rutaBase || '';
+  document.getElementById('config-abogado').value = D.config.abogadoDefecto || '';
+  openModal('modal-config');
+}
+
+// ======================== SAVE EXPEDIENTE ========================
+function saveExpediente(e) {
+  e.preventDefault();
+  const id = document.getElementById('exp-edit-id').value;
+  const exp = {
+    id: id || 'EXP-'+Date.now(),
+    numero: val('exp-numero'), procedimiento: val('exp-procedimiento'), tipo: val('exp-tipo'),
+    asunto: val('exp-asunto'), cliente: val('exp-cliente'), dni: val('exp-dni'),
+    telefono: val('exp-telefono'), posicion: val('exp-posicion'),
+    contraria: val('exp-contraria'), abogadoContrario: val('exp-abogado-contrario'),
+    juzgado: val('exp-juzgado'), localidad: val('exp-localidad'), laj: val('exp-laj'),
+    abogado: val('exp-abogado'), procurador: val('exp-procurador'), procuradorContrario: val('exp-procurador-contrario'),
+    estado: val('exp-estado'), fase: val('exp-fase'),
+    fechaApertura: val('exp-fecha-apertura'), fechaVista: val('exp-fecha-vista'), horaVista: val('exp-hora-vista'),
+    cuantia: val('exp-cuantia'), observaciones: val('exp-observaciones'),
+    createdAt: id ? (D.expedientes.find(x=>x.id===id)?.createdAt || new Date().toISOString()) : new Date().toISOString()
+  };
+  if(id) { const i = D.expedientes.findIndex(x=>x.id===id); if(i>=0) D.expedientes[i]=exp; }
+  else D.expedientes.push(exp);
+  save(); closeModal('modal-expediente'); renderAll();
+  showToast(id ? 'Expediente actualizado' : 'Expediente creado');
+}
+
+// ======================== SAVE DOCUMENTO ========================
+function saveDocumento(e) {
+  e.preventDefault();
+  const id = document.getElementById('doc-edit-id').value;
+  const doc = {
+    id: id || 'DOC-'+Date.now(),
+    expedienteId: val('doc-expediente'), fecha: val('doc-fecha'), tipo: val('doc-tipo'), via: val('doc-via'),
+    descripcion: val('doc-descripcion'), detalle: val('doc-detalle'), archivo: val('doc-archivo'),
+    generaPlazo: document.getElementById('doc-genera-plazo').checked,
+    plazoDesc: val('doc-plazo-desc'), plazoFecha: val('doc-plazo-fecha'),
+    plazoEstado: id ? (D.documentos.find(x=>x.id===id)?.plazoEstado || 'pendiente') : 'pendiente',
+    createdAt: id ? (D.documentos.find(x=>x.id===id)?.createdAt || new Date().toISOString()) : new Date().toISOString()
+  };
+  if(id) { const i = D.documentos.findIndex(x=>x.id===id); if(i>=0) D.documentos[i]=doc; }
+  else D.documentos.push(doc);
+  save(); closeModal('modal-documento'); renderAll();
+  showToast(id ? 'Documento actualizado' : 'Documento registrado');
+}
+
+// ======================== SAVE CLIENTE ========================
+function saveCliente(e) {
+  e.preventDefault();
+  const id = document.getElementById('cli-edit-id').value;
+  const cli = {
+    id: id || 'CLI-'+Date.now(),
+    nombre: val('cli-nombre'), dni: val('cli-dni'), telefono: val('cli-telefono'), telefono2: val('cli-telefono2'),
+    email: val('cli-email'), nacimiento: val('cli-nacimiento'), nacionalidad: val('cli-nacionalidad'),
+    estadoCivil: val('cli-estado-civil'), direccion: val('cli-direccion'), cp: val('cli-cp'),
+    localidad: val('cli-localidad'), provincia: val('cli-provincia'),
+    razonSocial: val('cli-razon-social'), cifFact: val('cli-cif-fact'), dirFact: val('cli-dir-fact'),
+    iban: val('cli-iban'), formaPago: val('cli-forma-pago'), observaciones: val('cli-observaciones'),
+    createdAt: id ? (D.clientes.find(x=>x.id===id)?.createdAt || new Date().toISOString()) : new Date().toISOString()
+  };
+  if(id) { const i = D.clientes.findIndex(x=>x.id===id); if(i>=0) D.clientes[i]=cli; }
+  else D.clientes.push(cli);
+  save(); closeModal('modal-cliente'); renderAll();
+  showToast(id ? 'Cliente actualizado' : 'Cliente creado');
+}
+
+// ======================== SAVE CONTACTO ========================
+function saveContacto(e) {
+  e.preventDefault();
+  const id = document.getElementById('cont-edit-id').value;
+  const cont = {
+    id: id || 'CONT-'+Date.now(),
+    nombre: val('cont-nombre'), tipo: val('cont-tipo'), telefono: val('cont-telefono'), telefono2: val('cont-telefono2'),
+    email: val('cont-email'), colegiado: val('cont-colegiado'), despacho: val('cont-despacho'),
+    direccion: val('cont-direccion'), notas: val('cont-notas'),
+    createdAt: id ? (D.contactos.find(x=>x.id===id)?.createdAt || new Date().toISOString()) : new Date().toISOString()
+  };
+  if(id) { const i = D.contactos.findIndex(x=>x.id===id); if(i>=0) D.contactos[i]=cont; }
+  else D.contactos.push(cont);
+  save(); closeModal('modal-contacto'); renderAll();
+  showToast(id ? 'Contacto actualizado' : 'Contacto guardado');
+}
+
+function saveConfig() {
+  D.config.sheetsUrl = val('config-sheets-url');
+  D.config.rutaBase = val('config-ruta');
+  D.config.abogadoDefecto = val('config-abogado');
+  save(); closeModal('modal-config');
+  showToast('Configuración guardada');
+}
+
+// ======================== RENDER ALL ========================
+function renderAll() {
+  renderStats(); renderAlerts(); renderRecentActivity();
+  renderExpedientes(); renderDocumentos(); renderPlazos();
+  renderClientes(); renderContactos(); populateExpFilters();
+}
+
+// ======================== STATS ========================
+function renderStats() {
+  const t=D.expedientes.length, a=D.expedientes.filter(e=>e.estado!=='Archivado').length;
+  const d=D.documentos.length, p=D.documentos.filter(x=>x.generaPlazo&&x.plazoEstado==='pendiente').length;
+  const c=D.clientes.length;
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat-card"><div class="stat-number">${t}</div><div class="stat-label">Expedientes</div></div>
+    <div class="stat-card"><div class="stat-number">${a}</div><div class="stat-label">Activos</div></div>
+    <div class="stat-card"><div class="stat-number">${d}</div><div class="stat-label">Documentos</div></div>
+    <div class="stat-card"><div class="stat-number" style="color:${p>0?'var(--red)':'var(--green)'}">${p}</div><div class="stat-label">Plazos ptes.</div></div>
+    <div class="stat-card"><div class="stat-number">${c}</div><div class="stat-label">Clientes</div></div>`;
+}
+
+// ======================== ALERTS ========================
+function renderAlerts() {
+  const pend = D.documentos.filter(d=>d.generaPlazo&&d.plazoEstado==='pendiente'&&d.plazoFecha)
+    .map(d=>({...d, exp:D.expedientes.find(e=>e.id===d.expedienteId), dias:daysDiff(d.plazoFecha)}))
+    .sort((a,b)=>a.dias-b.dias).slice(0,6);
+  const g = document.getElementById('alerts-grid');
+  if(!pend.length){ g.innerHTML='<div class="empty-state"><div class="icon">✅</div><p>No hay plazos pendientes</p></div>'; return; }
+  g.innerHTML = pend.map(p=>{
+    const u=p.dias<0?'urgent':p.dias<=3?'urgent':p.dias<=7?'warning':'ok';
+    const dt=p.dias<0?`¡VENCIDO hace ${Math.abs(p.dias)}d!`:p.dias===0?'¡HOY!':p.dias+' días';
+    return `<div class="alert-card ${u}"><div class="exp-num">${p.exp?.numero||'?'} — ${p.exp?.cliente||''}</div>
+      <div class="alert-title">${p.plazoDesc||p.descripcion}</div>
+      <div class="alert-deadline">📅 ${fmtDate(p.plazoFecha)} <span class="days-left">${dt}</span></div></div>`;
+  }).join('');
+}
+
+// ======================== RECENT ACTIVITY ========================
+function renderRecentActivity() {
+  const rec=[...D.documentos].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).slice(0,8);
+  const c=document.getElementById('recent-activity');
+  if(!rec.length){ c.innerHTML='<div class="empty-state"><div class="icon">📝</div><p>Sin actividad registrada</p></div>'; return; }
+  const tc={'Escrito presentado':'sent','Notificación LexNET':'lexnet','Escrito parte contraria':'contrary','Documentación cliente':'client'};
+  const ti={'Escrito presentado':'📤','Notificación LexNET':'📩','Escrito parte contraria':'⚔️','Documentación cliente':'👤'};
+  c.innerHTML='<div class="timeline">'+rec.map(d=>{
+    const exp=D.expedientes.find(e=>e.id===d.expedienteId);
+    let dl='';
+    if(d.generaPlazo&&d.plazoFecha){const dd=daysDiff(d.plazoFecha);const ok=d.plazoEstado==='cumplido';
+      dl=`<div class="deadline-info ${ok?'ok':''}">⏰ ${d.plazoDesc||'Plazo'}: ${fmtDate(d.plazoFecha)} ${ok?'✅ Cumplido':`(${dd<0?'VENCIDO':dd+' días'})`}</div>`;}
+    return `<div class="timeline-item ${tc[d.tipo]||''}"><div class="timeline-date">${fmtDate(d.fecha)} · ${exp?.numero||'?'}</div>
+      <div class="timeline-content"><div class="doc-title">${ti[d.tipo]||'📄'} ${d.descripcion}</div>
+      <div class="doc-desc">${d.detalle||''} ${d.via?'· '+d.via:''}</div>${dl}</div></div>`;
+  }).join('')+'</div>';
+}
+
+// ======================== EXPEDIENTES TABLE ========================
+function renderExpedientes() {
+  const s=(document.getElementById('exp-search')?.value||'').toLowerCase();
+  const f=document.getElementById('exp-filter-estado')?.value||'';
+  let list=D.expedientes.filter(e=>{
+    const ms=!s||[e.numero,e.cliente,e.asunto,e.juzgado,e.procedimiento,e.abogado].join(' ').toLowerCase().includes(s);
+    return ms&&(!f||e.estado===f);
+  }).sort((a,b)=>{if(a.estado==='Archivado'&&b.estado!=='Archivado')return 1;if(a.estado!=='Archivado'&&b.estado==='Archivado')return -1;return new Date(b.createdAt)-new Date(a.createdAt);});
+  const bd={'Activo':'badge-active','En trámite':'badge-active','Vista señalada':'badge-pending','Pendiente sentencia':'badge-pending','Recurso':'badge-urgent','Archivado':'badge-closed'};
+  const tb=document.getElementById('exp-table-body');
+  if(!list.length){tb.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-muted)">${D.expedientes.length?'Sin resultados':'Crea tu primer expediente'}</td></tr>`;return;}
+  tb.innerHTML=list.map(e=>{
+    const docs=D.documentos.filter(d=>d.expedienteId===e.id);
+    const last=docs.sort((a,b)=>new Date(b.fecha)-new Date(a.fecha))[0];
+    return `<tr onclick="showExpDetail('${e.id}')">
+      <td><strong style="color:var(--accent)">${e.numero}</strong></td>
+      <td>${e.procedimiento||'-'}</td>
+      <td>${e.cliente}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.asunto||'-'}</td>
+      <td>${e.juzgado||'-'}</td>
+      <td>${e.abogado||'-'}</td>
+      <td><span class="badge ${bd[e.estado]||'badge-active'}">${e.estado}</span></td>
+      <td>${docs.length}</td>
+      <td style="font-size:12px;color:var(--text-dim)">${last?fmtDate(last.fecha):'-'}</td></tr>`;
+  }).join('');
+}
+
+// ======================== DOCUMENTOS TABLE ========================
+function renderDocumentos() {
+  const s=(document.getElementById('doc-search')?.value||'').toLowerCase();
+  const ft=document.getElementById('doc-filter-tipo')?.value||'';
+  const fe=document.getElementById('doc-filter-exp')?.value||'';
+  let list=D.documentos.filter(d=>{
+    return(!s||d.descripcion.toLowerCase().includes(s)||(d.detalle||'').toLowerCase().includes(s))&&(!ft||d.tipo===ft)&&(!fe||d.expedienteId===fe);
+  }).sort((a,b)=>new Date(b.fecha)-new Date(a.fecha));
+  const ti={'Escrito presentado':'📤','Notificación LexNET':'📩','Escrito parte contraria':'⚔️','Documentación cliente':'👤'};
+  const tb2={'Escrito presentado':'badge-sent','Notificación LexNET':'badge-received','Escrito parte contraria':'badge-contrary','Documentación cliente':'badge-client'};
+  const tb=document.getElementById('doc-table-body');
+  if(!list.length){tb.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted)">Sin documentos</td></tr>`;return;}
+  tb.innerHTML=list.map(d=>{
+    const exp=D.expedientes.find(e=>e.id===d.expedienteId);
+    let pl='-';
+    if(d.generaPlazo&&d.plazoFecha){const dd=daysDiff(d.plazoFecha);
+      pl=d.plazoEstado==='cumplido'?'<span class="badge badge-active">✅</span>':`<span class="badge ${dd<=3?'badge-urgent':dd<=7?'badge-pending':'badge-active'}">${fmtDate(d.plazoFecha)}</span>`;}
+    return `<tr>
+      <td>${fmtDate(d.fecha)}</td>
+      <td><span class="badge ${tb2[d.tipo]||''}">${ti[d.tipo]||'📄'} ${d.tipo}</span></td>
+      <td><strong style="color:var(--accent)">${exp?.numero||'?'}</strong></td>
+      <td style="max-width:280px">${d.descripcion}</td>
+      <td>${d.via||'-'}</td><td>${pl}</td>
+      <td><button class="btn btn-secondary btn-small" onclick="editDocumento('${d.id}')">✏️</button>
+      <button class="btn btn-danger btn-small" onclick="deleteItem('documentos','${d.id}')">🗑️</button></td></tr>`;
+  }).join('');
+}
+
+// ======================== PLAZOS TABLE ========================
+function renderPlazos() {
+  const f=document.getElementById('plazo-filter')?.value||'pendiente';
+  let list=D.documentos.filter(d=>d.generaPlazo&&(!f||d.plazoEstado===f))
+    .map(d=>({...d,exp:D.expedientes.find(e=>e.id===d.expedienteId),dias:daysDiff(d.plazoFecha)}))
+    .sort((a,b)=>a.dias-b.dias);
+  const tb=document.getElementById('plazo-table-body');
+  if(!list.length){tb.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted)">Sin plazos</td></tr>`;return;}
+  tb.innerHTML=list.map(p=>{
+    const u=p.plazoEstado==='cumplido'?'badge-active':p.dias<0?'badge-urgent':p.dias<=3?'badge-urgent':p.dias<=7?'badge-pending':'badge-active';
+    const dt=p.plazoEstado==='cumplido'?'✅':p.dias<0?`¡VENCIDO (${Math.abs(p.dias)}d)!`:p.dias===0?'¡HOY!':p.dias+' días';
+    const act=p.plazoEstado==='pendiente'
+      ?`<button class="btn btn-primary btn-small" onclick="togglePlazoStatus('${p.id}','cumplido')">✅ Cumplido</button>`
+      :`<button class="btn btn-secondary btn-small" onclick="togglePlazoStatus('${p.id}','pendiente')">↩️ Reabrir</button>`;
+    return `<tr>
+      <td><strong style="color:var(--accent)">${p.exp?.numero||'?'}</strong><br><span style="font-size:11px;color:var(--text-dim)">${p.exp?.cliente||''}</span></td>
+      <td style="font-size:12px">${p.descripcion}</td><td>${p.plazoDesc||'-'}</td>
+      <td>${p.plazoFecha?fmtDate(p.plazoFecha):'-'}</td><td><span class="badge ${u}">${dt}</span></td>
+      <td><span class="badge ${p.plazoEstado==='cumplido'?'badge-active':'badge-pending'}">${p.plazoEstado}</span></td><td>${act}</td></tr>`;
+  }).join('');
+}
+
+// ======================== CLIENTES TABLE ========================
+function renderClientes() {
+  const s=(document.getElementById('cli-search')?.value||'').toLowerCase();
+  let list=D.clientes.filter(c=>!s||[c.nombre,c.dni,c.telefono,c.email,c.localidad].join(' ').toLowerCase().includes(s));
+  const tb=document.getElementById('cli-table-body');
+  if(!list.length){tb.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted)">Sin clientes</td></tr>`;return;}
+  tb.innerHTML=list.map(c=>{
+    const exps=D.expedientes.filter(e=>e.cliente===c.nombre||e.dni===c.dni).length;
+    return `<tr onclick="showCliDetail('${c.id}')">
+      <td><strong>${c.nombre}</strong></td><td>${c.dni||'-'}</td><td>${c.telefono||'-'}</td>
+      <td>${c.email||'-'}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.direccion||'-'}</td>
+      <td>${exps}</td>
+      <td><button class="btn btn-secondary btn-small" onclick="event.stopPropagation();editCliente('${c.id}')">✏️</button>
+      <button class="btn btn-danger btn-small" onclick="event.stopPropagation();deleteItem('clientes','${c.id}')">🗑️</button></td></tr>`;
+  }).join('');
+}
+
+// ======================== CONTACTOS GRID ========================
+function renderContactos() {
+  const s=(document.getElementById('cont-search')?.value||'').toLowerCase();
+  const ft=document.getElementById('cont-filter-tipo')?.value||'';
+  let list=D.contactos.filter(c=>(!s||[c.nombre,c.tipo,c.despacho,c.telefono].join(' ').toLowerCase().includes(s))&&(!ft||c.tipo===ft));
+  const g=document.getElementById('contactos-grid');
+  if(!list.length){g.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="icon">📇</div><p>Sin contactos</p></div>';return;}
+  g.innerHTML=list.map(c=>`
+    <div class="contact-card">
+      <div class="contact-name">${c.nombre}</div>
+      <div class="contact-role"><span class="badge badge-sent">${c.tipo}</span> ${c.colegiado?'· Nº '+c.colegiado:''}</div>
+      <div class="contact-info">
+        ${c.telefono?'📞 '+c.telefono+'<br>':''}${c.telefono2?'📞 '+c.telefono2+'<br>':''}
+        ${c.email?'✉️ '+c.email+'<br>':''}${c.despacho?'🏛️ '+c.despacho+'<br>':''}
+        ${c.direccion?'📍 '+c.direccion:''}
+      </div>
+      ${c.notas?`<div style="margin-top:8px;font-size:12px;color:var(--text-muted);font-style:italic">${c.notas}</div>`:''}
+      <div class="contact-actions">
+        <button class="btn btn-secondary btn-small" onclick="editContacto('${c.id}')">✏️</button>
+        <button class="btn btn-danger btn-small" onclick="deleteItem('contactos','${c.id}')">🗑️</button>
+        ${c.telefono?`<a href="tel:${c.telefono}" class="btn btn-secondary btn-small">📞 Llamar</a>`:''}
+      </div>
+    </div>`).join('');
+}
+
+// ======================== DETAIL VIEWS ========================
+function showExpDetail(id) {
+  const e=D.expedientes.find(x=>x.id===id); if(!e)return;
+  const docs=D.documentos.filter(d=>d.expedienteId===id).sort((a,b)=>new Date(b.fecha)-new Date(a.fecha));
+  const tc={'Escrito presentado':'sent','Notificación LexNET':'lexnet','Escrito parte contraria':'contrary','Documentación cliente':'client'};
+  const ti={'Escrito presentado':'📤','Notificación LexNET':'📩','Escrito parte contraria':'⚔️','Documentación cliente':'👤'};
+  const bd={'Activo':'badge-active','En trámite':'badge-active','Vista señalada':'badge-pending','Pendiente sentencia':'badge-pending','Recurso':'badge-urgent','Archivado':'badge-closed'};
+
+  let h=`<div class="detail-header"><div>
+    <div class="detail-exp-num">${e.numero}</div>
+    <div class="detail-client">${e.cliente} ${e.dni?'· '+e.dni:''}</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <span class="badge ${bd[e.estado]||''}">${e.estado}</span>${e.fase?`<span class="badge badge-sent">${e.fase}</span>`:''}
+    <button class="btn btn-secondary btn-small" onclick="editExpediente('${e.id}')">✏️ Editar</button>
+    <button class="btn btn-primary btn-small" onclick="closeModal('modal-detalle');openNewDocumento('${e.id}')">+ Documento</button>
+    </div></div>
+    <div class="detail-info-grid">
+    <div class="detail-info-item"><label>Nº Procedimiento</label><span>${e.procedimiento||'-'}</span></div>
+    <div class="detail-info-item"><label>Tipo</label><span>${e.tipo||'-'}</span></div>
+    <div class="detail-info-item"><label>Cuantía</label><span>${e.cuantia||'-'}</span></div>
+    <div class="detail-info-item"><label>Juzgado</label><span>${e.juzgado||'-'}</span></div>
+    <div class="detail-info-item"><label>Localidad</label><span>${e.localidad||'-'}</span></div>
+    <div class="detail-info-item"><label>Letrado Admón. Justicia</label><span>${e.laj||'-'}</span></div>
+    <div class="detail-info-item"><label>Abogado nuestro</label><span>${e.abogado||'-'}</span></div>
+    <div class="detail-info-item"><label>Procurador nuestro</label><span>${e.procurador||'-'}</span></div>
+    <div class="detail-info-item"><label>Posición procesal</label><span>${e.posicion||'-'}</span></div>
+    <div class="detail-info-item"><label>Parte contraria</label><span>${e.contraria||'-'}</span></div>
+    <div class="detail-info-item"><label>Abogado contrario</label><span>${e.abogadoContrario||'-'}</span></div>
+    <div class="detail-info-item"><label>Procurador contrario</label><span>${e.procuradorContrario||'-'}</span></div>
+    <div class="detail-info-item"><label>Fecha apertura</label><span>${e.fechaApertura?fmtDate(e.fechaApertura):'-'}</span></div>
+    <div class="detail-info-item"><label>Fecha vista</label><span>${e.fechaVista?fmtDate(e.fechaVista)+(e.horaVista?' '+e.horaVista:''):'-'}</span></div>
+    <div class="detail-info-item"><label>Teléfono cliente</label><span>${e.telefono||'-'}</span></div>
+    </div>`;
+  if(e.asunto) h+=`<div style="margin-bottom:12px"><label style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Asunto</label><p style="margin-top:4px;font-size:14px">${e.asunto}</p></div>`;
+  if(e.observaciones) h+=`<div style="margin-bottom:12px"><label style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Observaciones</label><p style="margin-top:4px;font-size:13px;color:var(--text-dim)">${e.observaciones}</p></div>`;
+  h+=`<div class="section-divider"></div><div class="section-title">📄 Historial documental (${docs.length})</div>`;
+  if(!docs.length) h+='<div class="empty-state"><p>Sin documentos</p></div>';
+  else h+='<div class="timeline">'+docs.map(d=>{
+    let dl='';
+    if(d.generaPlazo&&d.plazoFecha){const dd=daysDiff(d.plazoFecha);const ok=d.plazoEstado==='cumplido';
+      dl=`<div class="deadline-info ${ok?'ok':''}">⏰ ${d.plazoDesc||'Plazo'}: ${fmtDate(d.plazoFecha)} ${ok?'✅ Cumplido':`(${dd<0?'VENCIDO':dd+' días'})`}</div>`;}
+    return `<div class="timeline-item ${tc[d.tipo]||''}"><div class="timeline-date">${fmtDate(d.fecha)} · ${d.via||''}</div>
+      <div class="timeline-content"><div class="doc-title">${ti[d.tipo]||'📄'} ${d.descripcion}</div>
+      <div class="doc-desc">${d.detalle||''}</div>${d.archivo?`<div style="margin-top:4px;font-size:11px;color:var(--text-muted)">📎 ${d.archivo}</div>`:''}${dl}</div></div>`;
+  }).join('')+'</div>';
+  document.getElementById('detalle-content').innerHTML=h;
+  openModal('modal-detalle');
+}
+
+function showCliDetail(id) {
+  const c=D.clientes.find(x=>x.id===id); if(!c)return;
+  const exps=D.expedientes.filter(e=>e.cliente===c.nombre||e.dni===c.dni);
+  const pagos=D.pagos.filter(p=>p.clienteId===c.id);
+
+  let h=`<div class="detail-header"><div>
+    <div class="detail-exp-num">${c.nombre}</div>
+    <div class="detail-client">${c.dni||''}</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-secondary btn-small" onclick="editCliente('${c.id}')">✏️ Editar</button>
+    <button class="btn btn-primary btn-small" onclick="openEncargo('${c.id}')">📄 Encargo</button>
+    </div></div>
+    <div class="detail-info-grid">
+    <div class="detail-info-item"><label>Teléfono</label><span>${c.telefono||'-'}</span></div>
+    <div class="detail-info-item"><label>Teléfono 2</label><span>${c.telefono2||'-'}</span></div>
+    <div class="detail-info-item"><label>Email</label><span>${c.email||'-'}</span></div>
+    <div class="detail-info-item"><label>Dirección</label><span>${c.direccion||'-'}</span></div>
+    <div class="detail-info-item"><label>CP</label><span>${c.cp||'-'}</span></div>
+    <div class="detail-info-item"><label>Localidad</label><span>${c.localidad||'-'} ${c.provincia?'('+c.provincia+')':''}</span></div>
+    <div class="detail-info-item"><label>Nacionalidad</label><span>${c.nacionalidad||'-'}</span></div>
+    <div class="detail-info-item"><label>Estado civil</label><span>${c.estadoCivil||'-'}</span></div>
+    <div class="detail-info-item"><label>Nacimiento</label><span>${c.nacimiento?fmtDate(c.nacimiento):'-'}</span></div>
+    </div>`;
+  if(c.razonSocial||c.cifFact||c.iban||c.formaPago||c.dirFact){
+    h+=`<div class="section-divider"></div><div class="section-title">💳 Datos de facturación</div>
+    <div class="detail-info-grid">
+    <div class="detail-info-item"><label>Razón social</label><span>${c.razonSocial||'-'}</span></div>
+    <div class="detail-info-item"><label>CIF facturación</label><span>${c.cifFact||'-'}</span></div>
+    <div class="detail-info-item"><label>Forma de pago</label><span>${c.formaPago||'-'}</span></div>
+    <div class="detail-info-item"><label>IBAN</label><span>${c.iban||'-'}</span></div>
+    <div class="detail-info-item full-width"><label>Dir. facturación</label><span>${c.dirFact||'-'}</span></div>
+    </div>`;
+  }
+
+  // SECCIÓN DE PROVISIONES Y PAGOS
+  h+=`<div class="section-divider"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+    <div class="section-title" style="margin-bottom:0">💰 Provisiones y pagos</div>
+    <button class="btn btn-primary btn-small" onclick="openNewPago('${c.id}')">+ Registrar pago</button></div>`;
+
+  if(exps.length){
+    // Agrupar pagos por expediente
+    exps.forEach(exp=>{
+      const pagosExp=pagos.filter(p=>p.expedienteId===exp.id).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+      const totalPagado=pagosExp.reduce((s,p)=>s+parseFloat(p.importe||0),0);
+      const honorarios=parseFloat(exp.cuantia)||0;
+      const pendiente=honorarios-totalPagado;
+
+      h+=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div><strong style="color:var(--accent)">${exp.numero}</strong> · ${exp.asunto||'-'}</div>
+          <span class="badge ${exp.estado==='Archivado'?'badge-closed':'badge-active'}">${exp.estado}</span>
+        </div>`;
+
+      if(honorarios>0){
+        h+=`<div style="display:flex;gap:20px;margin-bottom:10px;font-size:13px">
+          <div>Honorarios: <strong>${fmtMoney(honorarios)}</strong></div>
+          <div>Pagado: <strong style="color:var(--green)">${fmtMoney(totalPagado)}</strong></div>
+          <div>Pendiente: <strong style="color:${pendiente>0?'var(--red)':'var(--green)'}">${fmtMoney(pendiente)}</strong></div>
+        </div>
+        <div style="background:var(--border);border-radius:4px;height:8px;overflow:hidden;margin-bottom:10px">
+          <div style="background:${pendiente<=0?'var(--green)':'var(--accent)'};height:100%;width:${honorarios>0?Math.min(100,totalPagado/honorarios*100):0}%;border-radius:4px;transition:width 0.3s"></div>
+        </div>`;
+      }
+
+      if(pagosExp.length){
+        h+=`<table style="width:100%;font-size:12px"><thead><tr>
+          <th style="padding:6px 8px;background:var(--surface3)">Fecha</th>
+          <th style="padding:6px 8px;background:var(--surface3)">Tipo</th>
+          <th style="padding:6px 8px;background:var(--surface3)">Importe</th>
+          <th style="padding:6px 8px;background:var(--surface3)">Forma</th>
+          <th style="padding:6px 8px;background:var(--surface3)">Concepto</th>
+          <th style="padding:6px 8px;background:var(--surface3)">Acc.</th>
+        </tr></thead><tbody>`;
+        pagosExp.forEach(p=>{
+          h+=`<tr>
+            <td style="padding:6px 8px">${fmtDate(p.fecha)}</td>
+            <td style="padding:6px 8px"><span class="badge ${p.tipo==='Provisión de fondos'?'badge-sent':'badge-active'}">${p.tipo}</span></td>
+            <td style="padding:6px 8px;font-weight:600">${fmtMoney(p.importe)}</td>
+            <td style="padding:6px 8px">${p.forma||'-'}</td>
+            <td style="padding:6px 8px">${p.concepto||'-'}</td>
+            <td style="padding:6px 8px"><button class="btn btn-danger btn-small" onclick="deletePago('${p.id}','${c.id}')" style="padding:2px 8px;font-size:11px">🗑️</button></td>
+          </tr>`;
+        });
+        h+=`</tbody></table>`;
+      } else {
+        h+=`<div style="text-align:center;padding:8px;color:var(--text-muted);font-size:12px">Sin pagos registrados</div>`;
+      }
+      h+=`</div>`;
+    });
+  } else {
+    h+=`<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px">Este cliente no tiene expedientes asociados</div>`;
+  }
+
+  // SECCIÓN DE EXPEDIENTES
+  if(exps.length){
+    h+=`<div class="section-divider"></div><div class="section-title">📁 Expedientes (${exps.length})</div>`;
+    h+=exps.map(e=>`<div style="padding:8px 12px;background:var(--surface2);border-radius:6px;margin-bottom:6px;cursor:pointer" onclick="closeModal('modal-detalle-cli');showExpDetail('${e.id}')">
+      <strong style="color:var(--accent)">${e.numero}</strong> · ${e.asunto||'-'} · <span class="badge badge-active">${e.estado}</span></div>`).join('');
+  }
+  if(c.observaciones) h+=`<div class="section-divider"></div><div style="font-size:13px;color:var(--text-dim)">${c.observaciones}</div>`;
+  document.getElementById('detalle-cli-content').innerHTML=h;
+  openModal('modal-detalle-cli');
+}
+
+// ======================== EDIT FUNCTIONS ========================
+function editExpediente(id) {
+  const e=D.expedientes.find(x=>x.id===id); if(!e)return;
+  closeModal('modal-detalle');
+  document.getElementById('exp-edit-id').value=e.id;
+  document.getElementById('modal-exp-title').textContent='Editar expediente';
+  const fields=['numero','procedimiento','tipo','asunto','cliente','dni','telefono','posicion','contraria',
+    'juzgado','localidad','laj','abogado','procurador','estado','fase','cuantia','observaciones'];
+  const mapped={'contraria':'exp-contraria','abogadoContrario':'exp-abogado-contrario','procuradorContrario':'exp-procurador-contrario'};
+  fields.forEach(f=>{ const el=document.getElementById('exp-'+f.replace(/([A-Z])/g,'-$1').toLowerCase()); if(el) el.value=e[f]||''; });
+  document.getElementById('exp-abogado-contrario').value=e.abogadoContrario||'';
+  document.getElementById('exp-procurador-contrario').value=e.procuradorContrario||'';
+  document.getElementById('exp-fecha-apertura').value=e.fechaApertura||'';
+  document.getElementById('exp-fecha-vista').value=e.fechaVista||'';
+  document.getElementById('exp-hora-vista').value=e.horaVista||'';
+  updateClienteDatalist();
+  openModal('modal-expediente');
+}
+
+function editDocumento(id) {
+  const d=D.documentos.find(x=>x.id===id); if(!d)return;
+  document.getElementById('doc-edit-id').value=d.id;
+  populateExpSelect('doc-expediente');
+  document.getElementById('doc-expediente').value=d.expedienteId;
+  document.getElementById('doc-fecha').value=d.fecha;
+  document.getElementById('doc-tipo').value=d.tipo;
+  document.getElementById('doc-via').value=d.via||'';
+  document.getElementById('doc-descripcion').value=d.descripcion;
+  document.getElementById('doc-detalle').value=d.detalle||'';
+  document.getElementById('doc-archivo').value=d.archivo||'';
+  document.getElementById('doc-genera-plazo').checked=d.generaPlazo;
+  document.getElementById('doc-plazo-desc').value=d.plazoDesc||'';
+  document.getElementById('doc-plazo-fecha').value=d.plazoFecha||'';
+  document.getElementById('plazo-fields').classList.toggle('visible',d.generaPlazo);
+  openModal('modal-documento');
+}
+
+function editCliente(id) {
+  const c=D.clientes.find(x=>x.id===id); if(!c)return;
+  closeModal('modal-detalle-cli');
+  document.getElementById('cli-edit-id').value=c.id;
+  document.getElementById('modal-cli-title').textContent='Editar cliente';
+  ['nombre','dni','telefono','telefono2','email','nacimiento','nacionalidad','direccion','cp','localidad','provincia','razon-social','cif-fact','dir-fact','iban','observaciones'].forEach(f=>{
+    const key=f.replace(/-([a-z])/g,(_,l)=>l.toUpperCase());
+    const el=document.getElementById('cli-'+f); if(el) el.value=c[key]||'';
+  });
+  document.getElementById('cli-estado-civil').value=c.estadoCivil||'';
+  document.getElementById('cli-forma-pago').value=c.formaPago||'';
+  openModal('modal-cliente');
+}
+
+function editContacto(id) {
+  const c=D.contactos.find(x=>x.id===id); if(!c)return;
+  document.getElementById('cont-edit-id').value=c.id;
+  document.getElementById('modal-cont-title').textContent='Editar contacto';
+  ['nombre','tipo','telefono','telefono2','email','colegiado','despacho','direccion','notas'].forEach(f=>{
+    const el=document.getElementById('cont-'+f); if(el) el.value=c[f]||'';
+  });
+  openModal('modal-contacto');
+}
+
+function deleteItem(collection, id) {
+  if(!confirm('¿Seguro que quieres eliminar?')) return;
+  D[collection]=D[collection].filter(x=>x.id!==id);
+  save(); renderAll(); showToast('Eliminado');
+}
+
+function togglePlazoStatus(id, status) {
+  const d=D.documentos.find(x=>x.id===id);
+  if(d){d.plazoEstado=status; save(); renderAll(); showToast(status==='cumplido'?'Plazo cumplido':'Plazo reabierto');}
+}
+
+// ======================== HELPERS ========================
+function val(id) { return (document.getElementById(id)?.value||'').trim(); }
+function fmtDate(s) { if(!s)return'-'; const d=new Date(s+'T00:00:00'); return d.toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+function daysDiff(s) { if(!s)return 999; const t=new Date(s+'T00:00:00'),n=new Date();n.setHours(0,0,0,0); return Math.ceil((t-n)/(864e5)); }
+
+function showToast(msg, type) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+(type||''); t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+function populateExpSelect(selectId) {
+  const s=document.getElementById(selectId); if(!s)return;
+  const cv=s.value;
+  s.innerHTML='<option value="">Seleccionar expediente...</option>';
+  D.expedientes.filter(e=>e.estado!=='Archivado').sort((a,b)=>a.numero.localeCompare(b.numero))
+    .forEach(e=>{ s.innerHTML+=`<option value="${e.id}">${e.numero} — ${e.cliente}</option>`; });
+  if(cv) s.value=cv;
+}
+
+function populateExpFilters() {
+  const s=document.getElementById('doc-filter-exp'); if(!s)return;
+  const cv=s.value;
+  s.innerHTML='<option value="">Todos los expedientes</option>';
+  D.expedientes.forEach(e=>{ s.innerHTML+=`<option value="${e.id}">${e.numero}</option>`; });
+  if(cv) s.value=cv;
+}
+
+function updateClienteDatalist() {
+  const dl=document.getElementById('clientes-list');
+  dl.innerHTML=D.clientes.map(c=>`<option value="${c.nombre}">`).join('');
+}
+
+// ======================== PAGOS ========================
+function openNewPago(clienteId) {
+  document.getElementById('form-pago').reset();
+  document.getElementById('pago-edit-id').value='';
+  document.getElementById('pago-cliente-id').value=clienteId;
+  document.getElementById('pago-fecha').value=today();
+  // Populate expedientes for this client
+  const c=D.clientes.find(x=>x.id===clienteId);
+  const sel=document.getElementById('pago-expediente');
+  sel.innerHTML='<option value="">Seleccionar expediente...</option>';
+  if(c){
+    D.expedientes.filter(e=>e.cliente===c.nombre||e.dni===c.dni).forEach(e=>{
+      sel.innerHTML+=`<option value="${e.id}">${e.numero} — ${e.asunto||''}</option>`;
+    });
+  }
+  openModal('modal-pago');
+}
+
+function savePago(e) {
+  e.preventDefault();
+  const id=document.getElementById('pago-edit-id').value;
+  const pago={
+    id: id||'PAG-'+Date.now(),
+    clienteId: val('pago-cliente-id'),
+    expedienteId: val('pago-expediente'),
+    fecha: val('pago-fecha'),
+    tipo: val('pago-tipo'),
+    importe: val('pago-importe'),
+    forma: val('pago-forma'),
+    referencia: val('pago-referencia'),
+    concepto: val('pago-concepto'),
+    createdAt: id?(D.pagos.find(x=>x.id===id)?.createdAt||new Date().toISOString()):new Date().toISOString()
+  };
+  if(id){const i=D.pagos.findIndex(x=>x.id===id);if(i>=0)D.pagos[i]=pago;}
+  else D.pagos.push(pago);
+  save(); closeModal('modal-pago');
+  showCliDetail(pago.clienteId);
+  showToast('Pago registrado');
+}
+
+function deletePago(pagoId, clienteId) {
+  if(!confirm('¿Eliminar este pago?'))return;
+  D.pagos=D.pagos.filter(x=>x.id!==pagoId);
+  save(); showCliDetail(clienteId);
+  showToast('Pago eliminado');
+}
+
+function fmtMoney(n) {
+  const num=parseFloat(n)||0;
+  return num.toLocaleString('es-ES',{style:'currency',currency:'EUR'});
+}
+
+// ======================== ENCARGO PROFESIONAL ========================
+function openEncargo(clienteId) {
+  const c=D.clientes.find(x=>x.id===clienteId); if(!c)return;
+  document.getElementById('form-encargo').reset();
+  document.getElementById('encargo-cliente-id').value=clienteId;
+  document.getElementById('encargo-cliente-nombre').value=c.nombre||'';
+  document.getElementById('encargo-cliente-dni').value=c.dni||'';
+  document.getElementById('encargo-cliente-domicilio').value=[c.direccion,c.cp,c.localidad,c.provincia].filter(Boolean).join(', ');
+  document.getElementById('encargo-fecha-firma').value=today();
+  // Populate expedientes
+  const sel=document.getElementById('encargo-expediente');
+  sel.innerHTML='<option value="">Sin vincular</option>';
+  const exps=D.expedientes.filter(e=>e.cliente===c.nombre||e.dni===c.dni);
+  exps.forEach(e=>{ sel.innerHTML+=`<option value="${e.id}">${e.numero} — ${e.asunto||''}</option>`; });
+  // Auto-fill if only one expediente
+  if(exps.length===1){
+    sel.value=exps[0].id;
+    if(exps[0].asunto) document.getElementById('encargo-objeto').value=exps[0].asunto;
+  }
+  // Letrado defaults from config
+  if(D.config.abogadoDefecto){
+    document.getElementById('encargo-letrado').value=D.config.abogadoDefecto;
+  }
+  openModal('modal-encargo');
+}
+
+function generateEncargo(e) {
+  e.preventDefault();
+  const clienteNombre=val('encargo-cliente-nombre');
+  const clienteDni=val('encargo-cliente-dni');
+  const clienteDomicilio=val('encargo-cliente-domicilio');
+  const letrado=val('encargo-letrado');
+  const colegiado=val('encargo-colegiado');
+  const domLetrado=val('encargo-domicilio-letrado');
+  const objeto=val('encargo-objeto');
+  const serviciosRaw=document.getElementById('encargo-servicios').value.trim();
+  const servicios=serviciosRaw?serviciosRaw.split('\n').filter(Boolean):[];
+  const honorarios=val('encargo-honorarios');
+  const provision=val('encargo-provision');
+  const formaPagoResto=val('encargo-forma-pago');
+  const jurisdiccion=val('encargo-jurisdiccion');
+  const lugar=val('encargo-lugar');
+  const fechaFirma=val('encargo-fecha-firma');
+
+  // Format date in Spanish
+  let fechaTexto='___ de __________ de 20__';
+  if(fechaFirma){
+    const d=new Date(fechaFirma+'T00:00:00');
+    const meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    fechaTexto=`${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+  }
+
+  // Build HTML document for download
+  const honorariosText=honorarios?`${parseFloat(honorarios).toLocaleString('es-ES')}€ (IVA no incluido)`:'____________€ (IVA no incluido)';
+  const provisionText=provision?`${parseFloat(provision).toLocaleString('es-ES')}€`:'____________€';
+
+  let serviciosHtml='';
+  if(servicios.length){
+    serviciosHtml=servicios.map(s=>`<p style="margin:2px 0 2px 30px;font-family:Arial,sans-serif;font-size:12pt">• ${s}</p>`).join('');
+  }
+
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Hoja de Encargo Profesional - ${clienteNombre}</title>
+<style>
+@page{margin:2.5cm}
+body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.6;color:#222;max-width:700px;margin:0 auto;padding:40px}
+h1{text-align:center;font-size:16pt;margin-bottom:30px;text-decoration:underline}
+h2{font-size:13pt;margin-top:25px;margin-bottom:8px}
+p{margin:8px 0;text-align:justify}
+.firmas{display:flex;justify-content:space-between;margin-top:60px}
+.firma{text-align:center;width:45%}
+.firma .linea{border-top:1px solid #333;margin-top:60px;padding-top:8px}
+.print-btn{position:fixed;top:20px;right:20px;background:#8B0000;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-size:14px;cursor:pointer;font-family:Arial;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.print-btn:hover{background:#a00000}
+@media print{.print-btn{display:none}}
+</style></head><body>
+<button class="print-btn" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+<h1>HOJA DE ENCARGO PROFESIONAL</h1>
+<p><strong>Entre:</strong></p>
+<p>D./D.ª <strong>${clienteNombre}</strong>, con DNI nº <strong>${clienteDni}</strong>, y domicilio en ${clienteDomicilio||'_______________'}, en adelante <em>el Cliente</em>.</p>
+<p><strong>Y</strong></p>
+<p>D. <strong>${letrado}</strong>, colegiado nº ${colegiado} del Ilustre Colegio de Abogados de Almería, con domicilio profesional en ${domLetrado||'_______________'}, en adelante <em>el Letrado/a</em>.</p>
+
+<h2>EXPONEN:</h2>
+<p>Que el Cliente desea encargar al Letrado la tramitación y gestión de los procedimientos legales necesarios para:</p>
+<p>${objeto||'_______________'}</p>
+
+<h2>OBJETO DEL ENCARGO</h2>
+<p>El Letrado/a se compromete a prestar al Cliente los servicios de asesoramiento jurídico, redacción y presentación de escritos, asistencia en sede judicial y en general, la dirección jurídica del procedimiento en todas sus fases, incluyendo:</p>
+${serviciosHtml||'<p style="margin-left:30px">• _______________</p>'}
+
+<h2>HONORARIOS</h2>
+<p>Los honorarios profesionales por el presente encargo se pactan en la cantidad de <strong>${honorariosText}</strong>, que se abonarán del siguiente modo:</p>
+<p style="margin-left:20px">• ${provisionText} en concepto de provisión de fondos, a la firma de la presente hoja de encargo.</p>
+<p style="margin-left:20px">• ${formaPagoResto||'El resto en plazos a convenir.'}</p>
+
+<h2>Cláusula de Revisión de Honorarios</h2>
+<p>En caso de que, durante el transcurso del procedimiento, surjan actuaciones extraordinarias no previstas inicialmente (como incidentes, oposiciones, recursos judiciales, intervención de terceros, solicitud de aplazamientos, vistas adicionales u otros procedimientos conexos), las partes acuerdan que los honorarios pactados podrán ser revisados y actualizados proporcionalmente, previa aceptación expresa y por escrito del Cliente.</p>
+<p>Dicha revisión se justificará mediante nota detallada de los trabajos extraordinarios a realizar, y en ningún caso implicará obligación de pago adicional sin el consentimiento previo del Cliente.</p>
+
+<h2>OBLIGACIONES DEL CLIENTE</h2>
+<p>El Cliente se compromete a:</p>
+<p style="margin-left:30px">• Proporcionar al Letrado toda la documentación necesaria y veraz.</p>
+<p style="margin-left:30px">• Comparecer ante el juzgado o notario cuando sea requerido.</p>
+<p style="margin-left:30px">• Comunicar cualquier cambio relevante en su situación personal, patrimonial o de contacto.</p>
+<p style="margin-left:30px">• Abonar puntualmente los honorarios acordados.</p>
+
+<h2>PROTECCIÓN DE DATOS</h2>
+<p>El Letrado tratará los datos personales del Cliente de conformidad con el Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD), con la finalidad exclusiva de la prestación del servicio jurídico encomendado.</p>
+
+<h2>DURACIÓN Y FINALIZACIÓN</h2>
+<p>El presente encargo tendrá duración hasta la resolución firme del procedimiento, salvo resolución anticipada por incumplimiento de las obligaciones contractuales por alguna de las partes.</p>
+
+<h2>JURISDICCIÓN Y LEY APLICABLE</h2>
+<p>Para cualquier controversia que pudiera derivarse de este encargo, las partes se someten a los Juzgados y Tribunales de ${jurisdiccion||'_______________'}, con renuncia expresa a cualquier otro fuero que pudiera corresponderles.</p>
+
+<p style="margin-top:30px">En prueba de conformidad, firman la presente hoja de encargo en ${lugar||'_______________'}, a ${fechaTexto}.</p>
+
+<div class="firmas">
+  <div class="firma"><div class="linea">FIRMA DEL CLIENTE<br><br>D./D.ª ${clienteNombre}</div></div>
+  <div class="firma"><div class="linea">FIRMA DEL LETRADO/A<br><br>D. ${letrado}</div></div>
+</div>
+</body></html>`;
+
+  // Download as HTML file
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  const safeName=clienteNombre.replace(/[^a-zA-ZáéíóúñÁÉÍÓÚÑ\s]/g,'').replace(/\s+/g,'_');
+  a.download=`Encargo_Profesional_${safeName}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+  closeModal('modal-encargo');
+  showToast('Hoja de encargo generada. Ábrela en el navegador y usa Imprimir → Guardar como PDF');
+}
+
+// ======================== GOOGLE SHEETS SYNC ========================
+const SHEETS_URL = () => D.config.sheetsUrl;
+
+async function syncToSheets(silent) {
+  if(!SHEETS_URL()) return;
+  const st=document.getElementById('sync-status');
+  st.textContent='⬆️ Guardando...';
+  try {
+    const hojas = {
+      ExpedientesJ: toRows(D.expedientes, ['id','numero','procedimiento','tipo','asunto','cliente','dni','telefono','posicion','contraria','abogadoContrario','juzgado','localidad','laj','abogado','procurador','procuradorContrario','estado','fase','fechaApertura','fechaVista','horaVista','cuantia','observaciones','createdAt']),
+      DocumentosJ: toRows(D.documentos, ['id','expedienteId','fecha','tipo','via','descripcion','detalle','archivo','generaPlazo','plazoDesc','plazoFecha','plazoEstado','createdAt']),
+      ClientesJ: toRows(D.clientes, ['id','nombre','dni','telefono','telefono2','email','nacimiento','nacionalidad','estadoCivil','direccion','cp','localidad','provincia','razonSocial','cifFact','dirFact','iban','formaPago','observaciones','createdAt']),
+      ContactosJ: toRows(D.contactos, ['id','nombre','tipo','telefono','telefono2','email','colegiado','despacho','direccion','notas','createdAt']),
+      PagosJ: toRows(D.pagos, ['id','clienteId','expedienteId','fecha','tipo','importe','forma','referencia','concepto','createdAt'])
+    };
+    let ok=0;
+    for(const [hoja, datos] of Object.entries(hojas)){
+      try {
+        await fetch(SHEETS_URL(), {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify({action:'escribir', hoja:hoja, datos:datos})
+        });
+        ok++;
+      } catch(err) { console.error('Error subiendo '+hoja, err); }
+    }
+    st.textContent='☁️ '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+    if(!silent) showToast(ok+'/5 hojas subidas a Google Sheets');
+  } catch(e) { st.textContent='❌ Error'; if(!silent) showToast('Error al subir: '+e.message,'error'); }
+}
+
+async function syncFromSheets(silent) {
+  if(!SHEETS_URL()) return;
+  const st=document.getElementById('sync-status');
+  st.textContent='⬇️ Cargando...';
+  try {
+    const hojas = {expedientes:'ExpedientesJ',documentos:'DocumentosJ',clientes:'ClientesJ',contactos:'ContactosJ',pagos:'PagosJ'};
+    for(const [key, hoja] of Object.entries(hojas)){
+      try {
+        const r=await fetch(SHEETS_URL()+'?action=leer&hoja='+hoja);
+        const j=await r.json();
+        if(j.success && j.datos && j.datos.length>1){
+          const headers=j.datos[0];
+          D[key]=j.datos.slice(1).map(row=>{
+            const obj={};
+            headers.forEach((h,i)=>{ obj[h]=row[i]!==undefined?row[i]:''; });
+            if(obj.generaPlazo!==undefined) obj.generaPlazo=obj.generaPlazo==='true'||obj.generaPlazo===true;
+            return obj;
+          }).filter(obj=>obj.id);
+        }
+      } catch(err) { console.error('Error leyendo '+hoja, err); }
+    }
+    // Guardar en local SIN triggear sync de vuelta
+    _syncEnabled = false;
+    localStorage.setItem(LS_KEY, JSON.stringify(D));
+    _syncEnabled = true;
+    renderAll();
+    st.textContent='☁️ '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+    if(!silent) showToast('Datos descargados de Google Sheets');
+  } catch(e) { st.textContent='❌ Error'; if(!silent) showToast('Error al descargar: '+e.message,'error'); }
+}
+
+// Diagnóstico de conexión
+async function testConnection() {
+  if(!SHEETS_URL()) { alert('⚠️ No hay URL configurada.\nVe a ⚙️ Configuración y pega la URL del Apps Script.'); return; }
+  let msg = '🔍 DIAGNÓSTICO DE CONEXIÓN\n\n';
+  msg += 'URL: ' + SHEETS_URL() + '\n\n';
+
+  // Test 1: Leer
+  msg += '1️⃣ Probando LECTURA (GET)...\n';
+  try {
+    const r = await fetch(SHEETS_URL()+'?action=leer&hoja=ExpedientesJ');
+    const txt = await r.text();
+    msg += '   ✅ Respuesta recibida: ' + txt.substring(0,200) + '\n\n';
+  } catch(e) {
+    msg += '   ❌ Error: ' + e.message + '\n\n';
+  }
+
+  // Test 2: Escribir
+  msg += '2️⃣ Probando ESCRITURA (POST)...\n';
+  try {
+    const testData = {action:'escribir', hoja:'ExpedientesJ', datos:[['TEST'],['conexion_ok']]};
+    await fetch(SHEETS_URL(), {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify(testData)
+    });
+    msg += '   ⚠️ POST enviado (mode no-cors, no podemos ver la respuesta).\n';
+    msg += '   👉 Revisa la pestaña ExpedientesJ en Google Sheets.\n';
+    msg += '   Si aparece "TEST" y "conexion_ok", funciona.\n';
+    msg += '   Si NO aparece nada, prueba el método alternativo.\n\n';
+  } catch(e) {
+    msg += '   ❌ Error: ' + e.message + '\n\n';
+  }
+
+  alert(msg);
+}
+
+function toRows(arr, keys) {
+  const rows=[keys];
+  arr.forEach(obj=>rows.push(keys.map(k=>obj[k]!==undefined&&obj[k]!==null?String(obj[k]):'')));
+  return rows;
+}
+
+// ======================== START ========================
+init();
+</script>
+</body>
+</html>
