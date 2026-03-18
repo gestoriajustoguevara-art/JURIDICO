@@ -567,6 +567,10 @@ tbody tr:hover { background: var(--accent-light); }
   <div class="panel active" id="panel-dashboard">
     <div class="stats-row" id="stats-row"></div>
     <div class="card">
+      <div class="card-title">📅 Citaciones y vistas señaladas</div>
+      <div class="alerts-grid" id="citaciones-grid"></div>
+    </div>
+    <div class="card">
       <div class="card-title">⚠️ Plazos próximos a vencer</div>
       <div class="alerts-grid" id="alerts-grid"></div>
     </div>
@@ -1115,7 +1119,7 @@ function saveConfig() {
 
 // ======================== RENDER ALL ========================
 function renderAll() {
-  renderStats(); renderAlerts(); renderRecentActivity();
+  renderStats(); renderCitaciones(); renderAlerts(); renderRecentActivity();
   renderExpedientes(); renderDocumentos(); renderPlazos();
   renderClientes(); renderContactos(); populateExpFilters();
 }
@@ -1124,13 +1128,39 @@ function renderAll() {
 function renderStats() {
   const t=D.expedientes.length, a=D.expedientes.filter(e=>e.estado!=='Archivado').length;
   const d=D.documentos.length, p=D.documentos.filter(x=>x.generaPlazo&&x.plazoEstado==='pendiente').length;
+  const citas=D.expedientes.filter(e=>e.fechaVista&&e.estado!=='Archivado'&&daysDiff(e.fechaVista)>=0).length;
   const c=D.clientes.length;
   document.getElementById('stats-row').innerHTML = `
     <div class="stat-card"><div class="stat-number">${t}</div><div class="stat-label">Expedientes</div></div>
     <div class="stat-card"><div class="stat-number">${a}</div><div class="stat-label">Activos</div></div>
     <div class="stat-card"><div class="stat-number">${d}</div><div class="stat-label">Documentos</div></div>
     <div class="stat-card"><div class="stat-number" style="color:${p>0?'var(--red)':'var(--green)'}">${p}</div><div class="stat-label">Plazos ptes.</div></div>
-    <div class="stat-card"><div class="stat-number">${c}</div><div class="stat-label">Clientes</div></div>`;
+    <div class="stat-card"><div class="stat-number" style="color:${citas>0?'var(--purple)':'var(--text-muted)'}">${citas}</div><div class="stat-label">Citaciones</div></div>`;
+}
+
+// ======================== CITACIONES ========================
+function renderCitaciones() {
+  const citas = D.expedientes
+    .filter(e => e.fechaVista && e.estado !== 'Archivado')
+    .map(e => ({...e, dias: daysDiff(e.fechaVista)}))
+    .filter(e => e.dias >= -1) // mostrar también las de ayer por si acaso
+    .sort((a,b) => a.dias - b.dias)
+    .slice(0, 8);
+  const g = document.getElementById('citaciones-grid');
+  if(!citas.length) {
+    g.innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>No hay vistas ni citaciones señaladas</p></div>';
+    return;
+  }
+  g.innerHTML = citas.map(e => {
+    const u = e.dias < 0 ? 'urgent' : e.dias === 0 ? 'urgent' : e.dias <= 3 ? 'urgent' : e.dias <= 7 ? 'warning' : 'ok';
+    const dt = e.dias < 0 ? '¡AYER!' : e.dias === 0 ? '¡HOY!' : e.dias === 1 ? '¡MAÑANA!' : e.dias + ' días';
+    const hora = e.horaVista ? ' a las ' + e.horaVista : '';
+    return `<div class="alert-card ${u}" style="border-left-color:var(--purple)" onclick="showExpDetail('${e.id}')">
+      <div class="exp-num">${e.numero} — ${e.cliente}</div>
+      <div class="alert-title">📅 ${e.tipo||'Vista'} · ${e.juzgado||''}</div>
+      <div class="alert-deadline">🏛️ ${fmtDate(e.fechaVista)}${hora} <span class="days-left">${dt}</span></div>
+    </div>`;
+  }).join('');
 }
 
 // ======================== ALERTS ========================
