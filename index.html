@@ -822,33 +822,122 @@ tbody tr:hover { background: var(--accent-light); }
 </div></div>
 
 <!-- MODAL: NUEVO PAGO -->
-<div class="modal-overlay" id="modal-pago">
-<div class="modal" style="max-width:550px">
-  <div class="modal-title"><span id="modal-pago-title">Registrar pago</span><button class="modal-close" onclick="closeModal('modal-pago')">&times;</button></div>
-  <form id="form-pago" onsubmit="savePago(event)">
-    <input type="hidden" id="pago-edit-id">
-    <input type="hidden" id="pago-cliente-id">
+<!-- MODAL: MINUTA -->
+<div class="modal-overlay" id="modal-minuta">
+<div class="modal" style="max-width:620px">
+  <div class="modal-title"><span>📋 Minuta de honorarios</span><button class="modal-close" onclick="closeModal('modal-minuta')">&times;</button></div>
+  <form id="form-minuta" onsubmit="saveMinuta(event)">
+    <input type="hidden" id="minuta-exp-id">
+    <input type="hidden" id="minuta-cli-id">
+    <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px">Introduce 0 en los conceptos que no apliquen. El IVA se calcula automáticamente al 21%.</p>
     <div class="form-grid">
-      <div class="form-group"><label>Expediente *</label><select id="pago-expediente" required></select></div>
-      <div class="form-group"><label>Fecha *</label><input type="date" id="pago-fecha" required></div>
-      <div class="form-group"><label>Tipo *</label>
-        <select id="pago-tipo" required><option value="">Seleccionar...</option>
-          <option value="Provisión de fondos">Provisión de fondos</option>
-          <option value="Pago a cuenta">Pago a cuenta</option>
-          <option value="Pago parcial">Pago parcial</option>
-          <option value="Liquidación final">Liquidación final</option>
-        </select>
+      <div class="form-group"><label>Estudio / Consulta (€)</label><input type="number" step="0.01" id="min-estudio" value="0" oninput="calcMinuta()"></div>
+      <div class="form-group"><label>Preparación de escritos (€)</label><input type="number" step="0.01" id="min-escritos" value="0" oninput="calcMinuta()"></div>
+      <div class="form-group"><label>Asistencia a vistas (€)</label><input type="number" step="0.01" id="min-vistas" value="0" oninput="calcMinuta()"></div>
+      <div class="form-group"><label>Recursos (€)</label><input type="number" step="0.01" id="min-recursos" value="0" oninput="calcMinuta()"></div>
+      <div class="form-group"><label>Gestiones / Tramitaciones (€)</label><input type="number" step="0.01" id="min-gestiones" value="0" oninput="calcMinuta()"></div>
+      <div class="form-group"><label>Otros honorarios (€)</label><input type="number" step="0.01" id="min-otros" value="0" oninput="calcMinuta()"></div>
+      <div class="form-group full-width"><label>Observaciones / Detalle</label><textarea id="min-obs" rows="2"></textarea></div>
+    </div>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-top:12px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center">
+        <div><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Base imponible</div><div id="min-base" style="font-size:20px;font-weight:700;color:var(--text)">0,00 €</div></div>
+        <div><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">IVA (21%)</div><div id="min-iva" style="font-size:20px;font-weight:700;color:var(--orange)">0,00 €</div></div>
+        <div><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Total a facturar</div><div id="min-total" style="font-size:20px;font-weight:700;color:var(--accent)">0,00 €</div></div>
       </div>
-      <div class="form-group"><label>Importe (€) *</label><input type="number" step="0.01" id="pago-importe" required placeholder="0.00"></div>
-      <div class="form-group"><label>Forma de pago</label>
-        <select id="pago-forma"><option value="">Seleccionar...</option><option>Transferencia</option><option>Efectivo</option><option>Bizum</option><option>Domiciliación</option><option>Tarjeta</option></select>
-      </div>
-      <div class="form-group"><label>Nº recibo / referencia</label><input type="text" id="pago-referencia"></div>
-      <div class="form-group full-width"><label>Concepto / Notas</label><input type="text" id="pago-concepto" placeholder="Ej: Provisión inicial firma encargo"></div>
     </div>
     <div class="btn-row">
-      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-pago')">Cancelar</button>
-      <button type="submit" class="btn btn-primary">💾 Guardar pago</button>
+      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-minuta')">Cancelar</button>
+      <button type="submit" class="btn btn-primary">💾 Guardar minuta</button>
+    </div>
+  </form>
+</div></div>
+
+<!-- MODAL: GASTO SUPLIDO -->
+<div class="modal-overlay" id="modal-gasto">
+<div class="modal" style="max-width:580px">
+  <div class="modal-title"><span>💸 Registrar gasto suplido</span><button class="modal-close" onclick="closeModal('modal-gasto')">&times;</button></div>
+  <form id="form-gasto" onsubmit="saveGasto(event)">
+    <input type="hidden" id="gasto-id">
+    <input type="hidden" id="gasto-exp-id">
+    <input type="hidden" id="gasto-cli-id">
+    <div class="form-grid">
+      <div class="form-section">Datos del gasto</div>
+      <div class="form-group"><label>Fecha del gasto *</label><input type="date" id="gasto-fecha" required></div>
+      <div class="form-group"><label>Tipo *</label>
+        <select id="gasto-tipo" required>
+          <option value="">Seleccionar...</option>
+          <option>Procurador</option>
+          <option>Tasas tribunal</option>
+          <option>Otro letrado</option>
+          <option>Perito</option>
+          <option>Notaría</option>
+          <option>Registro</option>
+          <option>Otros</option>
+        </select>
+      </div>
+      <div class="form-group full-width"><label>Concepto / Descripción *</label><input type="text" id="gasto-concepto" required placeholder="Ej: Minuta procurador vista oral"></div>
+      <div class="form-group"><label>Importe (€) *</label><input type="number" step="0.01" id="gasto-importe" required placeholder="0.00"></div>
+      <div class="form-group"><label>A quién se paga *</label><input type="text" id="gasto-destinatario" placeholder="Ej: Procurador Juan García"></div>
+      <div class="form-group"><label>Pagado inicialmente por</label>
+        <select id="gasto-pagadopor">
+          <option value="gestoría">Gestoría (suplido)</option>
+          <option value="cliente">Cliente directamente</option>
+        </select>
+      </div>
+      <div class="form-section">Estado del pago</div>
+      <div class="form-group"><label>Estado *</label>
+        <select id="gasto-estado" required onchange="toggleFechaPago()">
+          <option value="pendiente">⏳ Pendiente de pago</option>
+          <option value="pagado">✅ Pagado</option>
+        </select>
+      </div>
+      <div class="form-group" id="gasto-fecha-pago-group" style="display:none"><label>Fecha de pago</label><input type="date" id="gasto-fecha-pago"></div>
+      <div class="form-group" id="gasto-forma-group" style="display:none"><label>Forma de pago</label>
+        <select id="gasto-forma">
+          <option value="">Seleccionar...</option>
+          <option>Transferencia</option><option>Efectivo</option><option>Bizum</option><option>Tarjeta</option><option>Cheque</option>
+        </select>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-gasto')">Cancelar</button>
+      <button type="submit" class="btn btn-primary">💾 Guardar gasto</button>
+    </div>
+  </form>
+</div></div>
+
+<!-- MODAL: ENTREGA DEL CLIENTE -->
+<div class="modal-overlay" id="modal-entrega">
+<div class="modal" style="max-width:520px">
+  <div class="modal-title"><span>💰 Registrar entrega del cliente</span><button class="modal-close" onclick="closeModal('modal-entrega')">&times;</button></div>
+  <form id="form-entrega" onsubmit="saveEntrega(event)">
+    <input type="hidden" id="entrega-id">
+    <input type="hidden" id="entrega-exp-id">
+    <input type="hidden" id="entrega-cli-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Fecha *</label><input type="date" id="entrega-fecha" required></div>
+      <div class="form-group"><label>Tipo *</label>
+        <select id="entrega-tipo" required>
+          <option value="">Seleccionar...</option>
+          <option>Provisión de fondos</option>
+          <option>Entrega a cuenta</option>
+          <option>Pago parcial</option>
+          <option>Liquidación final</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Importe (€) *</label><input type="number" step="0.01" id="entrega-importe" required placeholder="0.00"></div>
+      <div class="form-group"><label>Forma de pago</label>
+        <select id="entrega-forma">
+          <option value="">Seleccionar...</option>
+          <option>Transferencia</option><option>Efectivo</option><option>Bizum</option><option>Tarjeta</option>
+        </select>
+      </div>
+      <div class="form-group full-width"><label>Notas</label><input type="text" id="entrega-notas" placeholder="Ej: Provisión inicial firma encargo"></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-entrega')">Cancelar</button>
+      <button type="submit" class="btn btn-primary">💾 Guardar entrega</button>
     </div>
   </form>
 </div></div>
@@ -896,7 +985,7 @@ tbody tr:hover { background: var(--accent-light); }
   <div class="config-field"><label>URL Apps Script:</label><input type="text" id="config-sheets-url" placeholder="https://script.google.com/macros/s/.../exec"></div>
   <div class="config-field"><label>Ruta base carpetas:</label><input type="text" id="config-ruta" placeholder="C:\Expedientes_Juridicos"></div>
   <div class="config-field"><label>Abogado por defecto:</label><input type="text" id="config-abogado"></div>
-  <p style="color:var(--text-muted);font-size:11px;margin-top:12px">Pestañas necesarias en Google Sheets: <strong>ExpedientesJ</strong>, <strong>DocumentosJ</strong>, <strong>ClientesJ</strong>, <strong>ContactosJ</strong>, <strong>PagosJ</strong></p>
+  <p style="color:var(--text-muted);font-size:11px;margin-top:12px">Pestañas necesarias en Google Sheets: <strong>ExpedientesJ</strong>, <strong>DocumentosJ</strong>, <strong>ClientesJ</strong>, <strong>ContactosJ</strong>, <strong>MinutasJ</strong>, <strong>GastosJ</strong>, <strong>EntregasJ</strong></p>
   <div class="btn-row"><button class="btn btn-primary" onclick="saveConfig()">💾 Guardar</button></div>
 </div></div>
 
@@ -905,7 +994,7 @@ tbody tr:hover { background: var(--accent-light); }
 
 <script>
 // ======================== DATA ========================
-let D = { expedientes:[], documentos:[], clientes:[], contactos:[], pagos:[], config:{ sheetsUrl:'', rutaBase:'', abogadoDefecto:'' } };
+let D = { expedientes:[], documentos:[], clientes:[], contactos:[], minutas:[], gastos:[], entregas:[], config:{ sheetsUrl:'', rutaBase:'', abogadoDefecto:'' } };
 const LS_KEY = 'gestor_juridico_v2';
 
 let _syncEnabled = true;
@@ -917,7 +1006,9 @@ function load() {
   try { const s = localStorage.getItem(LS_KEY); if(s) D = {...D, ...JSON.parse(s)}; } catch(e){}
   if(!D.clientes) D.clientes=[];
   if(!D.contactos) D.contactos=[];
-  if(!D.pagos) D.pagos=[];
+  if(!D.minutas) D.minutas=[];
+  if(!D.gastos) D.gastos=[];
+  if(!D.entregas) D.entregas=[];
 }
 
 // ======================== BANNER CARGA ========================
@@ -1325,7 +1416,7 @@ function showExpDetail(id) {
 function showCliDetail(id) {
   const c=D.clientes.find(x=>x.id===id); if(!c)return;
   const exps=D.expedientes.filter(e=>e.cliente===c.nombre||e.dni===c.dni);
-  const pagos=D.pagos.filter(p=>p.clienteId===c.id);
+
   let h=`<div class="detail-header"><div>
     <div class="detail-exp-num">${c.nombre}</div>
     <div class="detail-client">${c.dni||''}</div></div>
@@ -1338,79 +1429,183 @@ function showCliDetail(id) {
     <div class="detail-info-item"><label>Teléfono 2</label><span>${c.telefono2||'-'}</span></div>
     <div class="detail-info-item"><label>Email</label><span>${c.email||'-'}</span></div>
     <div class="detail-info-item"><label>Dirección</label><span>${c.direccion||'-'}</span></div>
-    <div class="detail-info-item"><label>CP</label><span>${c.cp||'-'}</span></div>
-    <div class="detail-info-item"><label>Localidad</label><span>${c.localidad||'-'} ${c.provincia?'('+c.provincia+')':''}</span></div>
-    <div class="detail-info-item"><label>Nacionalidad</label><span>${c.nacionalidad||'-'}</span></div>
-    <div class="detail-info-item"><label>Estado civil</label><span>${c.estadoCivil||'-'}</span></div>
+    <div class="detail-info-item"><label>CP / Localidad</label><span>${[c.cp,c.localidad,c.provincia?'('+c.provincia+')':''].filter(Boolean).join(' ')||'-'}</span></div>
     <div class="detail-info-item"><label>Nacimiento</label><span>${c.nacimiento?fmtDate(c.nacimiento):'-'}</span></div>
     </div>`;
-  if(c.razonSocial||c.cifFact||c.iban||c.formaPago||c.dirFact){
-    h+=`<div class="section-divider"></div><div class="section-title">💳 Datos de facturación</div>
+
+  if(c.razonSocial||c.cifFact||c.iban||c.formaPago){
+    h+=`<div class="section-divider"></div><div class="section-title">💳 Facturación</div>
     <div class="detail-info-grid">
     <div class="detail-info-item"><label>Razón social</label><span>${c.razonSocial||'-'}</span></div>
-    <div class="detail-info-item"><label>CIF facturación</label><span>${c.cifFact||'-'}</span></div>
+    <div class="detail-info-item"><label>CIF</label><span>${c.cifFact||'-'}</span></div>
     <div class="detail-info-item"><label>Forma de pago</label><span>${c.formaPago||'-'}</span></div>
     <div class="detail-info-item"><label>IBAN</label><span>${c.iban||'-'}</span></div>
-    <div class="detail-info-item full-width"><label>Dir. facturación</label><span>${c.dirFact||'-'}</span></div>
     </div>`;
   }
-  h+=`<div class="section-divider"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <div class="section-title" style="margin-bottom:0">💰 Provisiones y pagos</div>
-    <button class="btn btn-primary btn-small" onclick="openNewPago('${c.id}')">+ Registrar pago</button></div>`;
-  if(exps.length){
+
+  // ===== SECCIÓN ECONÓMICA POR EXPEDIENTE =====
+  h+=`<div class="section-divider"></div><div class="section-title">💰 Gestión económica por expediente</div>`;
+
+  if(!exps.length){
+    h+=`<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px">Este cliente no tiene expedientes asociados</div>`;
+  } else {
     exps.forEach(exp=>{
-      const pagosExp=pagos.filter(p=>p.expedienteId===exp.id).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
-      const totalPagado=pagosExp.reduce((s,p)=>s+parseFloat(p.importe||0),0);
-      const honorarios=parseFloat(exp.cuantia)||0;
-      const pendiente=honorarios-totalPagado;
-      h+=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div><strong style="color:var(--accent)">${exp.numero}</strong> · ${exp.asunto||'-'}</div>
-          <span class="badge ${exp.estado==='Archivado'?'badge-closed':'badge-active'}">${exp.estado}</span>
-        </div>`;
-      if(honorarios>0){
-        h+=`<div style="display:flex;gap:20px;margin-bottom:10px;font-size:13px">
-          <div>Honorarios: <strong>${fmtMoney(honorarios)}</strong></div>
-          <div>Pagado: <strong style="color:var(--green)">${fmtMoney(totalPagado)}</strong></div>
-          <div>Pendiente: <strong style="color:${pendiente>0?'var(--red)':'var(--green)'}">${fmtMoney(pendiente)}</strong></div>
+      const minuta = D.minutas.find(m=>m.expedienteId===exp.id) || null;
+      const gastosExp = D.gastos.filter(g=>g.expedienteId===exp.id).sort((a,b)=>a.fecha.localeCompare(b.fecha));
+      const entregasExp = D.entregas.filter(e=>e.expedienteId===exp.id).sort((a,b)=>a.fecha.localeCompare(b.fecha));
+
+      // Cálculos
+      const baseMinuta = minuta ? ['estudio','escritos','vistas','recursos','gestiones','otros'].reduce((s,k)=>s+parseFloat(minuta[k]||0),0) : 0;
+      const ivaMinuta = baseMinuta * 0.21;
+      const totalFacturar = baseMinuta + ivaMinuta;
+      const totalGastos = gastosExp.reduce((s,g)=>s+parseFloat(g.importe||0),0);
+      const totalEntregas = entregasExp.reduce((s,e)=>s+parseFloat(e.importe||0),0);
+      const pendienteCobro = totalFacturar - totalEntregas;
+
+      h+=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px">
+
+        <!-- Cabecera expediente -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+          <div>
+            <strong style="color:var(--accent);font-size:16px">${exp.numero}</strong>
+            <span style="color:var(--text-dim);font-size:13px;margin-left:8px">${exp.asunto||''}</span>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span class="badge ${exp.estado==='Archivado'?'badge-closed':'badge-active'}">${exp.estado}</span>
+            <button class="btn btn-secondary btn-small" onclick="openMinuta('${exp.id}','${c.id}')">📋 ${minuta?'Editar':'Crear'} minuta</button>
+            <button class="btn btn-secondary btn-small" onclick="openGasto('${exp.id}','${c.id}')">💸 + Gasto</button>
+            <button class="btn btn-primary btn-small" onclick="openEntrega('${exp.id}','${c.id}')">💰 + Entrega</button>
+          </div>
         </div>
-        <div style="background:var(--border);border-radius:4px;height:8px;overflow:hidden;margin-bottom:10px">
-          <div style="background:${pendiente<=0?'var(--green)':'var(--accent)'};height:100%;width:${honorarios>0?Math.min(100,totalPagado/honorarios*100):0}%;border-radius:4px"></div>
+
+        <!-- Resumen económico -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Base minuta</div>
+            <div style="font-size:16px;font-weight:700;color:var(--text)">${fmtMoney(baseMinuta)}</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">IVA (21%)</div>
+            <div style="font-size:16px;font-weight:700;color:var(--orange)">${fmtMoney(ivaMinuta)}</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Total a facturar</div>
+            <div style="font-size:16px;font-weight:700;color:var(--accent)">${fmtMoney(totalFacturar)}</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Gastos suplidos</div>
+            <div style="font-size:16px;font-weight:700;color:var(--purple)">${fmtMoney(totalGastos)}</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Entregas recibidas</div>
+            <div style="font-size:16px;font-weight:700;color:var(--green)">${fmtMoney(totalEntregas)}</div>
+          </div>
+          <div style="background:${pendienteCobro>0?'var(--red-dim)':'var(--green-dim)'};border:1px solid ${pendienteCobro>0?'var(--red)':'var(--green)'};border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px">Pendiente cobro</div>
+            <div style="font-size:16px;font-weight:700;color:${pendienteCobro>0?'var(--red)':'var(--green)'}">${fmtMoney(pendienteCobro)}</div>
+          </div>
+        </div>`;
+
+      // Barra de progreso cobro
+      if(totalFacturar>0){
+        const pct = Math.min(100, totalEntregas/totalFacturar*100);
+        h+=`<div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden;margin-bottom:14px">
+          <div style="background:${pendienteCobro<=0?'var(--green)':'var(--accent)'};height:100%;width:${pct}%;border-radius:4px;transition:width 0.3s"></div>
         </div>`;
       }
-      if(pagosExp.length){
-        h+=`<table style="width:100%;font-size:12px"><thead><tr>
-          <th style="padding:6px 8px;background:var(--surface3)">Fecha</th>
-          <th style="padding:6px 8px;background:var(--surface3)">Tipo</th>
-          <th style="padding:6px 8px;background:var(--surface3)">Importe</th>
-          <th style="padding:6px 8px;background:var(--surface3)">Forma</th>
-          <th style="padding:6px 8px;background:var(--surface3)">Concepto</th>
-          <th style="padding:6px 8px;background:var(--surface3)">Acc.</th>
-        </tr></thead><tbody>`;
-        pagosExp.forEach(p=>{
-          h+=`<tr><td style="padding:6px 8px">${fmtDate(p.fecha)}</td>
-            <td style="padding:6px 8px"><span class="badge ${p.tipo==='Provisión de fondos'?'badge-sent':'badge-active'}">${p.tipo}</span></td>
-            <td style="padding:6px 8px;font-weight:600">${fmtMoney(p.importe)}</td>
-            <td style="padding:6px 8px">${p.forma||'-'}</td>
-            <td style="padding:6px 8px">${p.concepto||'-'}</td>
-            <td style="padding:6px 8px"><button class="btn btn-danger btn-small" onclick="deletePago('${p.id}','${c.id}')" style="padding:2px 8px;font-size:11px">🗑️</button></td>
+
+      // Detalle minuta
+      if(minuta){
+        h+=`<div style="margin-bottom:12px">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">📋 Detalle de minuta</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:12px">`;
+        const conceptos={estudio:'Estudio/Consulta',escritos:'Escritos',vistas:'Vistas',recursos:'Recursos',gestiones:'Gestiones',otros:'Otros'};
+        Object.entries(conceptos).forEach(([k,v])=>{
+          const val=parseFloat(minuta[k]||0);
+          if(val>0) h+=`<span style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:3px 10px">${v}: <strong>${fmtMoney(val)}</strong></span>`;
+        });
+        h+=`</div>`;
+        if(minuta.obs) h+=`<div style="font-size:12px;color:var(--text-dim);margin-top:6px;font-style:italic">${minuta.obs}</div>`;
+        h+=`</div>`;
+      }
+
+      // Tabla gastos suplidos
+      if(gastosExp.length){
+        h+=`<div style="margin-bottom:12px">
+          <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">💸 Gastos suplidos</div>
+          <table style="width:100%;font-size:12px;border-collapse:collapse">
+          <thead><tr>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Fecha gasto</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Tipo</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Concepto</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Destinatario</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:right">Importe</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Estado pago</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Fecha pago</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Forma</th>
+            <th style="padding:5px 8px;background:var(--surface3)"></th>
+          </tr></thead><tbody>`;
+        gastosExp.forEach(g=>{
+          const estadoBadge = g.estado==='pagado'
+            ? `<span class="badge badge-active">✅ Pagado</span>`
+            : `<span class="badge badge-pending">⏳ Pendiente</span>`;
+          h+=`<tr>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border)">${fmtDate(g.fecha)}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border)"><span class="badge badge-received">${g.tipo}</span></td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border)">${g.concepto}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border);color:var(--text-dim)">${g.destinatario||'-'}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border);text-align:right;font-weight:600">${fmtMoney(g.importe)}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border)">${estadoBadge}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border);color:var(--text-dim)">${g.fechaPago?fmtDate(g.fechaPago):'-'}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border);color:var(--text-dim)">${g.forma||'-'}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border);white-space:nowrap">
+              ${g.estado!=='pagado'?`<button class="btn btn-primary btn-small" onclick="marcarGastoPagado('${g.id}','${c.id}')" style="padding:2px 6px;font-size:11px;margin-right:3px">✅</button>`:''}
+              <button class="btn btn-danger btn-small" onclick="deleteEconomico('gastos','${g.id}','${c.id}')" style="padding:2px 6px;font-size:11px">🗑️</button>
+            </td>
           </tr>`;
         });
-        h+=`</tbody></table>`;
-      } else {
-        h+=`<div style="text-align:center;padding:8px;color:var(--text-muted);font-size:12px">Sin pagos registrados</div>`;
+        h+=`</tbody></table></div>`;
       }
-      h+=`</div>`;
+
+      // Tabla entregas del cliente
+      if(entregasExp.length){
+        h+=`<div>
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">💰 Entregas del cliente</div>
+          <table style="width:100%;font-size:12px;border-collapse:collapse">
+          <thead><tr>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Fecha</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Tipo</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:right">Importe</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Forma</th>
+            <th style="padding:5px 8px;background:var(--surface3);text-align:left">Notas</th>
+            <th style="padding:5px 8px;background:var(--surface3)"></th>
+          </tr></thead><tbody>`;
+        entregasExp.forEach(e=>{
+          h+=`<tr>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border)">${fmtDate(e.fecha)}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border)"><span class="badge badge-active">${e.tipo}</span></td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border);text-align:right;font-weight:600;color:var(--green)">${fmtMoney(e.importe)}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border);color:var(--text-dim)">${e.forma||'-'}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border);color:var(--text-dim)">${e.notas||'-'}</td>
+            <td style="padding:5px 8px;border-bottom:1px solid var(--border)">
+              <button class="btn btn-danger btn-small" onclick="deleteEconomico('entregas','${e.id}','${c.id}')" style="padding:2px 6px;font-size:11px">🗑️</button>
+            </td>
+          </tr>`;
+        });
+        h+=`</tbody></table></div>`;
+      }
+
+      h+=`</div>`; // fin bloque expediente
     });
-  } else {
-    h+=`<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px">Este cliente no tiene expedientes asociados</div>`;
   }
+
+  // Expedientes enlazables
   if(exps.length){
     h+=`<div class="section-divider"></div><div class="section-title">📁 Expedientes (${exps.length})</div>`;
     h+=exps.map(e=>`<div style="padding:8px 12px;background:var(--surface2);border-radius:6px;margin-bottom:6px;cursor:pointer" onclick="closeModal('modal-detalle-cli');showExpDetail('${e.id}')">
       <strong style="color:var(--accent)">${e.numero}</strong> · ${e.asunto||'-'} · <span class="badge badge-active">${e.estado}</span></div>`).join('');
   }
+
   if(c.observaciones) h+=`<div class="section-divider"></div><div style="font-size:13px;color:var(--text-dim)">${c.observaciones}</div>`;
   document.getElementById('detalle-cli-content').innerHTML=h;
   openModal('modal-detalle-cli');
@@ -1533,39 +1728,135 @@ function updateClienteDatalist() {
   dl.innerHTML=D.clientes.map(c=>`<option value="${c.nombre}">`).join('');
 }
 
-function openNewPago(clienteId) {
-  document.getElementById('form-pago').reset();
-  document.getElementById('pago-edit-id').value='';
-  document.getElementById('pago-cliente-id').value=clienteId;
-  document.getElementById('pago-fecha').value=today();
-  const c=D.clientes.find(x=>x.id===clienteId);
-  const sel=document.getElementById('pago-expediente');
-  sel.innerHTML='<option value="">Seleccionar expediente...</option>';
-  if(c){ D.expedientes.filter(e=>e.cliente===c.nombre||e.dni===c.dni).forEach(e=>{ sel.innerHTML+=`<option value="${e.id}">${e.numero} — ${e.asunto||''}</option>`; }); }
-  openModal('modal-pago');
-}
-
-function savePago(e) {
-  e.preventDefault();
-  const id=document.getElementById('pago-edit-id').value;
-  const pago={
-    id: id||'PAG-'+Date.now(), clienteId: val('pago-cliente-id'), expedienteId: val('pago-expediente'),
-    fecha: val('pago-fecha'), tipo: val('pago-tipo'), importe: val('pago-importe'),
-    forma: val('pago-forma'), referencia: val('pago-referencia'), concepto: val('pago-concepto'),
-    createdAt: id?(D.pagos.find(x=>x.id===id)?.createdAt||new Date().toISOString()):new Date().toISOString()
-  };
-  if(id){const i=D.pagos.findIndex(x=>x.id===id);if(i>=0)D.pagos[i]=pago;}
-  else D.pagos.push(pago);
-  save(); closeModal('modal-pago'); showCliDetail(pago.clienteId); showToast('Pago registrado');
-}
-
-function deletePago(pagoId, clienteId) {
-  if(!confirm('¿Eliminar este pago?'))return;
-  D.pagos=D.pagos.filter(x=>x.id!==pagoId);
-  save(); showCliDetail(clienteId); showToast('Pago eliminado');
-}
+function openNewPago(clienteId) {} // mantenida por compatibilidad, ya no se usa
+function savePago(e) { e.preventDefault(); }
+function deletePago(id, cliId) {}
 
 function fmtMoney(n) { return (parseFloat(n)||0).toLocaleString('es-ES',{style:'currency',currency:'EUR'}); }
+
+// ======================== MINUTA ========================
+function calcMinuta() {
+  const campos=['min-estudio','min-escritos','min-vistas','min-recursos','min-gestiones','min-otros'];
+  const base=campos.reduce((s,id)=>s+(parseFloat(document.getElementById(id)?.value)||0),0);
+  const iva=base*0.21;
+  document.getElementById('min-base').textContent=fmtMoney(base);
+  document.getElementById('min-iva').textContent=fmtMoney(iva);
+  document.getElementById('min-total').textContent=fmtMoney(base+iva);
+}
+
+function openMinuta(expId, cliId) {
+  document.getElementById('form-minuta').reset();
+  document.getElementById('minuta-exp-id').value=expId;
+  document.getElementById('minuta-cli-id').value=cliId;
+  // Cargar datos existentes si los hay
+  const m=D.minutas.find(x=>x.expedienteId===expId);
+  if(m){
+    ['estudio','escritos','vistas','recursos','gestiones','otros'].forEach(k=>{
+      const el=document.getElementById('min-'+k); if(el) el.value=m[k]||0;
+    });
+    document.getElementById('min-obs').value=m.obs||'';
+  }
+  calcMinuta();
+  openModal('modal-minuta');
+}
+
+function saveMinuta(e) {
+  e.preventDefault();
+  const expId=val('minuta-exp-id'), cliId=val('minuta-cli-id');
+  const minuta={
+    id: (D.minutas.find(x=>x.expedienteId===expId)?.id)||'MIN-'+Date.now(),
+    expedienteId: expId, clienteId: cliId,
+    estudio: val('min-estudio')||'0', escritos: val('min-escritos')||'0',
+    vistas: val('min-vistas')||'0', recursos: val('min-recursos')||'0',
+    gestiones: val('min-gestiones')||'0', otros: val('min-otros')||'0',
+    obs: val('min-obs'),
+    updatedAt: new Date().toISOString()
+  };
+  const i=D.minutas.findIndex(x=>x.expedienteId===expId);
+  if(i>=0) D.minutas[i]=minuta; else D.minutas.push(minuta);
+  save(); closeModal('modal-minuta'); showCliDetail(cliId); showToast('Minuta guardada');
+}
+
+// ======================== GASTOS ========================
+function toggleFechaPago() {
+  const pagado = document.getElementById('gasto-estado').value === 'pagado';
+  document.getElementById('gasto-fecha-pago-group').style.display = pagado ? 'block' : 'none';
+  document.getElementById('gasto-forma-group').style.display = pagado ? 'block' : 'none';
+  if(pagado && !document.getElementById('gasto-fecha-pago').value) {
+    document.getElementById('gasto-fecha-pago').value = today();
+  }
+}
+
+function openGasto(expId, cliId) {
+  document.getElementById('form-gasto').reset();
+  document.getElementById('gasto-id').value='';
+  document.getElementById('gasto-exp-id').value=expId;
+  document.getElementById('gasto-cli-id').value=cliId;
+  document.getElementById('gasto-fecha').value=today();
+  document.getElementById('gasto-estado').value='pendiente';
+  document.getElementById('gasto-fecha-pago-group').style.display='none';
+  document.getElementById('gasto-forma-group').style.display='none';
+  openModal('modal-gasto');
+}
+
+function saveGasto(e) {
+  e.preventDefault();
+  const id=val('gasto-id'), cliId=val('gasto-cli-id');
+  const gasto={
+    id: id||'GAS-'+Date.now(),
+    expedienteId: val('gasto-exp-id'), clienteId: cliId,
+    fecha: val('gasto-fecha'), tipo: val('gasto-tipo'),
+    concepto: val('gasto-concepto'), importe: val('gasto-importe'),
+    destinatario: val('gasto-destinatario'),
+    pagadopor: val('gasto-pagadopor'),
+    estado: val('gasto-estado'),
+    fechaPago: val('gasto-fecha-pago')||'',
+    forma: val('gasto-forma')||'',
+    createdAt: id?(D.gastos.find(x=>x.id===id)?.createdAt||new Date().toISOString()):new Date().toISOString()
+  };
+  if(id){const i=D.gastos.findIndex(x=>x.id===id);if(i>=0)D.gastos[i]=gasto;}
+  else D.gastos.push(gasto);
+  save(); closeModal('modal-gasto'); showCliDetail(cliId); showToast('Gasto registrado');
+}
+
+function marcarGastoPagado(gastoId, cliId) {
+  const g=D.gastos.find(x=>x.id===gastoId); if(!g)return;
+  g.estado='pagado';
+  g.fechaPago=today();
+  save(); showCliDetail(cliId); showToast('Gasto marcado como pagado');
+}
+
+// ======================== ENTREGAS ========================
+function openEntrega(expId, cliId) {
+  document.getElementById('form-entrega').reset();
+  document.getElementById('entrega-id').value='';
+  document.getElementById('entrega-exp-id').value=expId;
+  document.getElementById('entrega-cli-id').value=cliId;
+  document.getElementById('entrega-fecha').value=today();
+  openModal('modal-entrega');
+}
+
+function saveEntrega(e) {
+  e.preventDefault();
+  const id=val('entrega-id'), cliId=val('entrega-cli-id');
+  const entrega={
+    id: id||'ENT-'+Date.now(),
+    expedienteId: val('entrega-exp-id'), clienteId: cliId,
+    fecha: val('entrega-fecha'), tipo: val('entrega-tipo'),
+    importe: val('entrega-importe'), forma: val('entrega-forma'),
+    notas: val('entrega-notas'),
+    createdAt: id?(D.entregas.find(x=>x.id===id)?.createdAt||new Date().toISOString()):new Date().toISOString()
+  };
+  if(id){const i=D.entregas.findIndex(x=>x.id===id);if(i>=0)D.entregas[i]=entrega;}
+  else D.entregas.push(entrega);
+  save(); closeModal('modal-entrega'); showCliDetail(cliId); showToast('Entrega registrada');
+}
+
+function deleteEconomico(coleccion, id, cliId) {
+  if(!confirm('¿Eliminar este registro?')) return;
+  D[coleccion]=D[coleccion].filter(x=>x.id!==id);
+  save(); showCliDetail(cliId); showToast('Eliminado');
+}
 
 function openEncargo(clienteId) {
   const c=D.clientes.find(x=>x.id===clienteId); if(!c)return;
@@ -1639,7 +1930,7 @@ const SHEETS_URL = () => D.config.sheetsUrl;
 
 async function syncToSheets(silent) {
   if(!SHEETS_URL()) return;
-  const totalRegistros = D.expedientes.length + D.documentos.length + D.clientes.length + D.contactos.length + D.pagos.length;
+  const totalRegistros = D.expedientes.length + D.documentos.length + D.clientes.length + D.contactos.length + D.minutas.length + D.gastos.length + D.entregas.length;
   if (totalRegistros === 0) {
     console.warn('⛔ Subida cancelada: datos vacíos.');
     return;
@@ -1652,7 +1943,9 @@ async function syncToSheets(silent) {
       DocumentosJ: toRows(D.documentos, ['id','expedienteId','fecha','tipo','via','descripcion','detalle','archivo','generaPlazo','plazoDesc','plazoFecha','plazoEstado','createdAt']),
       ClientesJ: toRows(D.clientes, ['id','nombre','dni','telefono','telefono2','email','nacimiento','nacionalidad','estadoCivil','direccion','cp','localidad','provincia','razonSocial','cifFact','dirFact','iban','formaPago','observaciones','createdAt']),
       ContactosJ: toRows(D.contactos, ['id','nombre','tipo','telefono','telefono2','email','colegiado','despacho','direccion','notas','createdAt']),
-      PagosJ: toRows(D.pagos, ['id','clienteId','expedienteId','fecha','tipo','importe','forma','referencia','concepto','createdAt'])
+      MinutasJ: toRows(D.minutas, ['id','expedienteId','clienteId','estudio','escritos','vistas','recursos','gestiones','otros','obs','updatedAt']),
+      GastosJ: toRows(D.gastos, ['id','expedienteId','clienteId','fecha','tipo','concepto','importe','destinatario','pagadopor','estado','fechaPago','forma','createdAt']),
+      EntregasJ: toRows(D.entregas, ['id','expedienteId','clienteId','fecha','tipo','importe','forma','notas','createdAt'])
     };
     let ok=0;
     for(const [hoja, datos] of Object.entries(hojas)){
@@ -1662,7 +1955,7 @@ async function syncToSheets(silent) {
       } catch(err) { console.error('Error subiendo '+hoja, err); }
     }
     st.textContent='☁️ '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
-    if(!silent) showToast(ok+'/5 hojas subidas a Google Sheets');
+    if(!silent) showToast(ok+'/7 hojas subidas a Google Sheets');
   } catch(e) { st.textContent='❌ Error'; if(!silent) showToast('Error: '+e.message,'error'); }
 }
 
@@ -1671,7 +1964,10 @@ async function syncFromSheets(silent) {
   const st=document.getElementById('sync-status');
   st.textContent='⬇️ Cargando...';
   try {
-    const hojas = {expedientes:'ExpedientesJ',documentos:'DocumentosJ',clientes:'ClientesJ',contactos:'ContactosJ',pagos:'PagosJ'};
+    const hojas = {
+      expedientes:'ExpedientesJ', documentos:'DocumentosJ', clientes:'ClientesJ',
+      contactos:'ContactosJ', minutas:'MinutasJ', gastos:'GastosJ', entregas:'EntregasJ'
+    };
     for(const [key, hoja] of Object.entries(hojas)){
       try {
         const r=await fetch(SHEETS_URL()+'?action=leer&hoja='+hoja);
