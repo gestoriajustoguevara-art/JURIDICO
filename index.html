@@ -1968,10 +1968,13 @@ async function syncFromSheets(silent) {
       expedientes:'ExpedientesJ', documentos:'DocumentosJ', clientes:'ClientesJ',
       contactos:'ContactosJ', minutas:'MinutasJ', gastos:'GastosJ', entregas:'EntregasJ'
     };
-    for(const [key, hoja] of Object.entries(hojas)){
+
+    // Cargar todas las hojas en paralelo
+    const entradas = Object.entries(hojas);
+    await Promise.all(entradas.map(async ([key, hoja]) => {
       try {
-        const r=await fetch(SHEETS_URL()+'?action=leer&hoja='+hoja);
-        const j=await r.json();
+        const r = await fetch(SHEETS_URL()+'?action=leer&hoja='+hoja);
+        const j = await r.json();
         if(j.success && j.datos && j.datos.length>1){
           const headers=j.datos[0];
           D[key]=j.datos.slice(1).map(row=>{
@@ -1982,7 +1985,8 @@ async function syncFromSheets(silent) {
           }).filter(obj=>obj.id);
         }
       } catch(err) { console.error('Error leyendo '+hoja, err); }
-    }
+    }));
+
     _syncEnabled = false;
     localStorage.setItem(LS_KEY, JSON.stringify(D));
     _syncEnabled = true;
