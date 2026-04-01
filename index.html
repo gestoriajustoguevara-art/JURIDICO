@@ -586,6 +586,7 @@ tbody tr:hover { background: var(--accent-light); }
         <option value="Documentación cliente">Doc. cliente</option>
       </select>
       <select id="doc-filter-exp" onchange="renderDocumentos()"></select>
+      <button class="btn btn-secondary" onclick="mostrarAyudaDocumentos()" title="Cómo archivar documentos">❓ Ayuda</button>
       <button class="btn btn-primary" onclick="openNewDocumento()">+ Registrar documento</button>
     </div>
     <div class="card"><div class="table-wrap"><table>
@@ -707,9 +708,9 @@ tbody tr:hover { background: var(--accent-light); }
     <input type="hidden" id="doc-edit-id">
     <div class="form-grid">
       <div class="form-group"><label>Expediente *</label><select id="doc-expediente" required></select></div>
-      <div class="form-group"><label>Fecha *</label><input type="date" id="doc-fecha" required></div>
+      <div class="form-group"><label>Fecha *</label><input type="date" id="doc-fecha" required oninput="generarNombreDoc()"></div>
       <div class="form-group"><label>Tipo de documento *</label>
-        <select id="doc-tipo" required><option value="">Seleccionar...</option>
+        <select id="doc-tipo" required onchange="generarNombreDoc()"><option value="">Seleccionar...</option>
           <option value="Escrito presentado">📤 Escrito presentado por nosotros</option>
           <option value="Notificación LexNET">📩 Notificación del juzgado (LexNET)</option>
           <option value="Escrito parte contraria">⚔️ Escrito de la parte contraria</option>
@@ -719,7 +720,7 @@ tbody tr:hover { background: var(--accent-light); }
       <div class="form-group"><label>Vía</label>
         <select id="doc-via"><option value="">Seleccionar...</option><option>LexNET</option><option>Email</option><option>Correo postal</option><option>En mano</option><option>Sede electrónica</option><option>Fax</option></select>
       </div>
-      <div class="form-group full-width"><label>Descripción *</label><input type="text" id="doc-descripcion" required placeholder="Ej: Providencia admitiendo la demanda"></div>
+      <div class="form-group full-width"><label>Descripción *</label><input type="text" id="doc-descripcion" required placeholder="Ej: Providencia admitiendo la demanda" oninput="generarNombreDoc()"></div>
       <div class="form-group full-width"><label>Detalle / Observaciones</label><textarea id="doc-detalle"></textarea></div>
       <div class="form-group full-width">
         <div class="plazo-toggle">
@@ -731,7 +732,14 @@ tbody tr:hover { background: var(--accent-light); }
           <div class="form-group"><label>Fecha límite</label><input type="date" id="doc-plazo-fecha"></div>
         </div>
       </div>
-      <div class="form-group full-width"><label>Nombre del archivo</label><input type="text" id="doc-archivo" placeholder="notificacion_vista.pdf"></div>
+      <div class="form-group full-width">
+        <label>Nombre del archivo <span style="color:var(--text-muted);font-weight:400;font-size:10px">(se genera automáticamente, puedes editarlo)</span></label>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="text" id="doc-archivo" placeholder="Se genera al rellenar fecha, tipo y descripción" style="flex:1" oninput="this.dataset.autoGenerado='false'">
+          <button type="button" class="btn btn-secondary btn-small" onclick="copiarNombreDoc()" title="Copiar nombre al portapapeles">📋</button>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px">💡 Copia el nombre, ve a la carpeta del expediente y renombra el archivo</div>
+      </div>
     </div>
     <div class="btn-row">
       <button type="button" class="btn btn-secondary" onclick="closeModal('modal-documento')">Cancelar</button>
@@ -822,7 +830,50 @@ tbody tr:hover { background: var(--accent-light); }
 </div></div>
 
 <!-- MODAL: NUEVO PAGO -->
-<!-- MODAL: MINUTA -->
+<!-- MODAL: AYUDA DOCUMENTOS -->
+<div class="modal-overlay" id="modal-ayuda-docs">
+<div class="modal" style="max-width:580px">
+  <div class="modal-title"><span>📂 Cómo archivar documentos</span><button class="modal-close" onclick="closeModal('modal-ayuda-docs')">&times;</button></div>
+  <div style="font-size:14px;line-height:1.8;color:var(--text)">
+
+    <div style="background:var(--accent-light);border-left:4px solid var(--accent);border-radius:6px;padding:14px 16px;margin-bottom:20px">
+      <strong>El objetivo:</strong> que cada documento físico en tu ordenador tenga el mismo nombre que aparece en la app, y esté en la carpeta correcta del expediente.
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-weight:700;color:var(--accent);margin-bottom:6px">1️⃣ Ir a la carpeta del expediente</div>
+      <div style="color:var(--text-dim)">En la pestaña <strong>📁 Expedientes</strong>, pulsa el botón <strong>📂</strong> de la fila del expediente. Se copiará la ruta al portapapeles.</div>
+      <div style="background:var(--surface2);border-radius:6px;padding:8px 12px;margin-top:6px;font-family:monospace;font-size:12px;color:var(--text-dim)">
+        Abre el Explorador de Windows → haz clic en la barra de direcciones → Ctrl+V → Enter
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-weight:700;color:var(--accent);margin-bottom:6px">2️⃣ Guardar el documento en esa carpeta</div>
+      <div style="color:var(--text-dim)">Descarga o mueve el documento (PDF, Word...) a la carpeta del expediente.</div>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-weight:700;color:var(--accent);margin-bottom:6px">3️⃣ Registrar el documento en la app</div>
+      <div style="color:var(--text-dim)">Pulsa <strong>+ Registrar documento</strong>. Al rellenar fecha, tipo y descripción, el nombre se genera automáticamente:</div>
+      <div style="background:var(--surface2);border-radius:6px;padding:8px 12px;margin-top:6px;font-family:monospace;font-size:12px;color:var(--accent)">
+        2026-04-01_Notificacion_Providencia admitiendo demanda.pdf
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-weight:700;color:var(--accent);margin-bottom:6px">4️⃣ Renombrar el archivo</div>
+      <div style="color:var(--text-dim)">En el campo <em>Nombre del archivo</em>, pulsa <strong>📋</strong> para copiar el nombre generado. Vuelve al Explorador, selecciona el archivo, pulsa <strong>F2</strong> y <strong>Ctrl+V</strong>.</div>
+    </div>
+
+    <div style="background:var(--green-dim);border-radius:6px;padding:12px 16px;font-size:13px;color:var(--green)">
+      ✅ <strong>Resultado:</strong> el documento en tu ordenador tiene el mismo nombre que en la app. Cuando busques un expediente, sabrás exactamente cómo se llama el archivo en la carpeta.
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="closeModal('modal-ayuda-docs')">Entendido</button>
+  </div>
+</div></div>
 <div class="modal-overlay" id="modal-minuta">
 <div class="modal" style="max-width:620px">
   <div class="modal-title"><span>📋 Minuta de honorarios</span><button class="modal-close" onclick="closeModal('modal-minuta')">&times;</button></div>
@@ -1074,6 +1125,7 @@ function openNewDocumento(expId) {
   document.getElementById('doc-edit-id').value = '';
   document.getElementById('plazo-fields').classList.remove('visible');
   document.getElementById('doc-fecha').value = today();
+  document.getElementById('doc-archivo').dataset.autoGenerado = 'false';
   populateExpSelect('doc-expediente');
   if(expId) document.getElementById('doc-expediente').value = expId;
   openModal('modal-documento');
@@ -1929,6 +1981,49 @@ function generateEncargo(e) {
   a.click(); URL.revokeObjectURL(url);
   closeModal('modal-encargo');
   showToast('Encargo generado. Ábrelo y usa Imprimir → PDF');
+}
+
+function mostrarAyudaDocumentos() { openModal('modal-ayuda-docs'); }
+
+// ======================== NOMBRE AUTOMÁTICO DOCUMENTO ========================
+const TIPO_CORTO = {
+  'Escrito presentado': 'Escrito',
+  'Notificación LexNET': 'Notificacion',
+  'Escrito parte contraria': 'EscritoContrario',
+  'Documentación cliente': 'DocCliente'
+};
+
+function generarNombreDoc() {
+  const fecha = document.getElementById('doc-fecha').value;
+  const tipo = document.getElementById('doc-tipo').value;
+  const desc = document.getElementById('doc-descripcion').value.trim();
+
+  if (!fecha || !tipo || !desc) return;
+
+  const tipoCorto = TIPO_CORTO[tipo] || tipo.replace(/\s+/g,'');
+  const descLimpia = desc
+    .replace(/[<>:"/\\|?*]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .substring(0, 60);
+
+  const nombre = `${fecha}_${tipoCorto}_${descLimpia}.pdf`;
+  const campo = document.getElementById('doc-archivo');
+  // Solo sobreescribir si está vacío o fue generado automáticamente (contiene _ y .pdf)
+  if (!campo.value || campo.dataset.autoGenerado === 'true') {
+    campo.value = nombre;
+    campo.dataset.autoGenerado = 'true';
+  }
+}
+
+function copiarNombreDoc() {
+  const nombre = document.getElementById('doc-archivo').value;
+  if (!nombre) { showToast('Primero rellena fecha, tipo y descripción', 'error'); return; }
+  navigator.clipboard.writeText(nombre).then(() => {
+    showToast('📋 Nombre copiado — pégalo para renombrar el archivo', 'info');
+  }).catch(() => {
+    prompt('Copia este nombre para renombrar el archivo:', nombre);
+  });
 }
 
 // ======================== RUTAS DE CARPETAS ========================
