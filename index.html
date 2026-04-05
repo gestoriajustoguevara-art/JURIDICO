@@ -783,7 +783,10 @@ tbody tr:hover { background: var(--accent-light); }
     <div class="form-grid">
       <div class="form-section">Datos personales</div>
       <div class="form-group"><label>Nombre completo *</label><input type="text" id="cli-nombre" required></div>
-      <div class="form-group"><label>DNI / NIE / CIF *</label><input type="text" id="cli-dni" required></div>
+      <div class="form-group"><label>DNI / NIE / CIF *</label><input type="text" id="cli-dni" required oninput="this.value=this.value.toUpperCase().replace(/-/g,'')">
+        <button type="button" class="btn btn-secondary btn-small" style="margin-top:4px;font-size:11px" onclick="rellenarDesdeMaestroJU()">🔍 Buscar en ClientesMAESTRO</button>
+        <span id="maestro-status-ju" style="font-size:11px;margin-left:8px"></span>
+      </div>
       <div class="form-group"><label>Teléfono</label><input type="text" id="cli-telefono"></div>
       <div class="form-group"><label>Teléfono 2</label><input type="text" id="cli-telefono2"></div>
       <div class="form-group"><label>Email</label><input type="email" id="cli-email"></div>
@@ -1071,61 +1074,7 @@ function saveDocumento(e) {
   else D.documentos.push(doc);
   save(); closeModal('modal-documento'); renderAll();
   showToast(id ? 'Documento actualizado' : 'Documento registrado');
-  if(doc.generaPlazo && doc.plazoFecha) enviarVtoPlazo(doc);
-}
-
-// ======================== VENCIMIENTOS CENTRALES ========================
-const URL_VTO_JUR = 'https://script.google.com/macros/s/AKfycbzSpWjKLGxRp4CR4miJk4uP7b6CNmmToqGrleJXbEtQX9T6BdRyLkMReE5lBGxVk5i9SA/exec';
-
-function enviarVtoJuridico(exp) {
-  const estadosCerrados = ['finalizado','archivado','cerrado','desistido'];
-  const cerrado = estadosCerrados.includes((exp.estado||'').toLowerCase());
-
-  if (!cerrado && exp.fechaVista) {
-    const hora = exp.horaVista ? ' · ' + exp.horaVista : '';
-    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
-      action:'upsert', app:'Jurídico',
-      expediente: exp.numero || exp.id,
-      cliente: exp.cliente,
-      fecha: exp.fechaVista,
-      tipo: 'Vista oral',
-      observaciones: (exp.juzgado||'') + hora,
-      estado: 'Pendiente'
-    })});
-  }
-
-  if (cerrado) {
-    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
-      action:'completar', app:'Jurídico',
-      expediente: exp.numero || exp.id,
-      tipo: 'Vista oral'
-    })});
-  }
-}
-
-function enviarVtoPlazo(doc) {
-  const exp = D.expedientes.find(x => x.id === doc.expedienteId);
-  const numExp = exp ? (exp.numero || exp.id) : doc.expedienteId;
-  const cliente = exp ? exp.cliente : '—';
-
-  if (doc.plazoEstado === 'completado') {
-    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
-      action:'completar', app:'Jurídico',
-      expediente: numExp,
-      tipo: doc.plazoDesc || 'Plazo presentación'
-    })});
-    return;
-  }
-
-  fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
-    action:'upsert', app:'Jurídico',
-    expediente: numExp,
-    cliente: cliente,
-    fecha: doc.plazoFecha,
-    tipo: doc.plazoDesc || 'Plazo presentación',
-    observaciones: doc.descripcion || '',
-    estado: 'Pendiente'
-  })});
+  if (doc.generaPlazo && doc.plazoFecha) enviarVtoPlazo(doc);
 }
 
 // ======================== SAVE CLIENTE ========================
@@ -1146,6 +1095,27 @@ function saveCliente(e) {
   else D.clientes.push(cli);
   save(); closeModal('modal-cliente'); renderAll();
   showToast(id ? 'Cliente actualizado' : 'Cliente creado');
+  // ── ClientesMAESTRO ──────────────────────────────────────
+  if (cli.dni || cli.nombre) {
+    const partes = (cli.nombre||'').trim().split(/\s+/);
+    guardarEnMaestro({
+      DNI_NIE:    (cli.dni||'').toUpperCase().replace(/-/g,''),
+      Nombre:     partes[0] || '',
+      Apellido1:  partes[1] || '',
+      Apellido2:  partes[2] || '',
+      Telefono1:  cli.telefono  || '',
+      Telefono2:  cli.telefono2 || '',
+      Email:      cli.email     || '',
+      Fecha_Nacimiento: cli.nacimiento   || '',
+      Nacionalidad:     cli.nacionalidad || '',
+      Municipio:  cli.localidad || '',
+      Provincia:  cli.provincia || '',
+      CP:         cli.cp        || '',
+      Tipo:       cli.razonSocial ? 'juridica' : 'fisica',
+      Razon_Social: cli.razonSocial || '',
+      CIF:          cli.cifFact    || ''
+    });
+  }
 }
 
 // ======================== SAVE CONTACTO ========================
@@ -1925,6 +1895,89 @@ function toRows(arr, keys) {
 
 // ======================== START ========================
 init();
+
+// ═══ CLIENTESMAESTRO ══════════════════════════════════════════════════════
+const URL_MAESTRO = 'https://script.google.com/macros/s/AKfycbyVXypuTXm5tRvbP-xJu06q7ZsJ2qve790lCyvBLJpr6jTckZhc6wZ4kX5XPhVOWCVrww/exec';
+
+// ═══ VENCIMIENTOS CENTRALES ════════════════════════════════════════════════
+const URL_VTO_JUR = 'https://script.google.com/macros/s/AKfycbzSpWjKLGxRp4CR4miJk4uP7b6CNmmToqGrleJXbEtQX9T6BdRyLkMReE5lBGxVk5i9SA/exec';
+
+function enviarVtoJuridico(exp) {
+  const cerrado = ['archivado','cerrado','desistido','finalizado'].includes((exp.estado||'').toLowerCase());
+  if (!cerrado && exp.fechaVista) {
+    const hora = exp.horaVista ? ' · ' + exp.horaVista : '';
+    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
+      action:'upsert', app:'Jurídico',
+      expediente: exp.numero||exp.id, cliente: exp.cliente,
+      fecha: exp.fechaVista, tipo: 'Vista oral',
+      observaciones: (exp.juzgado||'') + hora, estado:'Pendiente'
+    })});
+  }
+  if (cerrado) {
+    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
+      action:'completar', app:'Jurídico', expediente: exp.numero||exp.id, tipo:'Vista oral'
+    })});
+  }
+}
+
+function enviarVtoPlazo(doc) {
+  const exp = D.expedientes.find(x => x.id === doc.expedienteId);
+  const numExp = exp ? (exp.numero||exp.id) : doc.expedienteId;
+  const cliente = exp ? exp.cliente : '—';
+  if (doc.plazoEstado === 'cumplido') {
+    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
+      action:'completar', app:'Jurídico', expediente: numExp, tipo: doc.plazoDesc||'Plazo presentación'
+    })});
+    return;
+  }
+  if (doc.plazoFecha) {
+    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
+      action:'upsert', app:'Jurídico',
+      expediente: numExp, cliente: cliente,
+      fecha: doc.plazoFecha, tipo: doc.plazoDesc||'Plazo presentación',
+      observaciones: doc.descripcion||'', estado:'Pendiente'
+    })});
+  }
+}
+
+function guardarEnMaestro(datos) {
+  if (!datos.DNI_NIE || !datos.Nombre) return;
+  fetch(URL_MAESTRO, { method:'POST', mode:'no-cors', body: JSON.stringify({ action:'upsert', datos }) });
+}
+
+async function buscarEnMaestro(dni) {
+  if (!dni || dni.length < 7) return null;
+  try {
+    const r = await fetch(URL_MAESTRO + '?action=buscar&dni=' + encodeURIComponent(dni.toUpperCase().replace(/-/g,'')));
+    const d = await r.json();
+    if (d && d.encontrado) return d.cliente;
+  } catch(e) {}
+  return null;
+}
+
+async function rellenarDesdeMaestroJU() {
+  const dni = document.getElementById('cli-dni').value.trim();
+  const st  = document.getElementById('maestro-status-ju');
+  if (!dni || dni.length < 7) { if(st) st.textContent = '⚠ Escribe el DNI primero'; return; }
+  if(st) st.textContent = '🔍 Buscando...';
+  const cli = await buscarEnMaestro(dni);
+  if (!cli) { if(st) st.textContent = '❌ No encontrado en Maestro'; return; }
+  // Rellenar campos del formulario con lo que venga, sin sobreescribir si ya hay dato
+  const set = (id, val) => { const el = document.getElementById(id); if(el && !el.value && val) el.value = val; };
+  // Nombre: Maestro guarda Nombre+Apellido1+Apellido2 por separado → unir para el campo nombre del Jurídico
+  const nombreCompleto = [cli.Nombre, cli.Apellido1, cli.Apellido2].filter(Boolean).join(' ');
+  set('cli-nombre',        nombreCompleto);
+  set('cli-telefono',      cli.Telefono1 || '');
+  set('cli-telefono2',     cli.Telefono2 || '');
+  set('cli-email',         cli.Email     || '');
+  set('cli-nacimiento',    cli.Fecha_Nacimiento || '');
+  set('cli-nacionalidad',  cli.Nacionalidad     || '');
+  set('cli-localidad',     cli.Municipio        || '');
+  set('cli-provincia',     cli.Provincia        || '');
+  set('cli-cp',            cli.CP               || '');
+  set('cli-razon-social',  cli.Razon_Social     || '');
+  if(st) st.textContent = '✅ Datos cargados desde Maestro';
+}
 </script>
 </body>
 </html>
