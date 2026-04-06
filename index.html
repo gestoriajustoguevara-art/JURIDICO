@@ -1962,20 +1962,22 @@ async function rellenarDesdeMaestroJU() {
   if(st) st.textContent = '🔍 Buscando...';
   const cli = await buscarEnMaestro(dni);
   if (!cli) { if(st) st.textContent = '❌ No encontrado en Maestro'; return; }
-  // Rellenar campos del formulario con lo que venga, sin sobreescribir si ya hay dato
-  const set = (id, val) => { const el = document.getElementById(id); if(el && !el.value && val) el.value = val; };
-  // Nombre: Maestro guarda Nombre+Apellido1+Apellido2 por separado → unir para el campo nombre del Jurídico
-  const nombreCompleto = [cli.Nombre, cli.Apellido1, cli.Apellido2].filter(Boolean).join(' ');
-  set('cli-nombre',        nombreCompleto);
-  set('cli-telefono',      cli.Telefono1 || '');
-  set('cli-telefono2',     cli.Telefono2 || '');
-  set('cli-email',         cli.Email     || '');
-  set('cli-nacimiento',    cli.Fecha_Nacimiento || '');
-  set('cli-nacionalidad',  cli.Nacionalidad     || '');
-  set('cli-localidad',     cli.Municipio        || '');
-  set('cli-provincia',     cli.Provincia        || '');
-  set('cli-cp',            cli.CP               || '');
-  set('cli-razon-social',  cli.Razon_Social     || '');
+  const set = (id, val) => { const el = document.getElementById(id); if(el && val) el.value = val; };
+  const nombreCompleto = cli.Razon_Social || [cli.Nombre, cli.Apellido1, cli.Apellido2].filter(Boolean).join(' ');
+  set('cli-nombre',       nombreCompleto);
+  set('cli-telefono',     cli.Telefono1 || '');
+  set('cli-telefono2',    cli.Telefono2 || '');
+  set('cli-email',        cli.Email     || '');
+  set('cli-nacimiento',   cli.Fecha_Nacimiento || '');
+  set('cli-nacionalidad', cli.Nacionalidad     || '');
+  set('cli-localidad',    cli.Municipio        || '');
+  set('cli-provincia',    cli.Provincia        || '');
+  set('cli-cp',           cli.CP               || '');
+  set('cli-razon-social', cli.Razon_Social     || '');
+  set('cli-cif-fact',     cli.CIF              || '');
+  // Dirección completa: Tipo_Via + Nombre_Via + Numero + Piso
+  const dir = [cli.Tipo_Via, cli.Nombre_Via, cli.Numero, cli.Piso].filter(v => v && v !== 'None').join(' ');
+  set('cli-direccion', dir);
   if(st) st.textContent = '✅ Datos cargados desde Maestro';
 }
 </script>
