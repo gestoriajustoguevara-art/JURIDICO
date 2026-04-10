@@ -44,7 +44,6 @@ body {
   min-height: 100vh;
 }
 
-/* HEADER */
 .header {
   background: var(--accent);
   padding: 14px 32px;
@@ -96,7 +95,6 @@ body {
 
 .header-btn:hover { background: rgba(255,255,255,0.25); }
 
-/* NAV TABS */
 .nav {
   display: flex;
   gap: 2px;
@@ -122,13 +120,11 @@ body {
 .nav-tab:hover { color: var(--text); }
 .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
 
-/* MAIN */
 .main { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
 
 .panel { display: none; }
 .panel.active { display: block; }
 
-/* CARDS */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -148,7 +144,6 @@ body {
   color: var(--text);
 }
 
-/* STATS */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -180,7 +175,6 @@ body {
   letter-spacing: 1px;
 }
 
-/* ALERTS */
 .alerts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -218,7 +212,6 @@ body {
 .alert-card.warning .days-left { background: var(--orange-dim); color: var(--orange); }
 .alert-card.ok .days-left { background: var(--green-dim); color: var(--green); }
 
-/* FORMS */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .form-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
 .form-group { display: flex; flex-direction: column; gap: 5px; }
@@ -255,7 +248,6 @@ body {
 
 .form-group textarea { resize: vertical; min-height: 70px; }
 
-/* SECTION HEADER IN FORMS */
 .form-section {
   grid-column: 1 / -1;
   font-size: 13px;
@@ -268,7 +260,6 @@ body {
   margin-top: 8px;
 }
 
-/* BUTTONS */
 .btn {
   padding: 10px 22px;
   border-radius: 8px;
@@ -292,7 +283,6 @@ body {
 .btn-small { padding: 6px 14px; font-size: 12px; }
 .btn-row { display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end; }
 
-/* TABLES */
 .table-wrap { overflow-x: auto; }
 
 table { width: 100%; border-collapse: collapse; }
@@ -320,7 +310,6 @@ tbody td {
 tbody tr { transition: background 0.15s; cursor: pointer; }
 tbody tr:hover { background: var(--accent-light); }
 
-/* BADGES */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -340,7 +329,6 @@ tbody tr:hover { background: var(--accent-light); }
 .badge-client { background: var(--gold-dim); color: #8a6d1b; }
 .badge-contrary { background: var(--orange-dim); color: var(--orange); }
 
-/* TIMELINE */
 .timeline { position: relative; padding-left: 32px; }
 .timeline::before { content: ''; position: absolute; left: 12px; top: 0; bottom: 0; width: 2px; background: var(--border); }
 
@@ -375,7 +363,6 @@ tbody tr:hover { background: var(--accent-light); }
 
 .timeline-content .deadline-info.ok { background: var(--green-dim); color: var(--green); }
 
-/* SEARCH BAR */
 .search-bar { display: flex; gap: 12px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
 
 .search-bar input {
@@ -402,7 +389,6 @@ tbody tr:hover { background: var(--accent-light); }
   font-family: 'DM Sans', sans-serif;
 }
 
-/* MODAL */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -451,7 +437,6 @@ tbody tr:hover { background: var(--accent-light); }
 
 .modal-close:hover { color: var(--text); }
 
-/* DETAIL VIEW */
 .detail-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
 .detail-exp-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 800; color: var(--accent); }
 .detail-client { font-size: 16px; color: var(--text-dim); margin-top: 4px; }
@@ -463,27 +448,22 @@ tbody tr:hover { background: var(--accent-light); }
 .section-divider { height: 1px; background: var(--border); margin: 24px 0; }
 .section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 16px; }
 
-/* PLAZO TOGGLE */
 .plazo-toggle { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
 .plazo-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
 .plazo-toggle label { font-size: 13px; cursor: pointer; color: var(--text); text-transform: none; letter-spacing: 0; font-weight: 500; }
 .plazo-fields { display: none; margin-top: 12px; padding: 16px; background: var(--red-dim); border-radius: 8px; gap: 12px; }
 .plazo-fields.visible { display: grid; grid-template-columns: 1fr 1fr; }
 
-/* EMPTY STATE */
 .empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); }
 .empty-state .icon { font-size: 44px; margin-bottom: 12px; }
 .empty-state p { font-size: 15px; margin-bottom: 16px; }
 
-/* CONFIG */
 .config-field { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .config-field label { font-size: 13px; font-weight: 500; min-width: 160px; }
 .config-field input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; }
 
-/* FOLDER PATH */
 .folder-path { font-family: monospace; font-size: 12px; color: var(--accent); background: var(--accent-light); padding: 4px 10px; border-radius: 4px; }
 
-/* TOAST */
 .toast {
   position: fixed;
   bottom: 24px;
@@ -505,7 +485,6 @@ tbody tr:hover { background: var(--accent-light); }
 .toast.error { background: var(--red); }
 .toast.info { background: var(--blue); }
 
-/* CONTACT CARD */
 .contact-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
 
 .contact-card {
@@ -523,7 +502,6 @@ tbody tr:hover { background: var(--accent-light); }
 .contact-card .contact-info { font-size: 13px; color: var(--text-dim); line-height: 1.8; }
 .contact-card .contact-actions { margin-top: 12px; display: flex; gap: 8px; }
 
-/* RESPONSIVE */
 @media (max-width: 900px) {
   .header { padding: 12px 16px; }
   .nav { padding: 0 16px; overflow-x: auto; }
@@ -537,7 +515,6 @@ tbody tr:hover { background: var(--accent-light); }
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-left">
     <div class="logo">Jurídico <span>Gestoría Justo Guevara</span></div>
@@ -551,7 +528,6 @@ tbody tr:hover { background: var(--accent-light); }
   </div>
 </div>
 
-<!-- NAV -->
 <div class="nav">
   <button class="nav-tab active" onclick="showPanel('dashboard',this)">📊 Panel</button>
   <button class="nav-tab" onclick="showPanel('expedientes',this)">📁 Expedientes</button>
@@ -563,7 +539,6 @@ tbody tr:hover { background: var(--accent-light); }
 
 <div class="main">
 
-  <!-- ============ DASHBOARD ============ -->
   <div class="panel active" id="panel-dashboard">
     <div class="stats-row" id="stats-row"></div>
     <div class="card">
@@ -580,7 +555,6 @@ tbody tr:hover { background: var(--accent-light); }
     </div>
   </div>
 
-  <!-- ============ EXPEDIENTES ============ -->
   <div class="panel" id="panel-expedientes">
     <div class="search-bar">
       <input type="text" id="exp-search" placeholder="Buscar por nº, cliente, asunto, juzgado..." oninput="renderExpedientes()">
@@ -603,7 +577,6 @@ tbody tr:hover { background: var(--accent-light); }
     </table></div></div>
   </div>
 
-  <!-- ============ DOCUMENTOS ============ -->
   <div class="panel" id="panel-documentos">
     <div class="search-bar">
       <input type="text" id="doc-search" placeholder="Buscar documento..." oninput="renderDocumentos()">
@@ -625,7 +598,6 @@ tbody tr:hover { background: var(--accent-light); }
     </table></div></div>
   </div>
 
-  <!-- ============ PLAZOS ============ -->
   <div class="panel" id="panel-plazos">
     <div class="search-bar">
       <select id="plazo-filter" onchange="renderPlazos()">
@@ -642,7 +614,6 @@ tbody tr:hover { background: var(--accent-light); }
     </table></div></div>
   </div>
 
-  <!-- ============ CLIENTES ============ -->
   <div class="panel" id="panel-clientes">
     <div class="search-bar">
       <input type="text" id="cli-search" placeholder="Buscar cliente..." oninput="renderClientes()">
@@ -656,7 +627,6 @@ tbody tr:hover { background: var(--accent-light); }
     </table></div></div>
   </div>
 
-  <!-- ============ CONTACTOS ============ -->
   <div class="panel" id="panel-contactos">
     <div class="search-bar">
       <input type="text" id="cont-search" placeholder="Buscar contacto..." oninput="renderContactos()">
@@ -676,9 +646,8 @@ tbody tr:hover { background: var(--accent-light); }
   </div>
 </div>
 
-<!-- ============ MODALS ============ -->
+<!-- MODALES — sin cambios respecto al original -->
 
-<!-- MODAL: EXPEDIENTE -->
 <div class="modal-overlay" id="modal-expediente">
 <div class="modal" style="max-width:800px">
   <div class="modal-title"><span id="modal-exp-title">Nuevo expediente</span><button class="modal-close" onclick="closeModal('modal-expediente')">&times;</button></div>
@@ -692,7 +661,6 @@ tbody tr:hover { background: var(--accent-light); }
         <select id="exp-tipo"><option value="">Seleccionar...</option><option>Civil</option><option>Penal</option><option>Laboral</option><option>Contencioso-Administrativo</option><option>Mercantil</option><option>Familia</option><option>Diligencias preliminares</option><option>Monitorio</option><option>Verbal</option><option>Ordinario</option><option>Ejecución</option><option>Concurso</option><option>Otro</option></select>
       </div>
       <div class="form-group full-width"><label>Asunto / Descripción *</label><textarea id="exp-asunto" required placeholder="Descripción del asunto..."></textarea></div>
-
       <div class="form-section">Cliente</div>
       <div class="form-group"><label>Cliente *</label><input type="text" id="exp-cliente" required list="clientes-list"></div>
       <div class="form-group"><label>DNI/NIE/CIF</label><input type="text" id="exp-dni"></div>
@@ -702,7 +670,6 @@ tbody tr:hover { background: var(--accent-light); }
       </div>
       <div class="form-group"><label>Parte contraria</label><input type="text" id="exp-contraria" placeholder="Nombre de la otra parte"></div>
       <div class="form-group"><label>Abogado contrario</label><input type="text" id="exp-abogado-contrario"></div>
-
       <div class="form-section">Juzgado y representación</div>
       <div class="form-group"><label>Juzgado *</label><input type="text" id="exp-juzgado" placeholder="Juzgado de 1ª Instancia nº 1"></div>
       <div class="form-group"><label>Localidad juzgado</label><input type="text" id="exp-localidad"></div>
@@ -710,7 +677,6 @@ tbody tr:hover { background: var(--accent-light); }
       <div class="form-group"><label>Abogado (nuestro)</label><input type="text" id="exp-abogado"></div>
       <div class="form-group"><label>Procurador (nuestro)</label><input type="text" id="exp-procurador"></div>
       <div class="form-group"><label>Procurador contrario</label><input type="text" id="exp-procurador-contrario"></div>
-
       <div class="form-section">Estado y fechas</div>
       <div class="form-group"><label>Estado</label>
         <select id="exp-estado"><option>Activo</option><option>En trámite</option><option>Vista señalada</option><option>Pendiente sentencia</option><option>Recurso</option><option>Archivado</option></select>
@@ -722,7 +688,6 @@ tbody tr:hover { background: var(--accent-light); }
       <div class="form-group"><label>Fecha vista/juicio</label><input type="date" id="exp-fecha-vista"></div>
       <div class="form-group"><label>Hora vista</label><input type="time" id="exp-hora-vista"></div>
       <div class="form-group"><label>Cuantía</label><input type="text" id="exp-cuantia" placeholder="€"></div>
-
       <div class="form-section">Observaciones</div>
       <div class="form-group full-width"><label>Observaciones</label><textarea id="exp-observaciones"></textarea></div>
     </div>
@@ -733,7 +698,6 @@ tbody tr:hover { background: var(--accent-light); }
   </form>
 </div></div>
 
-<!-- MODAL: DOCUMENTO -->
 <div class="modal-overlay" id="modal-documento">
 <div class="modal">
   <div class="modal-title"><span>Registrar documento</span><button class="modal-close" onclick="closeModal('modal-documento')">&times;</button></div>
@@ -774,7 +738,6 @@ tbody tr:hover { background: var(--accent-light); }
   </form>
 </div></div>
 
-<!-- MODAL: CLIENTE -->
 <div class="modal-overlay" id="modal-cliente">
 <div class="modal">
   <div class="modal-title"><span id="modal-cli-title">Nuevo cliente</span><button class="modal-close" onclick="closeModal('modal-cliente')">&times;</button></div>
@@ -795,13 +758,11 @@ tbody tr:hover { background: var(--accent-light); }
       <div class="form-group"><label>Estado civil</label>
         <select id="cli-estado-civil"><option value="">Seleccionar...</option><option>Soltero/a</option><option>Casado/a</option><option>Divorciado/a</option><option>Viudo/a</option><option>Pareja de hecho</option><option>Separado/a</option></select>
       </div>
-
       <div class="form-section">Domicilio</div>
       <div class="form-group full-width"><label>Dirección</label><input type="text" id="cli-direccion" placeholder="Calle, nº, piso..."></div>
       <div class="form-group"><label>Código postal</label><input type="text" id="cli-cp"></div>
       <div class="form-group"><label>Localidad</label><input type="text" id="cli-localidad"></div>
       <div class="form-group"><label>Provincia</label><input type="text" id="cli-provincia"></div>
-
       <div class="form-section">Datos de facturación</div>
       <div class="form-group"><label>Razón social (si empresa)</label><input type="text" id="cli-razon-social"></div>
       <div class="form-group"><label>CIF facturación</label><input type="text" id="cli-cif-fact"></div>
@@ -810,7 +771,6 @@ tbody tr:hover { background: var(--accent-light); }
       <div class="form-group"><label>Forma de pago preferida</label>
         <select id="cli-forma-pago"><option value="">Seleccionar...</option><option>Transferencia</option><option>Efectivo</option><option>Bizum</option><option>Domiciliación</option><option>Tarjeta</option></select>
       </div>
-
       <div class="form-section">Notas</div>
       <div class="form-group full-width"><label>Observaciones</label><textarea id="cli-observaciones"></textarea></div>
     </div>
@@ -821,7 +781,6 @@ tbody tr:hover { background: var(--accent-light); }
   </form>
 </div></div>
 
-<!-- MODAL: CONTACTO -->
 <div class="modal-overlay" id="modal-contacto">
 <div class="modal" style="max-width:600px">
   <div class="modal-title"><span id="modal-cont-title">Nuevo contacto</span><button class="modal-close" onclick="closeModal('modal-contacto')">&times;</button></div>
@@ -847,21 +806,18 @@ tbody tr:hover { background: var(--accent-light); }
   </form>
 </div></div>
 
-<!-- MODAL: DETALLE EXPEDIENTE -->
 <div class="modal-overlay" id="modal-detalle">
 <div class="modal" style="max-width:900px">
   <div class="modal-title"><span>Detalle del expediente</span><button class="modal-close" onclick="closeModal('modal-detalle')">&times;</button></div>
   <div id="detalle-content"></div>
 </div></div>
 
-<!-- MODAL: DETALLE CLIENTE -->
 <div class="modal-overlay" id="modal-detalle-cli">
 <div class="modal" style="max-width:800px">
   <div class="modal-title"><span>Ficha del cliente</span><button class="modal-close" onclick="closeModal('modal-detalle-cli')">&times;</button></div>
   <div id="detalle-cli-content"></div>
 </div></div>
 
-<!-- MODAL: NUEVO PAGO -->
 <div class="modal-overlay" id="modal-pago">
 <div class="modal" style="max-width:550px">
   <div class="modal-title"><span id="modal-pago-title">Registrar pago</span><button class="modal-close" onclick="closeModal('modal-pago')">&times;</button></div>
@@ -893,46 +849,6 @@ tbody tr:hover { background: var(--accent-light); }
   </form>
 </div></div>
 
-<!-- MODAL: GENERAR ENCARGO -->
-<div class="modal-overlay" id="modal-encargo">
-<div class="modal" style="max-width:700px">
-  <div class="modal-title"><span>📄 Hoja de Encargo Profesional</span><button class="modal-close" onclick="closeModal('modal-encargo')">&times;</button></div>
-  <form id="form-encargo" onsubmit="generateEncargo(event)">
-    <input type="hidden" id="encargo-cliente-id">
-    <div class="form-grid">
-      <div class="form-section">Datos del cliente (se rellenan automáticamente)</div>
-      <div class="form-group"><label>Nombre completo</label><input type="text" id="encargo-cliente-nombre" readonly style="background:var(--surface3)"></div>
-      <div class="form-group"><label>DNI</label><input type="text" id="encargo-cliente-dni" readonly style="background:var(--surface3)"></div>
-      <div class="form-group full-width"><label>Domicilio</label><input type="text" id="encargo-cliente-domicilio" readonly style="background:var(--surface3)"></div>
-
-      <div class="form-section">Datos del letrado</div>
-      <div class="form-group"><label>Nombre letrado</label><input type="text" id="encargo-letrado" value="FCO. JOSE JUSTO GUEVARA"></div>
-      <div class="form-group"><label>Nº colegiado</label><input type="text" id="encargo-colegiado" value="1760"></div>
-      <div class="form-group full-width"><label>Domicilio profesional</label><input type="text" id="encargo-domicilio-letrado" value="Avd. Almanzora, 6 Local 2 BJO, Olula del Rio, Almería"></div>
-
-      <div class="form-section">Objeto del encargo</div>
-      <div class="form-group"><label>Expediente vinculado</label><select id="encargo-expediente"><option value="">Sin vincular (rellenar a mano)</option></select></div>
-      <div class="form-group"><label>Jurisdicción</label><input type="text" id="encargo-jurisdiccion" placeholder="Ej: Almería"></div>
-      <div class="form-group full-width"><label>Descripción del encargo *</label><textarea id="encargo-objeto" required placeholder="Descripción detallada del servicio jurídico a prestar..."></textarea></div>
-      <div class="form-group full-width"><label>Servicios incluidos (uno por línea)</label><textarea id="encargo-servicios" placeholder="Análisis de la situación&#10;Preparación y presentación de escritos&#10;Asistencia a vistas&#10;Seguimiento del procedimiento"></textarea></div>
-
-      <div class="form-section">Honorarios</div>
-      <div class="form-group"><label>Honorarios totales (€, sin IVA)</label><input type="number" step="0.01" id="encargo-honorarios" placeholder="0.00"></div>
-      <div class="form-group"><label>Provisión inicial (€)</label><input type="number" step="0.01" id="encargo-provision" placeholder="0.00"></div>
-      <div class="form-group full-width"><label>Forma de pago del resto</label><input type="text" id="encargo-forma-pago" placeholder="Ej: En plazos mensuales de 500€ cada uno"></div>
-
-      <div class="form-section">Fecha y lugar</div>
-      <div class="form-group"><label>Lugar de firma</label><input type="text" id="encargo-lugar" value="Olula del Río"></div>
-      <div class="form-group"><label>Fecha de firma</label><input type="date" id="encargo-fecha-firma"></div>
-    </div>
-    <div class="btn-row">
-      <button type="button" class="btn btn-secondary" onclick="closeModal('modal-encargo')">Cancelar</button>
-      <button type="submit" class="btn btn-primary">📄 Generar documento Word</button>
-    </div>
-  </form>
-</div></div>
-
-<!-- MODAL: CONFIG -->
 <div class="modal-overlay" id="modal-config">
 <div class="modal" style="max-width:650px">
   <div class="modal-title"><span>⚙️ Configuración</span><button class="modal-close" onclick="closeModal('modal-config')">&times;</button></div>
@@ -945,11 +861,20 @@ tbody tr:hover { background: var(--accent-light); }
 </div></div>
 
 <datalist id="clientes-list"></datalist>
-
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
+// ══════════════════════════════════════════════════════════════
+// CONFIG CENTRAL — URLs cargadas automáticamente desde GitHub
+// Para cambiarlas: edita config.json en el repo "consola"
+// ══════════════════════════════════════════════════════════════
+const CONFIG_URL = 'https://gestoriajustoguevara-art.github.io/consola/config.json';
+let URL_MAESTRO = '';
+let URL_VTO_JUR = '';
+// sheetsUrl del Jurídico se guarda en D.config.sheetsUrl (igual que antes)
+// pero si está vacío, se rellena desde config.json automáticamente
+// ══════════════════════════════════════════════════════════════
+
 // ======================== DATA ========================
 let D = { expedientes:[], documentos:[], clientes:[], contactos:[], pagos:[], config:{ sheetsUrl:'', rutaBase:'', abogadoDefecto:'' } };
 const LS_KEY = 'gestor_juridico_v2';
@@ -967,13 +892,24 @@ function load() {
 }
 
 // ======================== INIT ========================
-function init() {
+async function init() {
   load();
-  renderAll();
-  // Auto-descargar de Sheets al abrir
-  if(D.config.sheetsUrl) {
-    syncFromSheets(true);
+  // Cargar config central primero
+  try {
+    const res = await fetch(CONFIG_URL);
+    const cfg = await res.json();
+    URL_MAESTRO = cfg.clientesMaestro.scriptUrl;
+    URL_VTO_JUR = cfg.vencimientos.scriptUrl;
+    // Si la app no tiene sheetsUrl configurada manualmente, usar la del config central
+    if (!D.config.sheetsUrl) {
+      D.config.sheetsUrl = cfg.juridico.scriptUrl;
+    }
+    console.log('✅ Config central cargada — Jurídico listo');
+  } catch(e) {
+    console.error('❌ Error cargando config central:', e);
   }
+  renderAll();
+  if(D.config.sheetsUrl) syncFromSheets(true);
 }
 
 // ======================== NAV ========================
@@ -1033,7 +969,6 @@ function openConfig() {
   openModal('modal-config');
 }
 
-// ======================== SAVE EXPEDIENTE ========================
 function saveExpediente(e) {
   e.preventDefault();
   const id = document.getElementById('exp-edit-id').value;
@@ -1057,7 +992,6 @@ function saveExpediente(e) {
   enviarVtoJuridico(exp);
 }
 
-// ======================== SAVE DOCUMENTO ========================
 function saveDocumento(e) {
   e.preventDefault();
   const id = document.getElementById('doc-edit-id').value;
@@ -1077,7 +1011,6 @@ function saveDocumento(e) {
   if (doc.generaPlazo && doc.plazoFecha) enviarVtoPlazo(doc);
 }
 
-// ======================== SAVE CLIENTE ========================
 function saveCliente(e) {
   e.preventDefault();
   const id = document.getElementById('cli-edit-id').value;
@@ -1095,7 +1028,6 @@ function saveCliente(e) {
   else D.clientes.push(cli);
   save(); closeModal('modal-cliente'); renderAll();
   showToast(id ? 'Cliente actualizado' : 'Cliente creado');
-  // ── ClientesMAESTRO ──────────────────────────────────────
   if (cli.dni || cli.nombre) {
     const partes = (cli.nombre||'').trim().split(/\s+/);
     guardarEnMaestro({
@@ -1118,7 +1050,6 @@ function saveCliente(e) {
   }
 }
 
-// ======================== SAVE CONTACTO ========================
 function saveContacto(e) {
   e.preventDefault();
   const id = document.getElementById('cont-edit-id').value;
@@ -1143,14 +1074,12 @@ function saveConfig() {
   showToast('Configuración guardada');
 }
 
-// ======================== RENDER ALL ========================
 function renderAll() {
   renderStats(); renderCitaciones(); renderAlerts(); renderRecentActivity();
   renderExpedientes(); renderDocumentos(); renderPlazos();
   renderClientes(); renderContactos(); populateExpFilters();
 }
 
-// ======================== STATS ========================
 function renderStats() {
   const t=D.expedientes.length, a=D.expedientes.filter(e=>e.estado!=='Archivado').length;
   const d=D.documentos.length, p=D.documentos.filter(x=>x.generaPlazo&&x.plazoEstado==='pendiente').length;
@@ -1164,19 +1093,15 @@ function renderStats() {
     <div class="stat-card"><div class="stat-number" style="color:${citas>0?'var(--purple)':'var(--text-muted)'}">${citas}</div><div class="stat-label">Citaciones</div></div>`;
 }
 
-// ======================== CITACIONES ========================
 function renderCitaciones() {
   const citas = D.expedientes
     .filter(e => e.fechaVista && e.estado !== 'Archivado')
     .map(e => ({...e, dias: daysDiff(e.fechaVista)}))
-    .filter(e => e.dias >= -1) // mostrar también las de ayer por si acaso
+    .filter(e => e.dias >= -1)
     .sort((a,b) => a.dias - b.dias)
     .slice(0, 8);
   const g = document.getElementById('citaciones-grid');
-  if(!citas.length) {
-    g.innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>No hay vistas ni citaciones señaladas</p></div>';
-    return;
-  }
+  if(!citas.length) { g.innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>No hay vistas ni citaciones señaladas</p></div>'; return; }
   g.innerHTML = citas.map(e => {
     const u = e.dias < 0 ? 'urgent' : e.dias === 0 ? 'urgent' : e.dias <= 3 ? 'urgent' : e.dias <= 7 ? 'warning' : 'ok';
     const dt = e.dias < 0 ? '¡AYER!' : e.dias === 0 ? '¡HOY!' : e.dias === 1 ? '¡MAÑANA!' : e.dias + ' días';
@@ -1189,7 +1114,6 @@ function renderCitaciones() {
   }).join('');
 }
 
-// ======================== ALERTS ========================
 function renderAlerts() {
   const pend = D.documentos.filter(d=>d.generaPlazo&&d.plazoEstado==='pendiente'&&d.plazoFecha)
     .map(d=>({...d, exp:D.expedientes.find(e=>e.id===d.expedienteId), dias:daysDiff(d.plazoFecha)}))
@@ -1205,7 +1129,6 @@ function renderAlerts() {
   }).join('');
 }
 
-// ======================== RECENT ACTIVITY ========================
 function renderRecentActivity() {
   const rec=[...D.documentos].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).slice(0,8);
   const c=document.getElementById('recent-activity');
@@ -1223,7 +1146,6 @@ function renderRecentActivity() {
   }).join('')+'</div>';
 }
 
-// ======================== EXPEDIENTES TABLE ========================
 function renderExpedientes() {
   const s=(document.getElementById('exp-search')?.value||'').toLowerCase();
   const f=document.getElementById('exp-filter-estado')?.value||'';
@@ -1239,18 +1161,15 @@ function renderExpedientes() {
     const last=docs.sort((a,b)=>new Date(b.fecha)-new Date(a.fecha))[0];
     return `<tr onclick="showExpDetail('${e.id}')">
       <td><strong style="color:var(--accent)">${e.numero}</strong></td>
-      <td>${e.procedimiento||'-'}</td>
-      <td>${e.cliente}</td>
+      <td>${e.procedimiento||'-'}</td><td>${e.cliente}</td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.asunto||'-'}</td>
-      <td>${e.juzgado||'-'}</td>
-      <td>${e.abogado||'-'}</td>
+      <td>${e.juzgado||'-'}</td><td>${e.abogado||'-'}</td>
       <td><span class="badge ${bd[e.estado]||'badge-active'}">${e.estado}</span></td>
       <td>${docs.length}</td>
       <td style="font-size:12px;color:var(--text-dim)">${last?fmtDate(last.fecha):'-'}</td></tr>`;
   }).join('');
 }
 
-// ======================== DOCUMENTOS TABLE ========================
 function renderDocumentos() {
   const s=(document.getElementById('doc-search')?.value||'').toLowerCase();
   const ft=document.getElementById('doc-filter-tipo')?.value||'';
@@ -1278,7 +1197,6 @@ function renderDocumentos() {
   }).join('');
 }
 
-// ======================== PLAZOS TABLE ========================
 function renderPlazos() {
   const f=document.getElementById('plazo-filter')?.value||'pendiente';
   let list=D.documentos.filter(d=>d.generaPlazo&&(!f||d.plazoEstado===f))
@@ -1300,7 +1218,6 @@ function renderPlazos() {
   }).join('');
 }
 
-// ======================== CLIENTES TABLE ========================
 function renderClientes() {
   const s=(document.getElementById('cli-search')?.value||'').toLowerCase();
   let list=D.clientes.filter(c=>!s||[c.nombre,c.dni,c.telefono,c.email,c.localidad].join(' ').toLowerCase().includes(s));
@@ -1317,7 +1234,6 @@ function renderClientes() {
   }).join('');
 }
 
-// ======================== CONTACTOS GRID ========================
 function renderContactos() {
   const s=(document.getElementById('cont-search')?.value||'').toLowerCase();
   const ft=document.getElementById('cont-filter-tipo')?.value||'';
@@ -1342,14 +1258,12 @@ function renderContactos() {
     </div>`).join('');
 }
 
-// ======================== DETAIL VIEWS ========================
 function showExpDetail(id) {
   const e=D.expedientes.find(x=>x.id===id); if(!e)return;
   const docs=D.documentos.filter(d=>d.expedienteId===id).sort((a,b)=>new Date(b.fecha)-new Date(a.fecha));
   const tc={'Escrito presentado':'sent','Notificación LexNET':'lexnet','Escrito parte contraria':'contrary','Documentación cliente':'client'};
   const ti={'Escrito presentado':'📤','Notificación LexNET':'📩','Escrito parte contraria':'⚔️','Documentación cliente':'👤'};
   const bd={'Activo':'badge-active','En trámite':'badge-active','Vista señalada':'badge-pending','Pendiente sentencia':'badge-pending','Recurso':'badge-urgent','Archivado':'badge-closed'};
-
   let h=`<div class="detail-header"><div>
     <div class="detail-exp-num">${e.numero}</div>
     <div class="detail-client">${e.cliente} ${e.dni?'· '+e.dni:''}</div></div>
@@ -1395,13 +1309,11 @@ function showCliDetail(id) {
   const c=D.clientes.find(x=>x.id===id); if(!c)return;
   const exps=D.expedientes.filter(e=>e.cliente===c.nombre||e.dni===c.dni);
   const pagos=D.pagos.filter(p=>p.clienteId===c.id);
-
   let h=`<div class="detail-header"><div>
     <div class="detail-exp-num">${c.nombre}</div>
     <div class="detail-client">${c.dni||''}</div></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="btn btn-secondary btn-small" onclick="editCliente('${c.id}')">✏️ Editar</button>
-    <button class="btn btn-primary btn-small" onclick="openEncargo('${c.id}')">📄 Encargo</button>
     </div></div>
     <div class="detail-info-grid">
     <div class="detail-info-item"><label>Teléfono</label><span>${c.telefono||'-'}</span></div>
@@ -1414,78 +1326,6 @@ function showCliDetail(id) {
     <div class="detail-info-item"><label>Estado civil</label><span>${c.estadoCivil||'-'}</span></div>
     <div class="detail-info-item"><label>Nacimiento</label><span>${c.nacimiento?fmtDate(c.nacimiento):'-'}</span></div>
     </div>`;
-  if(c.razonSocial||c.cifFact||c.iban||c.formaPago||c.dirFact){
-    h+=`<div class="section-divider"></div><div class="section-title">💳 Datos de facturación</div>
-    <div class="detail-info-grid">
-    <div class="detail-info-item"><label>Razón social</label><span>${c.razonSocial||'-'}</span></div>
-    <div class="detail-info-item"><label>CIF facturación</label><span>${c.cifFact||'-'}</span></div>
-    <div class="detail-info-item"><label>Forma de pago</label><span>${c.formaPago||'-'}</span></div>
-    <div class="detail-info-item"><label>IBAN</label><span>${c.iban||'-'}</span></div>
-    <div class="detail-info-item full-width"><label>Dir. facturación</label><span>${c.dirFact||'-'}</span></div>
-    </div>`;
-  }
-
-  // SECCIÓN DE PROVISIONES Y PAGOS
-  h+=`<div class="section-divider"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <div class="section-title" style="margin-bottom:0">💰 Provisiones y pagos</div>
-    <button class="btn btn-primary btn-small" onclick="openNewPago('${c.id}')">+ Registrar pago</button></div>`;
-
-  if(exps.length){
-    // Agrupar pagos por expediente
-    exps.forEach(exp=>{
-      const pagosExp=pagos.filter(p=>p.expedienteId===exp.id).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
-      const totalPagado=pagosExp.reduce((s,p)=>s+parseFloat(p.importe||0),0);
-      const honorarios=parseFloat(exp.cuantia)||0;
-      const pendiente=honorarios-totalPagado;
-
-      h+=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div><strong style="color:var(--accent)">${exp.numero}</strong> · ${exp.asunto||'-'}</div>
-          <span class="badge ${exp.estado==='Archivado'?'badge-closed':'badge-active'}">${exp.estado}</span>
-        </div>`;
-
-      if(honorarios>0){
-        h+=`<div style="display:flex;gap:20px;margin-bottom:10px;font-size:13px">
-          <div>Honorarios: <strong>${fmtMoney(honorarios)}</strong></div>
-          <div>Pagado: <strong style="color:var(--green)">${fmtMoney(totalPagado)}</strong></div>
-          <div>Pendiente: <strong style="color:${pendiente>0?'var(--red)':'var(--green)'}">${fmtMoney(pendiente)}</strong></div>
-        </div>
-        <div style="background:var(--border);border-radius:4px;height:8px;overflow:hidden;margin-bottom:10px">
-          <div style="background:${pendiente<=0?'var(--green)':'var(--accent)'};height:100%;width:${honorarios>0?Math.min(100,totalPagado/honorarios*100):0}%;border-radius:4px;transition:width 0.3s"></div>
-        </div>`;
-      }
-
-      if(pagosExp.length){
-        h+=`<table style="width:100%;font-size:12px"><thead><tr>
-          <th style="padding:6px 8px;background:var(--surface3)">Fecha</th>
-          <th style="padding:6px 8px;background:var(--surface3)">Tipo</th>
-          <th style="padding:6px 8px;background:var(--surface3)">Importe</th>
-          <th style="padding:6px 8px;background:var(--surface3)">Forma</th>
-          <th style="padding:6px 8px;background:var(--surface3)">Concepto</th>
-          <th style="padding:6px 8px;background:var(--surface3)">Acc.</th>
-        </tr></thead><tbody>`;
-        pagosExp.forEach(p=>{
-          h+=`<tr>
-            <td style="padding:6px 8px">${fmtDate(p.fecha)}</td>
-            <td style="padding:6px 8px"><span class="badge ${p.tipo==='Provisión de fondos'?'badge-sent':'badge-active'}">${p.tipo}</span></td>
-            <td style="padding:6px 8px;font-weight:600">${fmtMoney(p.importe)}</td>
-            <td style="padding:6px 8px">${p.forma||'-'}</td>
-            <td style="padding:6px 8px">${p.concepto||'-'}</td>
-            <td style="padding:6px 8px"><button class="btn btn-danger btn-small" onclick="deletePago('${p.id}','${c.id}')" style="padding:2px 8px;font-size:11px">🗑️</button></td>
-          </tr>`;
-        });
-        h+=`</tbody></table>`;
-      } else {
-        h+=`<div style="text-align:center;padding:8px;color:var(--text-muted);font-size:12px">Sin pagos registrados</div>`;
-      }
-      h+=`</div>`;
-    });
-  } else {
-    h+=`<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px">Este cliente no tiene expedientes asociados</div>`;
-  }
-
-  // SECCIÓN DE EXPEDIENTES
   if(exps.length){
     h+=`<div class="section-divider"></div><div class="section-title">📁 Expedientes (${exps.length})</div>`;
     h+=exps.map(e=>`<div style="padding:8px 12px;background:var(--surface2);border-radius:6px;margin-bottom:6px;cursor:pointer" onclick="closeModal('modal-detalle-cli');showExpDetail('${e.id}')">
@@ -1496,15 +1336,12 @@ function showCliDetail(id) {
   openModal('modal-detalle-cli');
 }
 
-// ======================== EDIT FUNCTIONS ========================
 function editExpediente(id) {
   const e=D.expedientes.find(x=>x.id===id); if(!e)return;
   closeModal('modal-detalle');
   document.getElementById('exp-edit-id').value=e.id;
   document.getElementById('modal-exp-title').textContent='Editar expediente';
-  const fields=['numero','procedimiento','tipo','asunto','cliente','dni','telefono','posicion','contraria',
-    'juzgado','localidad','laj','abogado','procurador','estado','fase','cuantia','observaciones'];
-  const mapped={'contraria':'exp-contraria','abogadoContrario':'exp-abogado-contrario','procuradorContrario':'exp-procurador-contrario'};
+  const fields=['numero','procedimiento','tipo','asunto','cliente','dni','telefono','posicion','contraria','juzgado','localidad','laj','abogado','procurador','estado','fase','cuantia','observaciones'];
   fields.forEach(f=>{ const el=document.getElementById('exp-'+f.replace(/([A-Z])/g,'-$1').toLowerCase()); if(el) el.value=e[f]||''; });
   document.getElementById('exp-abogado-contrario').value=e.abogadoContrario||'';
   document.getElementById('exp-procurador-contrario').value=e.procuradorContrario||'';
@@ -1568,7 +1405,6 @@ function togglePlazoStatus(id, status) {
   if(d){d.plazoEstado=status; save(); renderAll(); showToast(status==='cumplido'?'Plazo cumplido':'Plazo reabierto');}
 }
 
-// ======================== HELPERS ========================
 function val(id) { return (document.getElementById(id)?.value||'').trim(); }
 function fmtDate(s) { if(!s)return'-'; const d=new Date(s+'T00:00:00'); return d.toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'}); }
 function daysDiff(s) { if(!s)return 999; const t=new Date(s+'T00:00:00'),n=new Date();n.setHours(0,0,0,0); return Math.ceil((t-n)/(864e5)); }
@@ -1601,21 +1437,15 @@ function updateClienteDatalist() {
   dl.innerHTML=D.clientes.map(c=>`<option value="${c.nombre}">`).join('');
 }
 
-// ======================== PAGOS ========================
 function openNewPago(clienteId) {
   document.getElementById('form-pago').reset();
   document.getElementById('pago-edit-id').value='';
   document.getElementById('pago-cliente-id').value=clienteId;
   document.getElementById('pago-fecha').value=today();
-  // Populate expedientes for this client
   const c=D.clientes.find(x=>x.id===clienteId);
   const sel=document.getElementById('pago-expediente');
   sel.innerHTML='<option value="">Seleccionar expediente...</option>';
-  if(c){
-    D.expedientes.filter(e=>e.cliente===c.nombre||e.dni===c.dni).forEach(e=>{
-      sel.innerHTML+=`<option value="${e.id}">${e.numero} — ${e.asunto||''}</option>`;
-    });
-  }
+  if(c){ D.expedientes.filter(e=>e.cliente===c.nombre||e.dni===c.dni).forEach(e=>{ sel.innerHTML+=`<option value="${e.id}">${e.numero} — ${e.asunto||''}</option>`; }); }
   openModal('modal-pago');
 }
 
@@ -1624,14 +1454,9 @@ function savePago(e) {
   const id=document.getElementById('pago-edit-id').value;
   const pago={
     id: id||'PAG-'+Date.now(),
-    clienteId: val('pago-cliente-id'),
-    expedienteId: val('pago-expediente'),
-    fecha: val('pago-fecha'),
-    tipo: val('pago-tipo'),
-    importe: val('pago-importe'),
-    forma: val('pago-forma'),
-    referencia: val('pago-referencia'),
-    concepto: val('pago-concepto'),
+    clienteId: val('pago-cliente-id'), expedienteId: val('pago-expediente'),
+    fecha: val('pago-fecha'), tipo: val('pago-tipo'), importe: val('pago-importe'),
+    forma: val('pago-forma'), referencia: val('pago-referencia'), concepto: val('pago-concepto'),
     createdAt: id?(D.pagos.find(x=>x.id===id)?.createdAt||new Date().toISOString()):new Date().toISOString()
   };
   if(id){const i=D.pagos.findIndex(x=>x.id===id);if(i>=0)D.pagos[i]=pago;}
@@ -1649,144 +1474,7 @@ function deletePago(pagoId, clienteId) {
 }
 
 function fmtMoney(n) {
-  const num=parseFloat(n)||0;
-  return num.toLocaleString('es-ES',{style:'currency',currency:'EUR'});
-}
-
-// ======================== ENCARGO PROFESIONAL ========================
-function openEncargo(clienteId) {
-  const c=D.clientes.find(x=>x.id===clienteId); if(!c)return;
-  document.getElementById('form-encargo').reset();
-  document.getElementById('encargo-cliente-id').value=clienteId;
-  document.getElementById('encargo-cliente-nombre').value=c.nombre||'';
-  document.getElementById('encargo-cliente-dni').value=c.dni||'';
-  document.getElementById('encargo-cliente-domicilio').value=[c.direccion,c.cp,c.localidad,c.provincia].filter(Boolean).join(', ');
-  document.getElementById('encargo-fecha-firma').value=today();
-  // Populate expedientes
-  const sel=document.getElementById('encargo-expediente');
-  sel.innerHTML='<option value="">Sin vincular</option>';
-  const exps=D.expedientes.filter(e=>e.cliente===c.nombre||e.dni===c.dni);
-  exps.forEach(e=>{ sel.innerHTML+=`<option value="${e.id}">${e.numero} — ${e.asunto||''}</option>`; });
-  // Auto-fill if only one expediente
-  if(exps.length===1){
-    sel.value=exps[0].id;
-    if(exps[0].asunto) document.getElementById('encargo-objeto').value=exps[0].asunto;
-  }
-  // Letrado defaults from config
-  if(D.config.abogadoDefecto){
-    document.getElementById('encargo-letrado').value=D.config.abogadoDefecto;
-  }
-  openModal('modal-encargo');
-}
-
-function generateEncargo(e) {
-  e.preventDefault();
-  const clienteNombre=val('encargo-cliente-nombre');
-  const clienteDni=val('encargo-cliente-dni');
-  const clienteDomicilio=val('encargo-cliente-domicilio');
-  const letrado=val('encargo-letrado');
-  const colegiado=val('encargo-colegiado');
-  const domLetrado=val('encargo-domicilio-letrado');
-  const objeto=val('encargo-objeto');
-  const serviciosRaw=document.getElementById('encargo-servicios').value.trim();
-  const servicios=serviciosRaw?serviciosRaw.split('\n').filter(Boolean):[];
-  const honorarios=val('encargo-honorarios');
-  const provision=val('encargo-provision');
-  const formaPagoResto=val('encargo-forma-pago');
-  const jurisdiccion=val('encargo-jurisdiccion');
-  const lugar=val('encargo-lugar');
-  const fechaFirma=val('encargo-fecha-firma');
-
-  // Format date in Spanish
-  let fechaTexto='___ de __________ de 20__';
-  if(fechaFirma){
-    const d=new Date(fechaFirma+'T00:00:00');
-    const meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-    fechaTexto=`${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
-  }
-
-  // Build HTML document for download
-  const honorariosText=honorarios?`${parseFloat(honorarios).toLocaleString('es-ES')}€ (IVA no incluido)`:'____________€ (IVA no incluido)';
-  const provisionText=provision?`${parseFloat(provision).toLocaleString('es-ES')}€`:'____________€';
-
-  let serviciosHtml='';
-  if(servicios.length){
-    serviciosHtml=servicios.map(s=>`<p style="margin:2px 0 2px 30px;font-family:Arial,sans-serif;font-size:12pt">• ${s}</p>`).join('');
-  }
-
-  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Hoja de Encargo Profesional - ${clienteNombre}</title>
-<style>
-@page{margin:2.5cm}
-body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.6;color:#222;max-width:700px;margin:0 auto;padding:40px}
-h1{text-align:center;font-size:16pt;margin-bottom:30px;text-decoration:underline}
-h2{font-size:13pt;margin-top:25px;margin-bottom:8px}
-p{margin:8px 0;text-align:justify}
-.firmas{display:flex;justify-content:space-between;margin-top:60px}
-.firma{text-align:center;width:45%}
-.firma .linea{border-top:1px solid #333;margin-top:60px;padding-top:8px}
-.print-btn{position:fixed;top:20px;right:20px;background:#8B0000;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-size:14px;cursor:pointer;font-family:Arial;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
-.print-btn:hover{background:#a00000}
-@media print{.print-btn{display:none}}
-</style></head><body>
-<button class="print-btn" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
-<h1>HOJA DE ENCARGO PROFESIONAL</h1>
-<p><strong>Entre:</strong></p>
-<p>D./D.ª <strong>${clienteNombre}</strong>, con DNI nº <strong>${clienteDni}</strong>, y domicilio en ${clienteDomicilio||'_______________'}, en adelante <em>el Cliente</em>.</p>
-<p><strong>Y</strong></p>
-<p>D. <strong>${letrado}</strong>, colegiado nº ${colegiado} del Ilustre Colegio de Abogados de Almería, con domicilio profesional en ${domLetrado||'_______________'}, en adelante <em>el Letrado/a</em>.</p>
-
-<h2>EXPONEN:</h2>
-<p>Que el Cliente desea encargar al Letrado la tramitación y gestión de los procedimientos legales necesarios para:</p>
-<p>${objeto||'_______________'}</p>
-
-<h2>OBJETO DEL ENCARGO</h2>
-<p>El Letrado/a se compromete a prestar al Cliente los servicios de asesoramiento jurídico, redacción y presentación de escritos, asistencia en sede judicial y en general, la dirección jurídica del procedimiento en todas sus fases, incluyendo:</p>
-${serviciosHtml||'<p style="margin-left:30px">• _______________</p>'}
-
-<h2>HONORARIOS</h2>
-<p>Los honorarios profesionales por el presente encargo se pactan en la cantidad de <strong>${honorariosText}</strong>, que se abonarán del siguiente modo:</p>
-<p style="margin-left:20px">• ${provisionText} en concepto de provisión de fondos, a la firma de la presente hoja de encargo.</p>
-<p style="margin-left:20px">• ${formaPagoResto||'El resto en plazos a convenir.'}</p>
-
-<h2>Cláusula de Revisión de Honorarios</h2>
-<p>En caso de que, durante el transcurso del procedimiento, surjan actuaciones extraordinarias no previstas inicialmente (como incidentes, oposiciones, recursos judiciales, intervención de terceros, solicitud de aplazamientos, vistas adicionales u otros procedimientos conexos), las partes acuerdan que los honorarios pactados podrán ser revisados y actualizados proporcionalmente, previa aceptación expresa y por escrito del Cliente.</p>
-<p>Dicha revisión se justificará mediante nota detallada de los trabajos extraordinarios a realizar, y en ningún caso implicará obligación de pago adicional sin el consentimiento previo del Cliente.</p>
-
-<h2>OBLIGACIONES DEL CLIENTE</h2>
-<p>El Cliente se compromete a:</p>
-<p style="margin-left:30px">• Proporcionar al Letrado toda la documentación necesaria y veraz.</p>
-<p style="margin-left:30px">• Comparecer ante el juzgado o notario cuando sea requerido.</p>
-<p style="margin-left:30px">• Comunicar cualquier cambio relevante en su situación personal, patrimonial o de contacto.</p>
-<p style="margin-left:30px">• Abonar puntualmente los honorarios acordados.</p>
-
-<h2>PROTECCIÓN DE DATOS</h2>
-<p>El Letrado tratará los datos personales del Cliente de conformidad con el Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD), con la finalidad exclusiva de la prestación del servicio jurídico encomendado.</p>
-
-<h2>DURACIÓN Y FINALIZACIÓN</h2>
-<p>El presente encargo tendrá duración hasta la resolución firme del procedimiento, salvo resolución anticipada por incumplimiento de las obligaciones contractuales por alguna de las partes.</p>
-
-<h2>JURISDICCIÓN Y LEY APLICABLE</h2>
-<p>Para cualquier controversia que pudiera derivarse de este encargo, las partes se someten a los Juzgados y Tribunales de ${jurisdiccion||'_______________'}, con renuncia expresa a cualquier otro fuero que pudiera corresponderles.</p>
-
-<p style="margin-top:30px">En prueba de conformidad, firman la presente hoja de encargo en ${lugar||'_______________'}, a ${fechaTexto}.</p>
-
-<div class="firmas">
-  <div class="firma"><div class="linea">FIRMA DEL CLIENTE<br><br>D./D.ª ${clienteNombre}</div></div>
-  <div class="firma"><div class="linea">FIRMA DEL LETRADO/A<br><br>D. ${letrado}</div></div>
-</div>
-</body></html>`;
-
-  // Download as HTML file
-  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;
-  const safeName=clienteNombre.replace(/[^a-zA-ZáéíóúñÁÉÍÓÚÑ\s]/g,'').replace(/\s+/g,'_');
-  a.download=`Encargo_Profesional_${safeName}.html`;
-  a.click();
-  URL.revokeObjectURL(url);
-  closeModal('modal-encargo');
-  showToast('Hoja de encargo generada. Ábrela en el navegador y usa Imprimir → Guardar como PDF');
+  return (parseFloat(n)||0).toLocaleString('es-ES',{style:'currency',currency:'EUR'});
 }
 
 // ======================== GOOGLE SHEETS SYNC ========================
@@ -1807,11 +1495,7 @@ async function syncToSheets(silent) {
     let ok=0;
     for(const [hoja, datos] of Object.entries(hojas)){
       try {
-        await fetch(SHEETS_URL(), {
-          method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify({action:'escribir', hoja:hoja, datos:datos})
-        });
+        await fetch(SHEETS_URL(), { method:'POST', mode:'no-cors', body: JSON.stringify({action:'escribir', hoja:hoja, datos:datos}) });
         ok++;
       } catch(err) { console.error('Error subiendo '+hoja, err); }
     }
@@ -1841,7 +1525,6 @@ async function syncFromSheets(silent) {
         }
       } catch(err) { console.error('Error leyendo '+hoja, err); }
     }
-    // Guardar en local SIN triggear sync de vuelta
     _syncEnabled = false;
     localStorage.setItem(LS_KEY, JSON.stringify(D));
     _syncEnabled = true;
@@ -1851,39 +1534,20 @@ async function syncFromSheets(silent) {
   } catch(e) { st.textContent='❌ Error'; if(!silent) showToast('Error al descargar: '+e.message,'error'); }
 }
 
-// Diagnóstico de conexión
 async function testConnection() {
   if(!SHEETS_URL()) { alert('⚠️ No hay URL configurada.\nVe a ⚙️ Configuración y pega la URL del Apps Script.'); return; }
-  let msg = '🔍 DIAGNÓSTICO DE CONEXIÓN\n\n';
-  msg += 'URL: ' + SHEETS_URL() + '\n\n';
-
-  // Test 1: Leer
+  let msg = '🔍 DIAGNÓSTICO DE CONEXIÓN\n\nURL: ' + SHEETS_URL() + '\n\n';
   msg += '1️⃣ Probando LECTURA (GET)...\n';
   try {
     const r = await fetch(SHEETS_URL()+'?action=leer&hoja=ExpedientesJ');
     const txt = await r.text();
-    msg += '   ✅ Respuesta recibida: ' + txt.substring(0,200) + '\n\n';
-  } catch(e) {
-    msg += '   ❌ Error: ' + e.message + '\n\n';
-  }
-
-  // Test 2: Escribir
+    msg += '   ✅ Respuesta: ' + txt.substring(0,200) + '\n\n';
+  } catch(e) { msg += '   ❌ Error: ' + e.message + '\n\n'; }
   msg += '2️⃣ Probando ESCRITURA (POST)...\n';
   try {
-    const testData = {action:'escribir', hoja:'ExpedientesJ', datos:[['TEST'],['conexion_ok']]};
-    await fetch(SHEETS_URL(), {
-      method: 'POST',
-      mode: 'no-cors',
-      body: JSON.stringify(testData)
-    });
-    msg += '   ⚠️ POST enviado (mode no-cors, no podemos ver la respuesta).\n';
-    msg += '   👉 Revisa la pestaña ExpedientesJ en Google Sheets.\n';
-    msg += '   Si aparece "TEST" y "conexion_ok", funciona.\n';
-    msg += '   Si NO aparece nada, prueba el método alternativo.\n\n';
-  } catch(e) {
-    msg += '   ❌ Error: ' + e.message + '\n\n';
-  }
-
+    await fetch(SHEETS_URL(), { method:'POST', mode:'no-cors', body: JSON.stringify({action:'escribir', hoja:'ExpedientesJ', datos:[['TEST'],['conexion_ok']]}) });
+    msg += '   ⚠️ POST enviado (mode no-cors). Revisa la hoja ExpedientesJ en Sheets.';
+  } catch(e) { msg += '   ❌ Error: ' + e.message; }
   alert(msg);
 }
 
@@ -1893,60 +1557,14 @@ function toRows(arr, keys) {
   return rows;
 }
 
-// ======================== START ========================
-init();
-
-// ═══ CLIENTESMAESTRO ══════════════════════════════════════════════════════
-const URL_MAESTRO = 'https://script.google.com/macros/s/AKfycbyVXypuTXm5tRvbP-xJu06q7ZsJ2qve790lCyvBLJpr6jTckZhc6wZ4kX5XPhVOWCVrww/exec';
-
-// ═══ VENCIMIENTOS CENTRALES ════════════════════════════════════════════════
-const URL_VTO_JUR = 'https://script.google.com/macros/s/AKfycbzSpWjKLGxRp4CR4miJk4uP7b6CNmmToqGrleJXbEtQX9T6BdRyLkMReE5lBGxVk5i9SA/exec';
-
-function enviarVtoJuridico(exp) {
-  const cerrado = ['archivado','cerrado','desistido','finalizado'].includes((exp.estado||'').toLowerCase());
-  if (!cerrado && exp.fechaVista) {
-    const hora = exp.horaVista ? ' · ' + exp.horaVista : '';
-    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
-      action:'upsert', app:'Jurídico',
-      expediente: exp.numero||exp.id, cliente: exp.cliente,
-      fecha: exp.fechaVista, tipo: 'Vista oral',
-      observaciones: (exp.juzgado||'') + hora, estado:'Pendiente'
-    })});
-  }
-  if (cerrado) {
-    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
-      action:'completar', app:'Jurídico', expediente: exp.numero||exp.id, tipo:'Vista oral'
-    })});
-  }
-}
-
-function enviarVtoPlazo(doc) {
-  const exp = D.expedientes.find(x => x.id === doc.expedienteId);
-  const numExp = exp ? (exp.numero||exp.id) : doc.expedienteId;
-  const cliente = exp ? exp.cliente : '—';
-  if (doc.plazoEstado === 'cumplido') {
-    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
-      action:'completar', app:'Jurídico', expediente: numExp, tipo: doc.plazoDesc||'Plazo presentación'
-    })});
-    return;
-  }
-  if (doc.plazoFecha) {
-    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
-      action:'upsert', app:'Jurídico',
-      expediente: numExp, cliente: cliente,
-      fecha: doc.plazoFecha, tipo: doc.plazoDesc||'Plazo presentación',
-      observaciones: doc.descripcion||'', estado:'Pendiente'
-    })});
-  }
-}
-
+// ======================== CLIENTESMAESTRO ========================
 function guardarEnMaestro(datos) {
-  if (!datos.DNI_NIE || !datos.Nombre) return;
+  if (!URL_MAESTRO || !datos.DNI_NIE || !datos.Nombre) return;
   fetch(URL_MAESTRO, { method:'POST', mode:'no-cors', body: JSON.stringify({ action:'upsert', datos }) });
 }
 
 async function buscarEnMaestro(dni) {
-  if (!dni || dni.length < 7) return null;
+  if (!URL_MAESTRO || !dni || dni.length < 7) return null;
   try {
     const r = await fetch(URL_MAESTRO + '?action=buscar&dni=' + encodeURIComponent(dni.toUpperCase().replace(/-/g,'')));
     const d = await r.json();
@@ -1962,24 +1580,60 @@ async function rellenarDesdeMaestroJU() {
   if(st) st.textContent = '🔍 Buscando...';
   const cli = await buscarEnMaestro(dni);
   if (!cli) { if(st) st.textContent = '❌ No encontrado en Maestro'; return; }
-  const set = (id, val) => { const el = document.getElementById(id); if(el && val) el.value = val; };
+  const set = (id, v) => { const el = document.getElementById(id); if(el && v) el.value = v; };
   const nombreCompleto = cli.Razon_Social || [cli.Nombre, cli.Apellido1, cli.Apellido2].filter(Boolean).join(' ');
-  set('cli-nombre',       nombreCompleto);
-  set('cli-telefono',     cli.Telefono1 || '');
-  set('cli-telefono2',    cli.Telefono2 || '');
-  set('cli-email',        cli.Email     || '');
-  set('cli-nacimiento',   cli.Fecha_Nacimiento || '');
-  set('cli-nacionalidad', cli.Nacionalidad     || '');
-  set('cli-localidad',    cli.Municipio        || '');
-  set('cli-provincia',    cli.Provincia        || '');
-  set('cli-cp',           cli.CP               || '');
-  set('cli-razon-social', cli.Razon_Social     || '');
-  set('cli-cif-fact',     cli.CIF              || '');
-  // Dirección completa: Tipo_Via + Nombre_Via + Numero + Piso
+  set('cli-nombre', nombreCompleto);
+  set('cli-telefono', cli.Telefono1||''); set('cli-telefono2', cli.Telefono2||'');
+  set('cli-email', cli.Email||''); set('cli-nacimiento', cli.Fecha_Nacimiento||'');
+  set('cli-nacionalidad', cli.Nacionalidad||''); set('cli-localidad', cli.Municipio||'');
+  set('cli-provincia', cli.Provincia||''); set('cli-cp', cli.CP||'');
+  set('cli-razon-social', cli.Razon_Social||''); set('cli-cif-fact', cli.CIF||'');
   const dir = [cli.Tipo_Via, cli.Nombre_Via, cli.Numero, cli.Piso].filter(v => v && v !== 'None').join(' ');
   set('cli-direccion', dir);
   if(st) st.textContent = '✅ Datos cargados desde Maestro';
 }
+
+// ======================== VENCIMIENTOS CENTRALES ========================
+function enviarVtoJuridico(exp) {
+  if (!URL_VTO_JUR) return;
+  const cerrado = ['archivado','cerrado','desistido','finalizado'].includes((exp.estado||'').toLowerCase());
+  if (!cerrado && exp.fechaVista) {
+    const hora = exp.horaVista ? ' · ' + exp.horaVista : '';
+    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
+      action:'upsert', app:'Jurídico', expediente: exp.numero||exp.id, cliente: exp.cliente,
+      fecha: exp.fechaVista, tipo: 'Vista oral',
+      observaciones: (exp.juzgado||'') + hora, estado:'Pendiente'
+    })});
+  }
+  if (cerrado) {
+    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
+      action:'completar', app:'Jurídico', expediente: exp.numero||exp.id, tipo:'Vista oral'
+    })});
+  }
+}
+
+function enviarVtoPlazo(doc) {
+  if (!URL_VTO_JUR) return;
+  const exp = D.expedientes.find(x => x.id === doc.expedienteId);
+  const numExp = exp ? (exp.numero||exp.id) : doc.expedienteId;
+  const cliente = exp ? exp.cliente : '—';
+  if (doc.plazoEstado === 'cumplido') {
+    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
+      action:'completar', app:'Jurídico', expediente: numExp, tipo: doc.plazoDesc||'Plazo presentación'
+    })});
+    return;
+  }
+  if (doc.plazoFecha) {
+    fetch(URL_VTO_JUR, { method:'POST', mode:'no-cors', body: JSON.stringify({
+      action:'upsert', app:'Jurídico', expediente: numExp, cliente: cliente,
+      fecha: doc.plazoFecha, tipo: doc.plazoDesc||'Plazo presentación',
+      observaciones: doc.descripcion||'', estado:'Pendiente'
+    })});
+  }
+}
+
+// ======================== ARRANQUE ========================
+init();
 </script>
 </body>
 </html>
